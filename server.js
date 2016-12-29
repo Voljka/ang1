@@ -37,18 +37,18 @@ var secret = { secret: 'my secret' };
 app.use(apiBase, expressJWT(secret).unless({ path: [ apiBase + '/sessions/create']}))
 
 // API route handlers
-var sessions = require('./app/js/api/sessions');
-var consumers = require('./app/js/api/consumers');
-var products = require('./app/js/api/products');
-var producers = require('./app/js/api/producers');
-var providers = require('./app/js/api/providers');
-var contracts = require('./app/js/api/contracts');
-var mediators = require('./app/js/api/mediators');
-var mediatorConditions = require('./app/js/api/mediatorConditions');
-var specifications = require('./app/js/api/specifications');
-var positions = require('./app/js/api/positions');
-var deliveries = require('./app/js/api/deliveries');
-var payments = require('./app/js/api/payments');
+var sessions = require('./src/js/api/sessions');
+var consumers = require('./src/js/api/consumers');
+var products = require('./src/js/api/products');
+var producers = require('./src/js/api/producers');
+var providers = require('./src/js/api/providers');
+var contracts = require('./src/js/api/contracts');
+var mediators = require('./src/js/api/mediators');
+var mediatorConditions = require('./src/js/api/mediatorConditions');
+var specifications = require('./src/js/api/specifications');
+var positions = require('./src/js/api/positions');
+var deliveries = require('./src/js/api/deliveries');
+var payments = require('./src/js/api/payments');
 
 // API routes
 app.use(apiBase+'/sessions', sessions); // redirect API calls
