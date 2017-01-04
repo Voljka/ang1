@@ -1,0 +1,16 @@
+mongoexport --db test --collection units --out seed/units.json
+mongoexport --db test --collection consumers --out seed/consumers.json
+mongoexport --db test --collection groups --out seed/groups.json
+mongoexport --db test --collection contracts --out seed/contracts.json
+mongoexport --db test --collection specifications --out seed/specifications.json
+mongoexport --db test --collection positions --out seed/positions.json
+mongoexport --db test --collection products --out seed/products.json
+mongoexport --db test --collection countries --out seed/countries.json
+mongoexport --db test --collection deliveries --out seed/deliveries.json
+mongoexport --db test --collection payments --out seed/payments.json
+mongoexport --db test --collection producers --out seed/producers.json
+mongoexport --db test --collection providers --out seed/providers.json
+mongoexport --db test --collection mediators --out seed/mediators.json
+mongoexport --db test --collection mediatortypes --out seed/mediatorTypes.json
+mongoexport --db test --collection mediatorconditions --out seed/mediatorConditions.json
+mongoexport --db test --collection operationtypes --out seed/operationTypes.json
