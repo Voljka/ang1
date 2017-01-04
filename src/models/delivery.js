@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var uuid = require('node-uuid');
 
+var autopopulate = require('mongoose-autopopulate');
+
 var Schema = mongoose.Schema;
 var Position = require('./position');
 var OperationType = require('./operationType');
@@ -14,18 +16,26 @@ var Delivery = new Schema({
 	},
 	position: {
 		type: String,
-		ref: 'Position'
+		ref: 'Position',
+		autopopulate: {
+			select: '_id product specification'
+		}
 	},
 	quantity: Number,
 	delivered_at: Date,
 	operation_type: {
 		ref: 'OperationType',
-		type: String
+		type: String,
+		autopopulate: {
+			select: '_id name'
+		}
 	}
 });
 
 // Specification.path('number').validate( function (value) {
 // 	return value.length < 20;
 // });
+
+Delivery.plugin(autopopulate);
 
 module.exports = mongoose.model('Delivery', Delivery);

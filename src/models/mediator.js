@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var uuid = require('node-uuid');
 
 var Schema = mongoose.Schema;
-var MediatorType = require('./mediatorType');
+// var MediatorType = require('./mediatorType');
 
 // Schemas
 
@@ -15,10 +15,7 @@ var Mediator = new Schema({
 		type: String,
 		required: true
 	},
-	type: {
-		type: String,
-		ref: 'MediatorType'
-	}
+	our: Boolean
 });
 
 Mediator.path('name').validate( function (value) {

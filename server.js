@@ -38,7 +38,9 @@ var secret = { secret: 'my secret' };
 
 // API route handlers
 var sessions = require('./src/js/api/sessions');
+var groups = require('./src/js/api/groups');
 var consumers = require('./src/js/api/consumers');
+var countries = require('./src/js/api/countries');
 var products = require('./src/js/api/products');
 var producers = require('./src/js/api/producers');
 var providers = require('./src/js/api/providers');
@@ -47,20 +49,28 @@ var mediators = require('./src/js/api/mediators');
 var mediatorConditions = require('./src/js/api/mediatorConditions');
 var specifications = require('./src/js/api/specifications');
 var positions = require('./src/js/api/positions');
+var operationtypes = require('./src/js/api/operationTypes');
+var mediatortypes = require('./src/js/api/mediatorTypes');
+var units = require('./src/js/api/units');
 var deliveries = require('./src/js/api/deliveries');
 var payments = require('./src/js/api/payments');
 
 // API routes
 app.use(apiBase+'/sessions', sessions); // redirect API calls
+app.use(apiBase+'/groups', groups); // redirect API calls
 app.use(apiBase+'/consumers', consumers); // redirect API calls
+app.use(apiBase+'/countries', countries); // redirect API calls
 app.use(apiBase+'/products', products); // redirect API calls
 app.use(apiBase+'/producers', producers); // redirect API calls
 app.use(apiBase+'/providers', providers); // redirect API calls
 app.use(apiBase+'/contracts', contracts); // redirect API calls
 app.use(apiBase+'/mediators', mediators); // redirect API calls
-app.use(apiBase+'/mediatorConditions', mediatorConditions); // redirect API calls
+app.use(apiBase+'/mediatorconditions', mediatorConditions); // redirect API calls
 app.use(apiBase+'/specifications', specifications); // redirect API calls
 app.use(apiBase+'/positions', positions); // redirect API calls
+app.use(apiBase+'/operationtypes', operationtypes); // redirect API calls
+app.use(apiBase+'/mediatortypes', mediatortypes); // redirect API calls
+app.use(apiBase+'/units', units); // redirect API calls
 app.use(apiBase+'/deliveries', deliveries); // redirect API calls
 app.use(apiBase+'/payments', payments); // redirect API calls
 

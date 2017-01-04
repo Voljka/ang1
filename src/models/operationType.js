@@ -10,17 +10,17 @@ var OperationType = new Schema({
 		type: String,
 		default: uuid.v1
 	},
-	code: {
-		type: Number,
-		required: true
-	},
+	// code: {
+	// 	type: Number,
+	// 	required: true
+	// },
 	name: {
 		type: String,
 		required: true
 	}
 });
 
-OperationType.path('number').validate( function (value) {
+OperationType.path('name').validate( function (value) {
 	return value.length < 30;
 });
 

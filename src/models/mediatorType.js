@@ -14,7 +14,7 @@ var MediatorType = new Schema({
 		type: String,
 		required: true
 	},
-	our: Boolean
+	// our: Boolean
 });
 
 MediatorType.path('name').validate( function (value) {

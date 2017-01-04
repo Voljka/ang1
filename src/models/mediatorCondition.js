@@ -3,6 +3,7 @@ var uuid = require('node-uuid');
 
 var Schema = mongoose.Schema;
 var Mediator = require('./mediator');
+var MediatorType = require('./mediatorType');
 
 // Schemas
 
@@ -14,9 +15,16 @@ var MediatorCondition = new Schema({
 	mediator: {
 		type: String,
 		ref: 'Mediator'
-	}
+	},
+	type: {
+		type: String,
+		ref: 'MediatorType'
+	},
 	started_at: Date,
-	finished_at: Date,
+	finished_at: { 
+		type: Date,
+		default: "2100-12-31"
+	},
 	percent: Number,
 	fixed: Number
 });

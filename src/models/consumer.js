@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var uuid = require('node-uuid');
 
+var autopopulate = require('mongoose-autopopulate');
+
 var Schema = mongoose.Schema;
 var Country = require('./country');
 var Group = require('./group');
@@ -18,7 +20,10 @@ var Consumer = new Schema({
 	},
 	country: {
 		type: String,
-		ref: 'Country'
+		ref: 'Country',
+		autopopulate: {
+			select: '_id name'
+		}
 	},
 	is_old: {
 		type: Boolean,
@@ -27,7 +32,9 @@ var Consumer = new Schema({
 	group: {
 		type: String,
 		ref: 'Group',
-		default: 0
+		autopopulate: {
+			select: '_id name'
+		}
 	}
 });
 
@@ -35,8 +42,17 @@ Consumer.path('name').validate( function (value) {
 	return value.length < 70;
 });
 
+Consumer.plugin(autopopulate);
+
 // Consumer.pre('remove', function(next) {
 // 	Contract.remove({ consumer: this.id }).exec();
 // })
+
+// Band.findOne({ name: "Guns N' Roses" }, function(error, doc) {
+//       assert.ifError(error);
+//       assert.equal('Axl Rose', doc.members[0].name);
+//       assert.equal('William Bruce Rose, Jr.', doc.members[0].birthName);
+//       done();
+//     });
 
 module.exports = mongoose.model('Consumer', Consumer);

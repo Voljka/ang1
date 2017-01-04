@@ -21,7 +21,7 @@ var Group = new Schema({
 	}
 });
 
-Consumer.path('name').validate( function (value) {
+Group.path('name').validate( function (value) {
 	return value.length < 70;
 });
 
@@ -29,4 +29,4 @@ Consumer.path('name').validate( function (value) {
 // 	Contract.remove({ consumer: this.id }).exec();
 // })
 
-module.exports = mongoose.model('Consumer', Consumer);
+module.exports = mongoose.model('Group', Group);
