@@ -34,7 +34,7 @@ var apiBase = '/api/v1';
 
 var expressJWT = require('express-jwt')
 var secret = { secret: 'my secret' };
-app.use(apiBase, expressJWT(secret).unless({ path: [ apiBase + '/sessions/create']}))
+// app.use(apiBase, expressJWT(secret).unless({ path: [ apiBase + '/sessions/create']}))
 
 // API route handlers
 var sessions = require('./src/js/api/sessions');

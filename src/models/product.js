@@ -21,7 +21,8 @@ var Product = new Schema({
 		ref: 'Producer'
 	},
 	kved: {
-		type: String
+		type: String,
+		default: ""
 	},
 	unit: {
 		type: String,

@@ -20,7 +20,7 @@ var Specification = new Schema({
 });
 
 Specification.path('number').validate( function (value) {
-	return value.length < 20;
+	return value.length < 30;
 });
 
 module.exports = mongoose.model('Specification', Specification);

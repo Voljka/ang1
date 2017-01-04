@@ -3,6 +3,7 @@ var uuid = require('node-uuid');
 
 var Schema = mongoose.Schema;
 var Position = require('./position');
+var OperationType = require('./operationType');
 
 // Schemas
 
@@ -16,7 +17,11 @@ var Delivery = new Schema({
 		ref: 'Position'
 	},
 	quantity: Number,
-	delivered_at: Date
+	delivered_at: Date,
+	operation_type: {
+		ref: 'OperationType',
+		type: String
+	}
 });
 
 // Specification.path('number').validate( function (value) {

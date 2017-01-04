@@ -3,11 +3,10 @@ var uuid = require('node-uuid');
 
 var Schema = mongoose.Schema;
 var Country = require('./country');
-var Group = require('./group');
 
 // Schemas
 
-var Consumer = new Schema({
+var Group = new Schema({
 	_id: { 
 		type: String,
 		default: uuid.v1
@@ -16,18 +15,9 @@ var Consumer = new Schema({
 		type: String,
 		required: true
 	},
-	country: {
-		type: String,
-		ref: 'Country'
-	},
 	is_old: {
 		type: Boolean,
 		default: false
-	},
-	group: {
-		type: String,
-		ref: 'Group',
-		default: 0
 	}
 });
 
