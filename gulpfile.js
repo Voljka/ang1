@@ -2,7 +2,7 @@
  
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-
+ 
 gulp.task('sass', function () {
   return gulp.src('./src/sass/style.sass')// gulp.src('./app/sass/**/*.sass')
     .pipe(sass.sync().on('error', sass.logError))
@@ -43,7 +43,8 @@ function compile(watch) {
 
   if (watch) {
     bundler.on('update', function() {
-      console.log('-> bundling...');
+      var curDate = new Date();
+      console.log('-> '+ curDate +': bundling...');
       rebundle();
     });
   }

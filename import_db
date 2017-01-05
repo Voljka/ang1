@@ -14,4 +14,3 @@ mongoimport --db test --collection mediators --drop --file seed/mediators.json
 mongoimport --db test --collection mediatortypes --drop --file seed/mediatorTypes.json
 mongoimport --db test --collection mediatorconditions --drop --file seed/mediatorConditions.json
 mongoimport --db test --collection operationtypes --drop --file seed/operationTypes.json
-

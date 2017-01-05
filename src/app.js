@@ -4,7 +4,7 @@ require('angular-ui-router');
 var consumersTemplate = require('./js/pages/consumers/index');
 
 var app = angular
-	.module('normaApp', ['ui.router'])
+	.module('normaApp', ['ui.router', 'consumerModule'])
 
 	.controller('MainCtrl', function($scope) {
 		$scope.temporal_variable = 'Ok';
@@ -19,9 +19,6 @@ var app = angular
 	        .state('home', {
 	            url: '/home',
 	            views: {
-	            	'': {
-	            		template: "<h3>Consumers</h3>"
-	            	},
 	            	'filters': {
 			            template: "Filters Block"
 	            	},
@@ -32,9 +29,6 @@ var app = angular
 	        .state('about', {
 	            url: '/about',
 	            views: {
-	            	'': {
-	            		template: "<h3>About window</h3>"
-	            	},
 	            	'filters': {
 			            template: "No Filters in that Block"
 	            	},
