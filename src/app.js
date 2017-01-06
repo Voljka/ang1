@@ -1,10 +1,11 @@
 var angular = require('angular');
+require('angular-route');
 require('angular-ui-router');
 
 var consumersTemplate = require('./js/pages/consumers/index');
 
 var app = angular
-	.module('normaApp', ['ui.router', 'consumerModule'])
+	.module('normaApp', ['ui.router', 'ngRoute', 'consumerModule'])
 
 	.controller('MainCtrl', function($scope) {
 		$scope.temporal_variable = 'Ok';
@@ -19,22 +20,40 @@ var app = angular
 	        .state('home', {
 	            url: '/home',
 	            views: {
-	            	'filters': {
-			            template: "Filters Block"
-	            	},
-	            	'tables': consumersTemplate
+	            	'content': consumersTemplate
 	            }
 	        })
 	        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
 	        .state('about', {
 	            url: '/about',
 	            views: {
-	            	'filters': {
-			            template: "No Filters in that Block"
-	            	},
-	            	'tables': {
+	            	'content':  {
 	            		template:"This is the coolest app!" 
 	            	}
 	            }
 	        });     
 })
+
+// app.directive('sglclick', ['$parse', function($parse) {
+//     return {
+//         restrict: 'A',
+//         link: function(scope, element, attr) {
+//           var fn = $parse(attr['sglclick']);
+//           var delay = 300, clicks = 0, timer = null;
+//           element.on('click', function (event) {
+//             clicks++;  //count clicks
+//             if(clicks === 1) {
+//               timer = setTimeout(function() {
+//                 scope.$apply(function () {
+//                     fn(scope, { $event: event });
+//                 }); 
+//                 clicks = 0;             //after action performed, reset counter
+//               }, delay);
+//               } else {
+//                 clearTimeout(timer);    //prevent single-click action
+//                 clicks = 0;             //after action performed, reset counter
+//               }
+//           });
+//         }
+//     };
+// }])
