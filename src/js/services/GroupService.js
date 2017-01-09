@@ -1,17 +1,23 @@
-var query = require('../../queries/mysql').query;
+'use strict';
 
-function GroupService() {
-	
-	function getAllGroups(){
-		return query('SELECT * from groups')
-			.then( function(data) {
-				//console.log(data);
-				return data
-			});
-	};
-	
-	return { getAll: getAllGroups };
+var API_SERVER = 'http://localhost:8080/api/v1';
+
+function GroupService($http) {
+
+  function getAllGroups() {
+    return $http
+      .get(API_SERVER + '/groups', { cache: false })
+      .then(function (data) {
+        return data.data;
+      })
+      .catch(function () {
+        return undefined;
+      });
+  }
+
+  return {
+    getAll     : getAllGroups,
+  };
 }
-
 
 module.exports = GroupService;

@@ -1,7 +1,9 @@
 'use strict';
 var _ = require('lodash');
 
-function ConsumerCtrl($scope, ConsumerService) {
+function ConsumerCtrl($scope, $state, ConsumerService) {
+
+	$scope.currentConsumer = ConsumerService.getCurrent();
 
 	ConsumerService.getAll()
 		.then(function(data) {
@@ -10,19 +12,51 @@ function ConsumerCtrl($scope, ConsumerService) {
 		})
 
 	$scope.selectConsumer = function(consumer) {
-		ConsumerService.select(consumer);
+		// if we select 
+
+		$scope.consumers = _.map($scope.consumers, function(c) {
+			if (c._id === consumer._id) {
+				// if taken consumer is already selected
+				if (ConsumerService.getCurrent() == consumer) {
+					// deselect 
+					ConsumerService.select(undefined);
+					c.selected = false;
+					return c;
+				} else {
+					// select consumer 
+					ConsumerService.select(consumer);
+					c.selected = true;
+					return c;
+				}
+			} else {
+				c.selected = false;
+				return c;
+			}
+
+		})
+
+		// Update Buttons State
+		$scope.currentConsumer = ConsumerService.getCurrent();
+
+		setButtonState();
 	}
+
+	function setButtonState() {
+
+	} 
 
 	$scope.useConsumerFilter = function(){
 		filterConsumers();
 	}
 
 	$scope.addConsumer = function() {
-		ConsumerService.add();
+		$state.go('consumer_add');
+		//ConsumerService.add();
 	}
 
 	$scope.editConsumer = function() {
-		ConsumerService.update();
+		$state.go('consumer_modify');
+		// ConsumerService.update();
 	}
 
 	$scope.deleteConsumer = function() {

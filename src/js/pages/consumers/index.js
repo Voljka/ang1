@@ -24,7 +24,7 @@ angular.module('consumerModule', [])
     $httpProvider.defaults.withCredentials = true;
   }])
   .factory('ConsumerService', ['$http', consumerService])
-  .controller('ConsumerCtrl', ['$scope', 'ConsumerService', controller]);
+  .controller('ConsumerCtrl', ['$scope', '$state', 'ConsumerService', controller]);
 
 module.exports = {
   template: require('./consumer.tpl'), 

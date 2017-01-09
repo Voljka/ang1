@@ -27,7 +27,7 @@ var Payment = new Schema({
 		ref: 'OperationType',
 		type: String,
 		autopopulate: {
-			select: '_id name'
+			select: '_id name code'
 		}
 	}
 });
