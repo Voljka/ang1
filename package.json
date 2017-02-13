@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.6.1",
+    "angular-modal-service": "^0.10.1",
     "angular-moment": "^1.0.1",
     "angular-route": "^1.6.1",
     "angular-router": "0.0.2",

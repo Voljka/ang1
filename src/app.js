@@ -4,6 +4,8 @@ require('angular-ui-router');
 
 var consumersTemplate = require('./js/pages/consumers');
 var consumersCardTemplate = require('./js/pages/consumers/card');
+var contractsTemplate = require('./js/pages/contracts');
+
 var providersTemplate = require('./js/pages/providers');
 var mediatorsTemplate = require('./js/pages/mediators');
 var summariesTemplate = require('./js/pages/summaries');
@@ -14,7 +16,8 @@ var app = angular
 		'ui.router', 
 		'ngRoute', 
 		'consumerModule',
-		'consumerCardModule'
+		'consumerCardModule',
+		'contractModule',
 	])
 
 	.controller('MainCtrl', function($scope) {
@@ -52,6 +55,12 @@ var app = angular
 	            url: '/consumer/modify',
 	            views: {
 	            	'content': consumersCardTemplate
+	            }
+	        })
+	        .state('contracts', {
+	            url: '/contracts',
+	            views: {
+	            	'content': contractsTemplate
 	            }
 	        })
 	        .state('providers', {

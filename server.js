@@ -12,7 +12,8 @@ var debug = require('debug')('express');
 //var configDB = require('./config/database.js');
 var mongoose = require('mongoose');
 var configDB = {
-  'url' : 'mongodb://localhost/test'
+  'url' : 'mongodb://localhost/norma'
+  // 'url' : 'mongodb://localhost/test'
 };
 mongoose.connect(configDB.url); // connect to our database
 

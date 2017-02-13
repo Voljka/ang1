@@ -32,6 +32,20 @@ router.get('/:id', function(req, res) {
 	}) 
 });
 
+router.get('/byconsumer/:id', function(req, res) {
+	console.log('request for specified contract info');
+
+	return Contract.find({consumer: req.params.id }, function(err, contracts) {
+		if (err) 
+			return res.status(500).send({ error: 'Error during request'});
+
+		if (! contracts)
+			return res.status(404).send({ error: 'No contracts exist for selected consumer'});
+
+		res.send(contracts);
+	}) 
+});
+
 router.get('/:id/specifications', function(req, res) {
 	console.log('request for specified contract info');
 

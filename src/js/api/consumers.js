@@ -71,6 +71,7 @@ router.get('/:id/payments', function(req, res) {
 
 });
 
+
 router.get('/:id/deliveries', function(req, res) {
 	console.log('request for a deliveries list of the specified consumer');
 

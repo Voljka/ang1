@@ -1,5 +1,6 @@
 'use strict';
 var _ = require('lodash');
+import { toSafeString, toUnsafeString } from '../../../libs/strings';
 
 function ConsumerCardCtrl($scope, $state, ConsumerService, GroupService, currentConsumer, groupList) {
 
@@ -22,7 +23,7 @@ function ConsumerCardCtrl($scope, $state, ConsumerService, GroupService, current
 	$scope.saveConsumer = function() {
 		if ($state.current.name === 'consumer_add') {
 			ConsumerService.add({
-					name: $scope.consumerName,
+					name: toSafeString( $scope.consumerName ),
 					group: $scope.consumerGroup,
 					country: "461990b0-d286-11e6-b131-e3fb6e4b097e"
 				})
@@ -33,7 +34,7 @@ function ConsumerCardCtrl($scope, $state, ConsumerService, GroupService, current
 			ConsumerService.update(	
 				currentConsumer._id, 
 				{
-					name: $scope.consumerName,
+					name: toSafeString( $scope.consumerName ),
 					group: $scope.consumerGroup,
 					country: "461990b0-d286-11e6-b131-e3fb6e4b097e"
 				})

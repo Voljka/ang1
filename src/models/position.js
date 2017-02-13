@@ -25,16 +25,13 @@ var Position = new Schema({
 		type: String,
 		ref: 'Product',
 		autopopulate: {
-			select: 'id name'
+			select: 'id name unit'
 		}
 	},
 	quantity: Number,
 	price: Number
 });
 
-// Specification.path('number').validate( function (value) {
-// 	return value.length < 20;
-// });
 Position.plugin(autopopulate);
 
 module.exports = mongoose.model('Position', Position);

@@ -1,5 +1,6 @@
 'use strict';
 var _ = require('lodash');
+import { toSafeString, toUnsafeString } from '../../libs/strings';
 
 function ConsumerCtrl($scope, $state, ConsumerService) {
 
@@ -8,12 +9,14 @@ function ConsumerCtrl($scope, $state, ConsumerService) {
 	ConsumerService.getAll()
 		.then(function(data) {
 			$scope.consumers = data;
+			// console.log($scope.consumers);
+			$scope.consumers = _.map(data, function(o){
+				return Object.assign(o, { name: toUnsafeString(o.name)})
+			});
 			filterConsumers(); 
 		})
 
 	$scope.selectConsumer = function(consumer) {
-		// if we select 
-
 		$scope.consumers = _.map($scope.consumers, function(c) {
 			if (c._id === consumer._id) {
 				// if taken consumer is already selected
@@ -34,29 +37,23 @@ function ConsumerCtrl($scope, $state, ConsumerService) {
 			}
 
 		})
-
-		// Update Buttons State
 		$scope.currentConsumer = ConsumerService.getCurrent();
-
-		setButtonState();
 	}
-
-	function setButtonState() {
-
-	} 
 
 	$scope.useConsumerFilter = function(){
 		filterConsumers();
 	}
 
+	$scope.goContracts = function() {
+		$state.go('contracts');
+	}
+
 	$scope.addConsumer = function() {
 		$state.go('consumer_add');
-		//ConsumerService.add();
 	}
 
 	$scope.editConsumer = function() {
 		$state.go('consumer_modify');
-		// ConsumerService.update();
 	}
 
 	$scope.deleteConsumer = function() {
@@ -74,7 +71,6 @@ function ConsumerCtrl($scope, $state, ConsumerService) {
 			}) 
 		}
 	}
-
 }
 
 module.exports = ConsumerCtrl; 

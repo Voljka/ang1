@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var Procuder = require('./producer');
 var Unit = require('./unit');
 
+var autopopulate = require('mongoose-autopopulate');
 // Schemas
 
 var Product = new Schema({
@@ -27,6 +28,9 @@ var Product = new Schema({
 	unit: {
 		type: String,
 		ref: 'Unit',
+		autopopulate: {
+			select: '_id name'
+		}		
 	}
 });
 
@@ -37,5 +41,8 @@ Product.path('name').validate( function (value) {
 Product.path('kved').validate( function (value) {
 	return value.length < 20;
 });
+
+Product.plugin(autopopulate);
+
 
 module.exports = mongoose.model('Product', Product);
