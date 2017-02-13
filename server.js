@@ -55,6 +55,8 @@ var mediatortypes = require('./src/js/api/mediatorTypes');
 var units = require('./src/js/api/units');
 var deliveries = require('./src/js/api/deliveries');
 var payments = require('./src/js/api/payments');
+var deliveryEvents = require('./src/js/api/deliveryEvents');
+var paymentEvents = require('./src/js/api/paymentEvents');
 
 // API routes
 app.use(apiBase+'/sessions', sessions); // redirect API calls
@@ -74,6 +76,8 @@ app.use(apiBase+'/mediatortypes', mediatortypes); // redirect API calls
 app.use(apiBase+'/units', units); // redirect API calls
 app.use(apiBase+'/deliveries', deliveries); // redirect API calls
 app.use(apiBase+'/payments', payments); // redirect API calls
+app.use(apiBase+'/deliveryevents', deliveryEvents); // redirect API calls
+app.use(apiBase+'/paymentevents', paymentEvents); // redirect API calls
 
 app.use('/', express.static(__dirname + '/dist')); // redirect root
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS

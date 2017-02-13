@@ -5,12 +5,13 @@ import { formattedToSave, formattedToRu } from '../../libs/date';
 function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
 
 	$scope.currentConsumer = consumer;
+	$scope.current = undefined;
 
 	contractList.map(function(o){
 		return Object.assign(o, { signed_at_formatted: formattedToRu( new Date(o.signed_at)) })
 	})
 
-	contractList = _.orderBy( contractList, ['signed_at'], ['desc']);
+	contractList = _.orderBy( contractList, ['signed_at'], ['desc'] );
 
 	filterContracts();
 
@@ -20,12 +21,14 @@ function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
 				// if taken consumer is already selected
 				if (ContractService.current() && ContractService.current()._id == contract._id) {
 					// deselect 
+					$scope.current = undefined;
 					ContractService.select(undefined);
 					c.selected = false;
 					return c;
 				} else {
 					// select consumer 
 					ContractService.select(contract);
+					$scope.current = contract;
 					c.selected = true;
 					return c;
 				}
@@ -36,20 +39,30 @@ function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
 		})
 	}
 
+	$scope.goSpec = function() {
+		console.log('specs');
+		$state.go('specifications');
+	}
+
 	$scope.useConsumerFilter = function(){
 		filterConsumers();
 	}
 
 	$scope.add = function() {
-		$state.go('consumer_add');
+		$state.go('contract_add');
 	}
 
 	$scope.edit = function() {
-		$state.go('consumer_modify');
+		$state.go('contract_modify');
 	}
 
 	$scope.remove = function() {
 		ConsumerService.delete();
+	}
+
+	$scope.goSpecifications = function() {
+		console.log('go specifications');
+		$state.go('specifications');
 	}
 
 	function filterContracts() {

@@ -6,6 +6,8 @@ var autopopulate = require('mongoose-autopopulate');
 var Schema = mongoose.Schema;
 var Specification = require('./specification');
 var Product = require('./product');
+var DeliveryEvent = require('./deliveryEvent');
+var PaymentEvent = require('./paymentEvent');
 
 // Schemas
 
@@ -29,7 +31,33 @@ var Position = new Schema({
 		}
 	},
 	quantity: Number,
-	price: Number
+	price: Number,
+	delivery_days: Number,
+	delivery_event: {
+		type: String,
+		ref: 'DeliveryEvent',
+		autopopulate: {
+			select: '_id name'
+		}
+	},
+	pay_days: Number,
+	pay_event: {
+		type: String,
+		ref: 'PaymentEvent',
+		autopopulate: {
+			select: '_id name'
+		}
+	},
+	pay_close_days: Number,
+	pay_close_event: {
+		type: String,
+		ref: 'PaymentEvent',
+		autopopulate: {
+			select: '_id name'
+		}
+	},
+	prepay_percent: Number,
+	prepay_amount: Number,
 });
 
 Position.plugin(autopopulate);

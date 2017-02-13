@@ -80,6 +80,7 @@ router.post('/', function(req, res) {
 
 router.put('/:id', function(req, res) {
 	console.log('request for modifying contract info');
+	// console.log(req.body);
 
 	changeRecord(Contract, req.params.id, req.body)
 		.then( function(data){

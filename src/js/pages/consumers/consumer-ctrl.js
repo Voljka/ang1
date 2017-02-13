@@ -9,7 +9,6 @@ function ConsumerCtrl($scope, $state, ConsumerService) {
 	ConsumerService.getAll()
 		.then(function(data) {
 			$scope.consumers = data;
-			// console.log($scope.consumers);
 			$scope.consumers = _.map(data, function(o){
 				return Object.assign(o, { name: toUnsafeString(o.name)})
 			});

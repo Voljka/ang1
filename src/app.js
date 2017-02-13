@@ -4,7 +4,14 @@ require('angular-ui-router');
 
 var consumersTemplate = require('./js/pages/consumers');
 var consumersCardTemplate = require('./js/pages/consumers/card');
+
 var contractsTemplate = require('./js/pages/contracts');
+var contractCardTemplate = require('./js/pages/contracts/card');
+
+var specificationsTemplate = require('./js/pages/specifications');
+var specificationCardTemplate = require('./js/pages/specifications/card');
+
+var positionsTemplate = require('./js/pages/positions');
 
 var providersTemplate = require('./js/pages/providers');
 var mediatorsTemplate = require('./js/pages/mediators');
@@ -18,6 +25,10 @@ var app = angular
 		'consumerModule',
 		'consumerCardModule',
 		'contractModule',
+		'contractCardModule',
+		'specificationModule',
+		'specificationCardModule',
+		'positionModule',
 	])
 
 	.controller('MainCtrl', function($scope) {
@@ -29,7 +40,6 @@ var app = angular
     	$urlRouterProvider.otherwise('/home');
     
     	$stateProvider
-	        // HOME STATES AND NESTED VIEWS ========================================
 	        .state('home', {
 	            url: '/home',
 	            views: {
@@ -39,6 +49,7 @@ var app = angular
 	            }
 	        })
 
+	        // Consumers
 	        .state('consumers', {
 	            url: '/consumers',
 	            views: {
@@ -57,12 +68,55 @@ var app = angular
 	            	'content': consumersCardTemplate
 	            }
 	        })
+
+	        // Contracts
 	        .state('contracts', {
 	            url: '/contracts',
 	            views: {
 	            	'content': contractsTemplate
 	            }
 	        })
+	        .state('contract_add', {
+	            url: '/contract/add',
+	            views: {
+	            	'content': contractCardTemplate
+	            }
+	        })
+	        .state('contract_modify', {
+	            url: '/contract/modify',
+	            views: {
+	            	'content': contractCardTemplate
+	            }
+	        })
+
+	        // Specifications
+	        .state('specifications', {
+	            url: '/specifications',
+	            views: {
+	            	'content': specificationsTemplate
+	            }
+	        })
+	        .state('specification_add', {
+	            url: '/specification/add',
+	            views: {
+	            	'content': specificationCardTemplate
+	            }
+	        })
+	        .state('specification_modify', {
+	            url: '/specification/modify',
+	            views: {
+	            	'content': specificationCardTemplate
+	            }
+	        })
+
+	        // Positions
+	        .state('positions', {
+	            url: '/positions',
+	            views: {
+	            	'content': positionsTemplate
+	            }
+	        })
+
 	        .state('providers', {
 	            url: '/providers',
 	            views: {

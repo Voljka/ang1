@@ -4,7 +4,8 @@
 	<button class="btn btn-info" ng-click="add()">Add</button>
 	<button class="btn btn-info" ng-if="current" ng-click="edit()">Update</button>
 	<button class="btn btn-info" ng-if="current" ng-click="remove()">Delete</button>
-	<button class="btn btn-default" ng-if="current" ng-cilck="goSpecifications()">Specifications</button>
+	<button class="btn btn-info" ng-if="current" ng-click="goSpec()">Specs</button>
+<!-- 	<button class="btn btn-default" ng-if="current" ng-cilck="goSpecifications()">Specifications</button> -->
 	<button class="btn btn-default" ng-if="current" ng-cilck="goPayments()">Payments</button>
 	<button class="btn btn-default" ng-if="current" ng-cilck="goDeliveries()">Deliveries</button>
 </div>
@@ -22,10 +23,10 @@
 		<tbody>
 			<tr ng-class="contract.selected ? 'item-selected' : ''" ng-repeat="contract in filteredContracts" ng-click="select(contract)">
 				<td> {{ contract.number }}</td>
-				<!-- <td> {{ contract.signed_at.substr(0,10) }}</td> -->
 				<td> {{ contract.signed_at_formatted }}</td>
 			</tr>
-			
 		</tbody>
 	</table>
 </div>
+
+ 
