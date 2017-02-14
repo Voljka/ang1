@@ -40,7 +40,6 @@
 		</div>
 	</div>
 </div>
-<br>
 
 <div class="panel panel-info">
 	<div class="panel-heading">
@@ -49,10 +48,10 @@
 				Delivery Option	
 			</div>
 			<div class="col-md-5">
-				<button class="btn btn-warning" ng-if="current" ng-click="apply()">Apply</button>
+				<button class="btn btn-warning" ng-if="current" ng-click="checkDeliveryDetailsAndApply()">Apply</button>
 			</div>
 			<div class="col-md-5">
-				<button class="btn btn-warning" ng-click="applyToAll()">Apply to all</button>
+				<button class="btn btn-warning" ng-click="checkDeliveryDetailsAndApply(true)">Apply to all</button>
 			</div>
 		</div>
 	</div>	
@@ -61,7 +60,7 @@
 			<div class="col-md-6">
 				<div class="input-group">
 					<span class="input-group-addon">Delivery days</span>
-					<input class="form-control" type="number" min="1" ng-model="deliveryDays">
+					<input class="form-control" type="number" ng-model="deliveryDays">
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -75,6 +74,11 @@
 		</div>
 	</div>
 </div>
+<div class="row">
+	<flash-message>
+		<div class="flash-div">{{ flash.text}}</div>
+	</flash-message>
+</div>
 
 <div class="panel panel-info">
 	<div class="panel-heading">
@@ -83,10 +87,10 @@
 				Payment Option	
 			</div>
 			<div class="col-md-5">
-				<button class="btn btn-warning" ng-if="current" ng-click="apply()">Apply</button>
+				<button class="btn btn-warning" ng-if="current" ng-click="checkPaymentDetailsAndApply()">Apply</button>
 			</div>
 			<div class="col-md-5">
-				<button class="btn btn-warning" ng-click="applyToAll()">Apply to all</button>
+				<button class="btn btn-warning" ng-click="checkPaymentDetailsAndApply(true)">Apply to all</button>
 			</div>
 		</div>
 	</div>	
@@ -95,7 +99,7 @@
 			<div class="col-md-3">
 				<div class="input-group">
 					<span class="input-group-addon">Initial Payment days</span>
-					<input class="form-control" type="number" min="1" ng-model="paymentStartDays">
+					<input class="form-control" type="number" ng-model="paymentStartDays">
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -148,12 +152,19 @@
 			<div class="col-md-2">
 				Position List
 			</div>
-			<div class="col-md-3">
-				<button class="btn btn-default" ng-click="add()">Add</button>
+			<div class="col-md-2">
+				<button class="btn btn-default" ng-show="! editingMode" ng-click="saveSpecification()">Save Specification</button>
 			</div>
-			<div class="col-md-7">
-				<button class="btn btn-default" ng-if="current" ng-cilck="goPayments()">Payments</button>
-				<button class="btn btn-default" ng-if="current" ng-cilck="goDeliveries()">Deliveries</button>		
+			<div class="col-md-3">
+				<button class="btn btn-default" ng-show="! editingMode" ng-click="add()">Add</button>
+				<button class="btn btn-default" ng-if="current && !editingMode" ng-click="edit()">Modify</button>
+				<button class="btn btn-default" ng-if="current && !editingMode" ng-click="removePosition()">Remove</button>
+			</div>
+			<div class="col-md-5">
+				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goProviders()">Providers</button>
+				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goMediators()">Mediators</button>
+				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-cilck="goPayments()">Payments</button>
+				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-cilck="goDeliveries()">Deliveries</button>		
 			</div>
 		</div>
 	</div>	
@@ -187,12 +198,47 @@
 					</tfoot>
 					<tbody>
 						<tr ng-class="position.selected ? 'item-selected' : ''" ng-repeat="position in filteredObjects" ng-click="select(position)">
-							<td> {{ position.product.name }}</td>
-							<td class="digit"> {{ position.quantity }}</td>
-							<td class="digit"> {{ splitted(position.price) }}</td>
+							<!-- Commodity -->
+							<td ng-show="! position.editing"> {{ position.product.name }}</td>
+							<td ng-show="position.editing">
+								<input ng-model="filters.product" type="text" ng-change="filterProduct(position)" placeholder="Product Filter">
+								<br>
+								<div class="input-group product-select">
+									<span class="input-group-addon">Товар: </span>
+									<select class="form-control" ng-model="position.product._id" ng-change="changeCommodity(position)"> 
+										<option ng-repeat="commodity in products" ng-value="commodity._id">{{ commodity.name }}</option>	
+									</select>
+								</div>	
+							</td>
+
+							<!-- Quantity -->
+							<td class="digit" ng-show="! position.editing"> {{ position.quantity }}</td>
+							<td ng-show="position.editing">
+								<input type="number" class="editing-number" ng-model="position.quantity" min="1" ng-change="recalcTotal()">
+							</td>
+
+							<!-- Price -->
+							<td class="digit" ng-show="! position.editing"> {{ splitted(position.price) }}</td>
+							<td ng-show="position.editing">
+								<input type="number" class="editing-number" ng-model="position.price" min="0.01" ng-change="recalcTotal()">
+							</td>
+
+							<!-- Amount -->
 							<td class="digit"> {{ splitted(position.quantity * position.price) }}</td>
-							<td> {{ makeDeliveryDetails(position) }}</td>
-							<td> <pre>{{ makePaymentDetails(position) }} </pre></td>
+
+							<!-- Details or Buttons -->
+							<td ng-show="! position.editing"> {{ makeDeliveryDetails(position) }}</td>
+							<td ng-show="position.editing">
+								<button class="btn btn-primary" ng-show="products.length > 0" ng-click="savePosition(position)">Save</button>
+							</td>
+
+							<td ng-show="! position.editing"> <pre>{{ makePaymentDetails(position) }} </pre></td>
+							<td ng-show="position.editing && ! position.new">
+								<button class="btn btn-primary" ng-click="restorePosition(position)">Restore</button>
+							</td>
+							<td ng-show="position.editing && position.new">
+								<button class="btn btn-primary" ng-click="removePosition(position)">Don't Save</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>

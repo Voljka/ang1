@@ -61,6 +61,17 @@ function SpecificationService($http) {
       });
   }
 
+  function updateData(specificationId, data) {
+    // return $http
+      // .put(API_SERVER + '/specifications/' + specificationId+'/updatepositions', data)
+      // .then(function (data) {
+      //   return data.data;
+      // })
+      // .catch(function () {
+      //   return undefined;
+      // });
+  }
+
   function current(){
     return currentSpecification;
   }
@@ -77,6 +88,7 @@ function SpecificationService($http) {
     add        : add,
     update     : update,
     remove     : remove,    
+    updateData : updateData,
   };
 }
 
