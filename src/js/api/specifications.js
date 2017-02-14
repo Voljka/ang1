@@ -79,7 +79,80 @@ router.put('/:id', function(req, res) {
 		})
 });
 
+router.put('/:id/updatepositions', function(req, res) {
+	console.log('request for updating position list for specified specification');
 
+	var arrayOfPromises = [];
+	if (req.body.added.length > 0)  
+		arrayOfPromises.push(insertManyPositions(req.body.added));
+
+	if (req.body.removed.length > 0)  
+		arrayOfPromises.push(removePositionList(req.body.removed));
+
+	if (req.body.edited.length > 0) {
+		req.body.edited.forEach(function(o){
+			arrayOfPromises.push(updatePositionMaker(o._id, o));
+		})
+	}
+
+	if (arrayOfPromises.length > 0) {
+		return Promise.all(arrayOfPromises)
+			.then( function(result) {
+				console.log(result);
+				res.send(result);
+			})
+	} else {
+		return res.send('Nothing to do!');
+	}
+
+	// return Position.insertMany(req.body.added, function(err, result) {
+	// 	if (err) {
+	// 		console.log(err);
+	// 		return res.status(500).send({error: 'Server Error'})
+	// 	}
+
+	// 	if (req.body.removed.length > 0) {
+	// 		return Position.remove({_id: {$in : req.body.removed}}, function(err, result) {
+	// 			if (err) {
+	// 				console.log(err);
+	// 				return res.status(500).send({error: 'Server Error'})
+	// 			}
+
+	// 			console.log(req.body.removed);
+	// 			console.log('removing result: ');
+	// 			console.log(result);
+
+	// 			var arrayOfPromises = [];
+	// 			req.body.edited.forEach(function(o){
+	// 				arrayOfPromises.push(updatePositionMaker(o._id, o));
+	// 			})
+
+	// 			return Promise.all(arrayOfPromises)
+	// 				.then( function(result) {
+	// 					res.send(result);
+	// 				})
+	// 		})
+	// 	}
+
+	// });
+});
+
+var updatePositionMaker = function(id, data){
+	// return function() {
+		return changeRecord(Position, id, data)
+	// }
+}
+
+var removePositionList = function(list){
+	return Position.remove({_id: {$in : list}})
+}
+
+
+var insertManyPositions = function(list){
+	// return function() {
+		return Position.insertMany(list)
+	// }
+}
 
 router.delete('/:id', function(req, res) {
 	console.log('request for deleting specification');

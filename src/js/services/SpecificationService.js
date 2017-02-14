@@ -61,15 +61,15 @@ function SpecificationService($http) {
       });
   }
 
-  function updateData(specificationId, data) {
-    // return $http
-      // .put(API_SERVER + '/specifications/' + specificationId+'/updatepositions', data)
-      // .then(function (data) {
-      //   return data.data;
-      // })
-      // .catch(function () {
-      //   return undefined;
-      // });
+  function updateData(data) {
+    return $http
+      .put(API_SERVER + '/specifications/' + currentSpecification._id +'/updatepositions', data)
+      .then(function (data) {
+        return data.data;
+      })
+      .catch(function () {
+        return undefined;
+      });
   }
 
   function current(){

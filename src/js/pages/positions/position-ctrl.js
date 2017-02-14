@@ -4,8 +4,9 @@ import { formattedToSave, formattedToRu } from '../../libs/date';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 import { numberSplitted } from '../../libs/number';
 
-function PositionCtrl($scope, $state, positionList, productList, deliveryEventList, paymentEventList, specification, Flash, PositionService) {
+function PositionCtrl($scope, $state, positionList, productList, deliveryEventList, paymentEventList, specification, Flash, SpecificationService, PositionService) {
 
+	var initialPositionList = JSON.parse(angular.toJson( positionList ));
 	// $scope.currentConsumer = consumer;
 	$scope.currentSpecification = specification;
 	$scope.currentSpecification.contract.consumer.name = toUnsafeString($scope.currentSpecification.contract.consumer.name);
@@ -14,12 +15,16 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 
 	$scope.current = undefined;
 
+	console.log(positionList);
+
 	productList.map(function(o) {
 		o.name = toUnsafeString(o.name);
 		return o;
 	})
 
 	var counter = 0;
+
+	var removedPositions = [];
 
 	var positionBeforeEditing,
 		editingMode = false;
@@ -70,7 +75,8 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 
 	$scope.select = function(position) {
 		if (! editingMode) {
-			positionList = _.map(positionList, function(c) {
+			// positionList = _.map(positionList, function(c) {
+			$scope.filteredObjects = _.map($scope.filteredObjects, function(c) {
 				if (c._id === position._id) {
 					// if taken consumer is already selected
 					if (PositionService.current() && PositionService.current()._id == position._id) {
@@ -117,10 +123,13 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 
 	$scope.add = function() {
 
+		$scope.current = undefined;
+		PositionService.select(undefined);
+
 		var newPosition = {};
 
 		newPosition.new = true;
-		newPosition.id = posCounter();
+		newPosition._id = posCounter();
 		newPosition.product = {
 			_id: productList[0]._id,
 			name : productList[0].name
@@ -442,24 +451,26 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 
 	$scope.savePosition = function(position){
 
-		// PositionService.select(undefined);
-		// $scope.current = undefined;
 
 		$scope.filteredObjects.map(function(o){
 			if (o._id == position._id) {
 				o.editing = false;
+				o.selected = false;
 			}
 
 			return o;
 		})
+
 		editingMode = false;
+		PositionService.select(undefined);
+		$scope.current = undefined;
 	}
 
 	$scope.restorePosition = function(position){
 		editingMode = false;
 		$scope.filteredObjects.map(function(o){
 			if (o._id == position._id) {
-				o = Object.assign(o, {editing: false}, positionBeforeEditing);
+				o = Object.assign(o, {editing: false, selected: false}, positionBeforeEditing);
 			}
 
 			return o;
@@ -468,13 +479,18 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 
 	$scope.removePosition = function(position){
 
-		if (! position)
+		if (! position) {
 			position = $scope.current;
+			if (! position.new)
+				removedPositions.push(position._id);
+		}
 
 		$scope.filteredObjects = $scope.filteredObjects.filter(function(o){
 			return o._id != position._id;
 		})
+
 		$scope.recalcTotal();
+
 		PositionService.select(undefined);
 		$scope.current = undefined;
 	}
@@ -483,14 +499,94 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 		
 		if (isAllPositionsHaveSufficientDataForSaving()) {
 
-			var data = {};
-			// add new positions
-		}
+			var data = {
+				added: [],
+				edited: [],
+				removed: undefined
+			};
 
+			// add new positions
+			$scope.filteredObjects.forEach(function(o){
+				var newPosition = _.omit(o, ['editing', 'new', '_id', 'product', 'delivery_event', 'pay_event', 'pay_close_event', '$$hashKey', 'selected', 'specification']);
+				var changedPosition = _.omit(o, ['editing', 'new', 'product', 'delivery_event', 'pay_event', 'pay_close_event', '$$hashKey', 'selected', 'specification']);
+				newPosition = Object.assign(newPosition, 
+									{ product: o.product._id},
+									{ specification: SpecificationService.current()._id},
+									{ delivery_event: o.delivery_event._id},
+									{ pay_event: o.pay_event._id},
+									{ pay_close_event: o.pay_close_event ? o.pay_close_event._id : undefined},
+									{ pay_close_days: o.pay_close_days ? o.pay_close_days : undefined})
+
+				if (o.new) {
+					data.added.push( newPosition );
+				} else {
+					var existingPosition = _.find(initialPositionList, {_id: o._id});
+
+					console.log(existingPosition);
+					console.log(newPosition);
+
+					
+					if (existingPosition.product._id != newPosition.product ||
+						existingPosition.price != newPosition.price ||
+						existingPosition.quantity != newPosition.quantity ||
+						existingPosition.delivery_days != newPosition.delivery_days ||
+						existingPosition.delivery_event._id != newPosition.delivery_event ||
+						existingPosition.pay_days != newPosition.pay_days ||
+						existingPosition.pay_event._id != newPosition.pay_event ||
+						existingPosition.prepay_percent != newPosition.prepay_percent ||
+						existingPosition.prepay_amount != newPosition.prepay_amount ||
+						existingPosition.pay_close_days != newPosition.pay_close_days ||
+						(existingPosition.pay_close_event && existingPosition.pay_close_event._id != newPosition.pay_close_event) ){
+
+							data.edited.push(changedPosition);
+					}
+
+					else {
+						console.log('position # ' + o._id + ' has not changed');
+					}
+				}
+			})
+			data.removed = removedPositions;
+
+			console.log('Data for saving');
+			console.log(data);
+
+			SpecificationService.updateData(data)
+				.then( function(respond){
+					console.log(respond);
+
+
+
+					var message = '<strong>Specification data successfully saved!</strong>';
+			        var id = Flash.create('success', message, 3000, {class: 'custom-class', id: 'custom-id'}, true);
+			        return PositionService.bySpecification(SpecificationService.current()._id)
+				})
+				.then(function(newPositionList) {
+					initialPositionList = JSON.parse(angular.toJson( newPositionList ));
+					positionList = newPositionList;
+					positionList.map(function(o){
+						o.product.name = toUnsafeString(o.product.name);
+						return o;
+					})
+					$scope.filteredObjects = positionList;
+				})
+
+		} else {
+			var message = '<strong>All positions must have delivery and payment options!</strong>';
+	        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
+		}
 	}
 
-	function isAllPositionsHaveSufficientDataFroSaving(){
-		return true;
+
+	function isAllPositionsHaveSufficientDataForSaving(){
+		var valid = true;
+
+		$scope.filteredObjects.forEach(function(o) {
+			if (! o.delivery_days || ! o.pay_days)
+				valid = false;
+		})
+
+		return valid;
 	}
 }
 

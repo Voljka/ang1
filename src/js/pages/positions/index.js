@@ -19,7 +19,7 @@ angular.module('positionModule', ['ngFlash'])
   .factory('PaymentEventService', ['$http', paymentEventService])
   .factory('DeliveryEventService', ['$http', deliveryEventService])
   .factory('SpecificationService', ['$http', specificationService])
-  .controller('PositionCtrl', ['$scope', '$state', 'positionList', 'productList', 'deliveryEventList', 'paymentEventList', 'specification', 'Flash', 'PositionService', controller]);
+  .controller('PositionCtrl', ['$scope', '$state', 'positionList', 'productList', 'deliveryEventList', 'paymentEventList', 'specification', 'Flash', 'SpecificationService', 'PositionService', controller]);
 
 module.exports = {
   template: require('./position.tpl'), 
