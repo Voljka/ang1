@@ -1,1 +1,1 @@
-{ "position" : "0ff51f00-d2a8-11e6-953e-4d3273bc57de", "amount" : 4500, "payed_at" : { "$date" : 1483315200000 }, "operation_type" : "01056f00-d2ac-11e6-bc06-b7d8a62dfd1e", "_id" : "8351d6e0-d2ae-11e6-9382-9dd6671dfddd", "__v" : 0 }
+{ "_id" : "8351d6e0-d2ae-11e6-9382-9dd6671dfddd", "position" : "0ff51f00-d2a8-11e6-953e-4d3273bc57de", "amount" : 4500, "payed_at" : { "$date" : "2017-01-02T02:00:00.000+0200" }, "operation_type" : "01056f00-d2ac-11e6-bc06-b7d8a62dfd1e", "__v" : 0 }

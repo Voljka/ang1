@@ -12,8 +12,8 @@ var debug = require('debug')('express');
 //var configDB = require('./config/database.js');
 var mongoose = require('mongoose');
 var configDB = {
-  'url' : 'mongodb://localhost/norma'
-  // 'url' : 'mongodb://localhost/test'
+  // 'url' : 'mongodb://localhost/norma'
+  'url' : 'mongodb://test:123@ds149489.mlab.com:49489/norma_db_main'
 };
 mongoose.connect(configDB.url); // connect to our database
 

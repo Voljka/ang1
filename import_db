@@ -14,3 +14,5 @@ mongoimport --db norma --collection mediators --drop --file seed/mediators.json
 mongoimport --db norma --collection mediatortypes --drop --file seed/mediatorTypes.json
 mongoimport --db norma --collection mediatorconditions --drop --file seed/mediatorConditions.json
 mongoimport --db norma --collection operationtypes --drop --file seed/operationTypes.json
+mongoimport --db norma --collection paymentevents --drop --file seed/paymentEvents.json
+mongoimport --db norma --collection deliveryevents --drop --file seed/deliveryEvents.json

@@ -1,7 +1,7 @@
-{ "name" : "СевГОК", "group" : "6be3f8b0-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "_id" : "00cccb40-d28a-11e6-9fc3-2de0cc4770d0", "__v" : 0 }
-{ "name" : "Кураховская ТЭС", "group" : "7036ff20-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "_id" : "2c78fa90-d288-11e6-9fc3-2de0cc4770d0", "__v" : 0 }
-{ "name" : "Зуевская ТЭС", "group" : "7036ff20-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "_id" : "2f35f7b0-d288-11e6-9fc3-2de0cc4770d0", "__v" : 0 }
-{ "name" : "Луганская ТЭС", "group" : "7036ff20-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "_id" : "323d4440-d288-11e6-9fc3-2de0cc4770d0", "__v" : 0 }
-{ "name" : "ПАО &quot;МК &quot;Азовсталь&quot;", "group" : "6734a170-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "_id" : "472a8420-d289-11e6-9fc3-2de0cc4770d0", "__v" : 0 }
-{ "name" : "ЮГОК", "group" : "6be3f8b0-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "_id" : "c6911c10-d289-11e6-9fc3-2de0cc4770d0", "__v" : 0 }
-{ "name" : "Харцызский трубный завод", "group" : "6734a170-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "_id" : "f3b32d10-d288-11e6-9fc3-2de0cc4770d0", "__v" : 0 }
+{ "_id" : "00cccb40-d28a-11e6-9fc3-2de0cc4770d0", "name" : "СевГОК", "group" : "6be3f8b0-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "__v" : 0 }
+{ "_id" : "2c78fa90-d288-11e6-9fc3-2de0cc4770d0", "name" : "Кураховская ТЭС", "group" : "7036ff20-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "__v" : 0 }
+{ "_id" : "2f35f7b0-d288-11e6-9fc3-2de0cc4770d0", "name" : "Зуевская ТЭС", "group" : "7036ff20-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "__v" : 0 }
+{ "_id" : "323d4440-d288-11e6-9fc3-2de0cc4770d0", "name" : "Луганская ТЭС", "group" : "7036ff20-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "__v" : 0 }
+{ "_id" : "472a8420-d289-11e6-9fc3-2de0cc4770d0", "name" : "ПАО &#34;МК &#34;Азовсталь&#34;", "group" : "6734a170-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "__v" : 0 }
+{ "_id" : "c6911c10-d289-11e6-9fc3-2de0cc4770d0", "name" : "ЮГОК", "group" : "6be3f8b0-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "__v" : 0 }
+{ "_id" : "f3b32d10-d288-11e6-9fc3-2de0cc4770d0", "name" : "Харцызский трубный завод", "group" : "6734a170-d283-11e6-9cca-3f6676d6a14c", "country" : "461990b0-d286-11e6-b131-e3fb6e4b097e", "is_old" : false, "__v" : 0 }
