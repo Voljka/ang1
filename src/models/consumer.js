@@ -39,7 +39,7 @@ var Consumer = new Schema({
 });
 
 Consumer.path('name').validate( function (value) {
-	return value.length < 70;
+	return value.length < 120;
 });
 
 Consumer.plugin(autopopulate);

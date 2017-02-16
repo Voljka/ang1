@@ -4,8 +4,9 @@ import { formattedToSave, formattedToRu } from '../../libs/date';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 import { numberSplitted } from '../../libs/number';
 
-function PositionCtrl($scope, $state, positionList, productList, deliveryEventList, paymentEventList, specification, Flash, SpecificationService, PositionService) {
+function PositionCtrl($scope, $state, positionList, unitList, productList, deliveryEventList, paymentEventList, specification, Flash, SpecificationService, ProductService, PositionService) {
 
+	$scope.units = unitList;
 	var initialPositionList = JSON.parse(angular.toJson( positionList ));
 	// $scope.currentConsumer = consumer;
 	$scope.currentSpecification = specification;
@@ -14,6 +15,8 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 	$scope.currentSpecification.contract.signed_at_formatted = formattedToRu( new Date($scope.currentSpecification.contract.signed_at))
 
 	$scope.current = undefined;
+
+	$scope.showNewProductWindow = false;
 
 	console.log(positionList);
 
@@ -30,6 +33,8 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 		editingMode = false;
 
 	$scope.products = productList;
+
+	console.log(positionList);
 
 	positionList.map(function(o){
 		o.product.name = toUnsafeString(o.product.name);
@@ -123,8 +128,8 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 
 	$scope.add = function() {
 
-		$scope.current = undefined;
-		PositionService.select(undefined);
+		// $scope.current = undefined;
+		// PositionService.select(undefined);
 
 		var newPosition = {};
 
@@ -141,6 +146,9 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 		editingMode = true;
 
 		$scope.filteredObjects.push(newPosition);
+
+		$scope.current = newPosition;
+		
 		$scope.recalcTotal();
 	}
 
@@ -522,10 +530,6 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 				} else {
 					var existingPosition = _.find(initialPositionList, {_id: o._id});
 
-					console.log(existingPosition);
-					console.log(newPosition);
-
-					
 					if (existingPosition.product._id != newPosition.product ||
 						existingPosition.price != newPosition.price ||
 						existingPosition.quantity != newPosition.quantity ||
@@ -538,11 +542,11 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 						existingPosition.pay_close_days != newPosition.pay_close_days ||
 						(existingPosition.pay_close_event && existingPosition.pay_close_event._id != newPosition.pay_close_event) ){
 
-							data.edited.push(changedPosition);
-					}
-
-					else {
-						console.log('position # ' + o._id + ' has not changed');
+						// data.edited.push(changedPosition);
+						newPosition._id = o._id;
+						data.edited.push(newPosition);
+					} else {
+						// console.log('position # ' + o._id + ' has not changed');
 					}
 				}
 			})
@@ -554,8 +558,6 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 			SpecificationService.updateData(data)
 				.then( function(respond){
 					console.log(respond);
-
-
 
 					var message = '<strong>Specification data successfully saved!</strong>';
 			        var id = Flash.create('success', message, 3000, {class: 'custom-class', id: 'custom-id'}, true);
@@ -577,6 +579,52 @@ function PositionCtrl($scope, $state, positionList, productList, deliveryEventLi
 		}
 	}
 
+	$scope.addNonExistingProduct = function(){
+		$scope.showNewProductWindow = true;
+
+	}
+
+	$scope.addProductToDB = function(){
+
+		if ($scope.newProductName.trim().length > 0) {
+			var data = {
+				name: $scope.newProductName,
+				kved: $scope.newProductKVED,
+				producer: '34b5df30-d2a5-11e6-8eb4-0ffbdcc06897',
+				unit: $scope.newProductUnit
+			}
+
+			ProductService.add(data)
+				.then( function(newProduct) {
+					// add new Position to the ProductList
+					productList.push(newProduct);
+					// $scope.products.push(newProduct);
+
+					// select new Product as position.product
+					$scope.filteredObjects.map(function(o){
+						if (o._id == $scope.current._id) {
+							o.product = {
+								_id: newProduct._id,
+								name: newProduct.name
+							}
+						}
+
+						return o;
+					})
+
+					$scope.showNewProductWindow = false;
+					var message = '<strong>New <i>Position Name</i> successfully added!</strong>';
+			        var id = Flash.create('success', message, 5000, {class: 'custom-class', id: 'custom-id'}, true);
+				})
+		} else {
+			var message = '<strong>New <i>Position Name</i> should not to be empty!</strong>';
+	        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
+		}
+	}
+
+	$scope.backToSpecification = function(){
+		$scope.showNewProductWindow = false;
+	}
 
 	function isAllPositionsHaveSufficientDataForSaving(){
 		var valid = true;

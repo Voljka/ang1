@@ -1,4 +1,4 @@
-{ "_id" : "9f7088d0-f21b-11e6-9aad-1b9e7fe7af50", "name" : "specification signed", "__v" : 0 }
-{ "_id" : "a855ab70-f224-11e6-9aad-1b9e7fe7af50", "name" : "not specified", "__v" : 0 }
-{ "_id" : "b6918e10-f21b-11e6-9aad-1b9e7fe7af50", "name" : "delivery", "__v" : 0 }
-{ "_id" : "d0661a90-f21b-11e6-9aad-1b9e7fe7af50", "name" : "delivery ready letter", "__v" : 0 }
+{"_id":"9f7088d0-f21b-11e6-9aad-1b9e7fe7af50","name":"specification signed","__v":0}
+{"_id":"a855ab70-f224-11e6-9aad-1b9e7fe7af50","name":"not specified","__v":0}
+{"_id":"b6918e10-f21b-11e6-9aad-1b9e7fe7af50","name":"delivery","__v":0}
+{"_id":"d0661a90-f21b-11e6-9aad-1b9e7fe7af50","name":"delivery ready letter","__v":0}

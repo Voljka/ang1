@@ -35,7 +35,7 @@ var Product = new Schema({
 });
 
 Product.path('name').validate( function (value) {
-	return value.length < 100;
+	return value.length < 150;
 });
 
 Product.path('kved').validate( function (value) {

@@ -1,6 +1,7 @@
 var controller = require('./position-ctrl');
 var positionService = require('../../services/PositionService');
 var productService = require('../../services/ProductService');
+var unitService = require('../../services/UnitService');
 var specificationService = require('../../services/SpecificationService');
 var paymentEventService = require('../../services/PaymentEventService');
 var deliveryEventService = require('../../services/DeliveryEventService');
@@ -16,10 +17,11 @@ angular.module('positionModule', ['ngFlash'])
   })  
   .factory('PositionService', ['$http', positionService])
   .factory('ProductService', ['$http', productService])
+  .factory('UnitService', ['$http', unitService])
   .factory('PaymentEventService', ['$http', paymentEventService])
   .factory('DeliveryEventService', ['$http', deliveryEventService])
   .factory('SpecificationService', ['$http', specificationService])
-  .controller('PositionCtrl', ['$scope', '$state', 'positionList', 'productList', 'deliveryEventList', 'paymentEventList', 'specification', 'Flash', 'SpecificationService', 'PositionService', controller]);
+  .controller('PositionCtrl', ['$scope', '$state', 'positionList', 'unitList', 'productList', 'deliveryEventList', 'paymentEventList', 'specification', 'Flash', 'SpecificationService', 'ProductService', 'PositionService', controller]);
 
 module.exports = {
   template: require('./position.tpl'), 
@@ -33,6 +35,12 @@ module.exports = {
     }],  	
     productList: ['ProductService', function (ProductService) {
       return ProductService.all()
+        .then(function(data) {
+          return data;
+        })
+    }],   
+    unitList: ['UnitService', function (UnitService) {
+      return UnitService.all()
         .then(function(data) {
           return data;
         })

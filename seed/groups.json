@@ -1,4 +1,7 @@
-{ "_id" : "6734a170-d283-11e6-9cca-3f6676d6a14c", "name" : "Метинвест", "is_old" : false, "__v" : 0 }
-{ "_id" : "6be3f8b0-d283-11e6-9cca-3f6676d6a14c", "name" : "Приват", "is_old" : false, "__v" : 0 }
-{ "_id" : "7036ff20-d283-11e6-9cca-3f6676d6a14c", "name" : "ДТЭК", "is_old" : false, "__v" : 0 }
-{ "_id" : "a0d0b540-d283-11e6-9cca-3f6676d6a14c", "__v" : 0, "is_old" : true, "name" : "No Name" }
+{"_id":"174356d0-f393-11e6-8f0d-03f7efe17fb1","name":"No Group","is_old":false,"__v":0}
+{"_id":"523ebe70-f391-11e6-8f0d-03f7efe17fb1","name":"Энергоатом","is_old":false,"__v":0}
+{"_id":"597f47e0-f391-11e6-8f0d-03f7efe17fb1","name":"Интерпайп","is_old":false,"__v":0}
+{"_id":"6734a170-d283-11e6-9cca-3f6676d6a14c","name":"Метинвест","is_old":false,"__v":0}
+{"_id":"6be3f8b0-d283-11e6-9cca-3f6676d6a14c","name":"Приват","is_old":false,"__v":0}
+{"_id":"7036ff20-d283-11e6-9cca-3f6676d6a14c","name":"ДТЭК","is_old":false,"__v":0}
+{"_id":"a0d0b540-d283-11e6-9cca-3f6676d6a14c","__v":0,"is_old":true,"name":"No Name"}

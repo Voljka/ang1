@@ -1,3 +1,3 @@
-{ "_id" : "1565bee0-d2b2-11e6-b9a7-d175b19c4292", "name" : "Валик", "our" : true, "__v" : 0 }
-{ "_id" : "f0e3e3d0-d2b1-11e6-b9a7-d175b19c4292", "name" : "Ростов", "our" : false, "__v" : 0 }
-{ "_id" : "fe7df210-d2b1-11e6-b9a7-d175b19c4292", "name" : "Леся", "our" : true, "__v" : 0 }
+{"_id":"1565bee0-d2b2-11e6-b9a7-d175b19c4292","name":"Валик","our":true,"__v":0}
+{"_id":"f0e3e3d0-d2b1-11e6-b9a7-d175b19c4292","name":"Ростов","our":false,"__v":0}
+{"_id":"fe7df210-d2b1-11e6-b9a7-d175b19c4292","name":"Леся","our":true,"__v":0}

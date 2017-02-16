@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var productsBase = require('../../../seed/product_base.json')
+
 // var respondMaker = require('../respondTemplates/transformer');
 // var Payment = require('../../models/payment');
 // var Delivery = require('../../models/delivery');
@@ -17,6 +19,67 @@ router.get('/', function(req, res) {
 		res.send(products);
 	}) 
 });
+
+router.get('/:id/briefs', function(req, res) {
+	console.log('request for products list');
+
+	return Product.find({}, function(err, products) {
+		if (err) 
+			return res.status(500).send({ error: 'Error during request'});
+
+		var result = [];
+		products.forEach(function(o){
+			result.push({
+				name: o.name,
+				unit: o.unit._id,
+				kved: o.kved
+			})
+		})
+
+		res.send(result);
+	}) 
+});
+
+router.post('/:id/upload', function(req, res) {
+	console.log('request for products list');
+
+	var arrayOfPromises = [];
+	// console.log(productsBase.length);
+	// res.send( 'Ok' );
+
+	if (productsBase.length < 500) {
+		arrayOfPromises.push(insertManyProducts(productsBase));
+	} else {
+		var counter = 0;
+
+		var subArray = [];
+
+		productsBase.forEach( function(o){
+			counter++;
+			subArray.push(o);
+
+			if (counter/500 == (counter/500).toFixed()) {
+				arrayOfPromises.push(insertManyProducts(subArray));
+				subArray = [];
+			}
+		})
+
+		arrayOfPromises.push(insertManyProducts(subArray));
+	}
+
+	// return Promise.all(arrayOfPromises)
+		// .then( function(result) {
+		// 	console.log('Uploaded');
+		// 	res.send(result);
+		// })
+		// .catch( function(err) {
+		// 	console.log(err);
+		// })
+});
+
+var insertManyProducts = function(list){
+	return Product.insertMany(list);
+}
 
 router.get('/:id', function(req, res) {
 	console.log('request for specified product info');

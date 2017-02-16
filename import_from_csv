@@ -1,0 +1,1 @@
+mongoimport -d norma -c consumers  --file "seed/consumers_ready2.csv" --type="csv" --headerline
