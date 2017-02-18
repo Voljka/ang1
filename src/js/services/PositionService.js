@@ -69,6 +69,30 @@ function PositionService($http) {
     currentPosition = position;
   }
 
+  function notDelivered(){
+    return $http
+      .get(API_SERVER + '/positions/notdelivered', { cache: false })
+      .then(function (data) {
+        return data.data;
+      })
+      .catch(function () {
+        return undefined;
+      });
+
+  }
+
+  function notPayed(){
+    return $http
+      .get(API_SERVER + '/positions/notpayed', { cache: false })
+      .then(function (data) {
+        return data.data;
+      })
+      .catch(function () {
+        return undefined;
+      });
+
+  }
+
   return {
     all        : all,
     bySpecification : bySpecification,
@@ -77,6 +101,8 @@ function PositionService($http) {
     add        : add,
     update     : update,
     remove     : remove,    
+    notDelivered : notDelivered,
+    notPayed : notPayed,
   };
 }
 

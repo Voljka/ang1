@@ -16,3 +16,4 @@ mongoexport --db norma --collection mediatorconditions --out seed/mediatorCondit
 mongoexport --db norma --collection operationtypes --out seed/operationTypes.json
 mongoexport --db norma --collection paymentevents --out seed/paymentEvents.json
 mongoexport --db norma --collection deliveryevents --out seed/deliveryEvents.json
+mongoexport --db norma --collection deliveryletters --out seed/deliveryLetters.json

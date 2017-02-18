@@ -1,7 +1,12 @@
 var controller = require('./specification-ctrl');
+
 var consumerService = require('../../services/ConsumerService');
 var contractService = require('../../services/ContractService');
 var specificationService = require('../../services/SpecificationService');
+var paymentService = require('../../services/PaymentService');
+
+import { SPECIFICATION } from '../../constants/hierarchy.js';
+import { WE_CONSUMER } from '../../constants/operationtypes.js';
 
 angular.module('specificationModule', [])
   .config(['$httpProvider', function($httpProvider) {
@@ -10,6 +15,7 @@ angular.module('specificationModule', [])
   .factory('ConsumerService', ['$http', consumerService])
   .factory('ContractService', ['$http', contractService])
   .factory('SpecificationService', ['$http', specificationService])
+  .factory('PaymentService', ['$http', paymentService])
   .controller('SpecificationCtrl', ['$scope', '$state', 'specificationList', 'consumer', 'contract', 'SpecificationService', controller]);
 
 module.exports = {
@@ -28,5 +34,10 @@ module.exports = {
     contract: ['ContractService', function (ContractService) {
       return ContractService.current()
     }],   
+    operationType: ['PaymentService', function (PaymentService) {
+        PaymentService.setType(WE_CONSUMER);
+        PaymentService.setHierarchy(SPECIFICATION);
+        return true;
+    }],     
   }
 };

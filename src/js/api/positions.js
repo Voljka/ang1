@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var _ = require('lodash');
+
 // var respondMaker = require('../respondTemplates/transformer');
 var Payment = require('../../models/payment');
 var Delivery = require('../../models/delivery');
@@ -14,9 +16,97 @@ router.get('/', function(req, res) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		res.send(positions);
+		return res.send(positions)
 	}) 
 });
+
+router.get('/notdelivered', function(req, res) {
+
+	return Position.find({}, function(err, positions) {
+		if (err) 
+			return res.status(500).send({ error: 'Error during request'});
+
+		return calcDeliveries(positions)
+			.then( function(allPositionsWithDeliveredQuantity){
+				
+				var notDeliveredPositions = _.filter( allPositionsWithDeliveredQuantity, function(o){
+					return o.quantity != o.delivered_quantity
+				})
+
+				return res.send(notDeliveredPositions);
+			})
+	}) 
+});
+
+var calcDeliveries = function(list) {
+	var listOfPromises = [];
+
+	list.forEach(function(position) {
+		listOfPromises.push(calcOnePositionDeliveries(position))
+	})
+
+	return Promise.all( listOfPromises )
+}
+
+var calcOnePositionDeliveries = function(position) {
+
+	return Delivery.find({position : position._id})
+			.then( function(deliveries) {
+
+				var sum = 0;
+				deliveries.forEach(function(o){
+					sum += o.quantity;
+				})
+
+				var result = Object.assign( {}, position._doc, {delivered_quantity: sum});
+
+				return result;
+			})
+}
+
+router.get('/notpayed', function(req, res) {
+
+	return Position.find({}, function(err, positions) {
+		if (err) 
+			return res.status(500).send({ error: 'Error during request'});
+
+		return calcPayments(positions)
+			.then( function(allPositionsWithPayments){
+				
+				var notPayedPositions = _.filter( allPositionsWithPayments, function(o){
+					return (o.price * o.quantity) * 1.2 != o.payed_amount
+				})
+
+				return res.send(notPayedPositions);
+			})
+	}) 
+});
+
+var calcPayments = function(list) {
+	var listOfPromises = [];
+
+	list.forEach(function(position) {
+		listOfPromises.push(calcOnePositionPayments(position))
+	})
+
+	return Promise.all( listOfPromises )
+}
+
+var calcOnePositionPayments = function(position) {
+
+	return Payment.find({position : position._id})
+			.then( function(payments) {
+
+				var sum = 0;
+				payments.forEach(function(o){
+					sum += o.amount;
+				})
+
+				var result = Object.assign( {}, position._doc, {payed_amount: sum});
+
+				return result;
+			})
+}
 
 router.get('/:id', function(req, res) {
 	console.log('request for specified position info');

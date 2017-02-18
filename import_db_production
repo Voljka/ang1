@@ -16,3 +16,4 @@ mongoimport -h ds151049.mlab.com:51049 -d heroku_0kr900sm -c mediatorconditions 
 mongoimport -h ds151049.mlab.com:51049 -d heroku_0kr900sm -c operationtypes -u test -p 123 --file "seed/operationTypes.json"
 mongoimport -h ds151049.mlab.com:51049 -d heroku_0kr900sm -c paymentevents -u test -p 123 --file "seed/paymentEvents.json"
 mongoimport -h ds151049.mlab.com:51049 -d heroku_0kr900sm -c deliveryevents -u test -p 123 --file "seed/deliveryEvents.json"
+mongoimport -h ds151049.mlab.com:51049 -d heroku_0kr900sm -c deliveryletters -u test -p 123 --file "seed/deliveryLetters.json"

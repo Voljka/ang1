@@ -33,7 +33,7 @@ function SpecificationCtrl($scope, $state, specificationList, consumer, contract
 				} else {
 					// select consumer 
 					SpecificationService.select(specification);
-					$scope.current = contract;
+					$scope.current = specification;
 					c.selected = true;
 					return c;
 				}
@@ -46,6 +46,14 @@ function SpecificationCtrl($scope, $state, specificationList, consumer, contract
 
 	$scope.goPos = function() {
 		$state.go('positions');
+	}
+
+	$scope.goPayments = function() {
+		$state.go('payments');
+	}
+
+	$scope.goDeliveries = function() {
+		$state.go('deliveries');
 	}
 
 	$scope.add = function() {

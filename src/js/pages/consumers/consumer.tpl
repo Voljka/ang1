@@ -7,9 +7,8 @@
 <!-- 	<button class="btn btn-default" ng-show="currentConsumer" ng-cilck="goContracts()">Contracts</button>
  -->	
 	<button class="btn btn-default" ng-if="currentConsumer" ng-click="goContracts()">Contracts</button>
-
-	<button class="btn btn-default" ng-if="currentConsumer" ng-cilck="goPayments()">Payments</button>
-	<button class="btn btn-default" ng-if="currentConsumer" ng-cilck="goDeliveries()">Deliveries</button>
+	<button class="btn btn-default" ng-if="currentConsumer" ng-click="goPayments()">Payments</button>
+	<button class="btn btn-default" ng-if="currentConsumer" ng-click="goDeliveries()">Deliveries</button>
 </div>
 
 <div class="page-content">

@@ -5,9 +5,9 @@
 	<button class="btn btn-info" ng-if="current" ng-click="edit()">Update</button>
 	<button class="btn btn-info" ng-if="current" ng-click="remove()">Delete</button>
 	<button class="btn btn-info" ng-if="current" ng-click="goSpec()">Specs</button>
+	<button class="btn btn-info" ng-if="current" ng-click="goPayments()">Payments</button>
+	<button class="btn btn-info" ng-if="current" ng-click="goDeliveries()">Deliveries</button>
 <!-- 	<button class="btn btn-default" ng-if="current" ng-cilck="goSpecifications()">Specifications</button> -->
-	<button class="btn btn-default" ng-if="current" ng-cilck="goPayments()">Payments</button>
-	<button class="btn btn-default" ng-if="current" ng-cilck="goDeliveries()">Deliveries</button>
 </div>
 
 <h1>{{currentConsumer.name}}</h1>

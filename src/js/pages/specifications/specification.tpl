@@ -38,9 +38,8 @@
 			</div>
 			<div class="col-md-6">
 				<button class="btn btn-info" ng-if="current" ng-click="goPos()">Pos</button>
-<!-- 				<button class="btn btn-default" ng-if="current" ng-cilck="goPositions()">Positions</button> -->
-				<button class="btn btn-default" ng-if="current" ng-cilck="goPayments()">Payments</button>
-				<button class="btn btn-default" ng-if="current" ng-cilck="goDeliveries()">Deliveries</button>		
+				<button class="btn btn-info" ng-if="current" ng-click="goPayments()">Payments</button>
+				<button class="btn btn-info" ng-if="current" ng-click="goDeliveries()">Deliveries</button>
 			</div>
 		</div>
 	</div>

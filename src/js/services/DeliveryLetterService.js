@@ -1,17 +1,14 @@
 'use strict';
 
-// import { WE_CONSUMER, WE_PROVIDER, WE_MEDIATOR, MEDIATOR_PROVIDER } from '../constants/operationtypes.js';
-
 var API_SERVER = 'http://localhost:8080/api/v1';
 
-var current, 
-    operationType;
+var current;
 
 function Service($http) {
 
   function all() {
     return $http
-      .get(API_SERVER + '/deliveries', { cache: false })
+      .get(API_SERVER + '/deliveryletters', { cache: false })
       .then(function (data) {
         return data.data;
       })
@@ -22,7 +19,7 @@ function Service($http) {
 
   function add(data) {
     return $http
-      .post(API_SERVER + '/deliveries', data)
+      .post(API_SERVER + '/deliveryletters', data)
       .then(function (data) {
         return data.data;
       })
@@ -33,7 +30,7 @@ function Service($http) {
 
   function update(id, data) {
     return $http
-      .put(API_SERVER + '/deliveries/' + id, data)
+      .put(API_SERVER + '/deliveryletters/' + id, data)
       .then(function (data) {
         return data.data;
       })
@@ -44,7 +41,7 @@ function Service($http) {
 
   function remove(id) {
     return $http
-      .delete(API_SERVER + '/deliveries/' + id)
+      .delete(API_SERVER + '/deliveryletters/' + id)
       .then(function (data) {
         return data.data;
       })
@@ -57,16 +54,8 @@ function Service($http) {
     return current;
   }
 
-  function select(delivery) {
-    current = delivery;
-  }
-
-  function setType(type) {
-    operationType = type;
-  }
-
-  function currentType() {
-    return operationType;
+  function select(letter) {
+    current = letter;
   }
 
   return {
@@ -75,9 +64,7 @@ function Service($http) {
     select     : select,
     add        : add,
     update     : update,
-    remove     : remove,
-    setType    : setType,
-    currentType: currentType,    
+    remove     : remove,    
   };
 }
 

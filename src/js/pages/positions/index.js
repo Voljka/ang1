@@ -1,11 +1,16 @@
-var controller = require('./position-ctrl');
+var controller = require('./controller');
 var positionService = require('../../services/PositionService');
 var productService = require('../../services/ProductService');
 var unitService = require('../../services/UnitService');
 var specificationService = require('../../services/SpecificationService');
 var paymentEventService = require('../../services/PaymentEventService');
 var deliveryEventService = require('../../services/DeliveryEventService');
+var paymentService = require('../../services/PaymentService');
+
 require('angular-flash-alert');  
+
+import { POSITION } from '../../constants/hierarchy.js';
+import { WE_CONSUMER } from '../../constants/operationtypes.js';
 
 angular.module('positionModule', ['ngFlash'])
   .config(['$httpProvider', function($httpProvider) {
@@ -16,6 +21,7 @@ angular.module('positionModule', ['ngFlash'])
       FlashProvider.setShowClose(true);
   })  
   .factory('PositionService', ['$http', positionService])
+  .factory('PaymentService', ['$http', paymentService])
   .factory('ProductService', ['$http', productService])
   .factory('UnitService', ['$http', unitService])
   .factory('PaymentEventService', ['$http', paymentEventService])
@@ -24,15 +30,15 @@ angular.module('positionModule', ['ngFlash'])
   .controller('PositionCtrl', ['$scope', '$state', 'positionList', 'unitList', 'productList', 'deliveryEventList', 'paymentEventList', 'specification', 'Flash', 'SpecificationService', 'ProductService', 'PositionService', controller]);
 
 module.exports = {
-  template: require('./position.tpl'), 
+  template: require('./template.tpl'), 
   controller: 'PositionCtrl',
   resolve: {
     positionList: ['PositionService', 'SpecificationService', function (PositionService, SpecificationService) {
-  		return PositionService.bySpecification(SpecificationService.current()._id)
-  			.then(function(data) {
-  				return data;
-  			})
-    }],  	
+      return PositionService.bySpecification(SpecificationService.current()._id)
+        .then(function(data) {
+          return data;
+        })
+    }],   
     productList: ['ProductService', function (ProductService) {
       return ProductService.all()
         .then(function(data) {
@@ -59,6 +65,11 @@ module.exports = {
     }],   
     specification: ['SpecificationService', function (SpecificationService) {
       return SpecificationService.current()
-    }],   
+    }], 
+    operationType: ['PaymentService', function (PaymentService) {
+        PaymentService.setType(WE_CONSUMER);
+        PaymentService.setHierarchy(POSITION);
+        return true;
+    }],          
   }
 };

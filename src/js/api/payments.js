@@ -1,11 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-// var respondMaker = require('../respondTemplates/transformer');
-// var Payment = require('../../models/payment');
-// var Delivery = require('../../models/delivery');
 var Payment = require('../../models/payment');
 var changeRecord = require('../../models/common').changeRecord;
+
+var filter = require('lodash/filter');
+
+const CONSUMER = 1;
+const CONTRACT = 2;
+const SPECIFICATION = 3;
+const POSITION = 4;
 
 router.get('/', function(req, res) {
 	console.log('request for payments list');
@@ -15,6 +19,43 @@ router.get('/', function(req, res) {
 			return res.status(500).send({ error: 'Error during request'});
 
 		res.send(payments);
+	}) 
+});
+
+router.get('/hierarchy/:code/id/:id', function(req, res) {
+	console.log('request for payments by specified contract');
+
+	return Payment.find({}, function(err, payments) {
+		if (err) 
+			return res.status(500).send({ error: 'Error during request'});
+
+		var result;
+		switch (Number(req.params.code)) {
+			case CONSUMER:
+				result = filter( payments, function(o) {
+					return o.position.specification.contract.consumer._id == req.params.id
+				})
+				break;
+			case CONTRACT:
+				result = filter( payments, function(o) {
+					return o.position.specification.contract._id == req.params.id
+				})
+				break;
+			case SPECIFICATION:
+				result = filter( payments, function(o) {
+					return o.position.specification._id == req.params.id
+				})
+				break;
+			case POSITION:
+				result = filter( payments, function(o) {
+					return o.position._id == req.params.id
+				})
+				break;
+			default:
+				result = 'Invalid Hierarchy Code'
+		}
+
+		res.send(result);
 	}) 
 });
 
@@ -32,7 +73,6 @@ router.get('/:id', function(req, res) {
 	}) 
 });
 
-
 router.post('/', function(req, res) {
 	console.log('request for new payment');
 
@@ -47,7 +87,13 @@ router.post('/', function(req, res) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		return res.send(savedPayment);
+		return Payment.findById( savedPayment, function(err, populatedPayment) {
+			if (err)
+				return res.status(500).send({ error: 'Error during request'});
+
+			return res.send(populatedPayment);
+		})
+		
 	})
 });
 

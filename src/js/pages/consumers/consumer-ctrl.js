@@ -47,6 +47,10 @@ function ConsumerCtrl($scope, $state, ConsumerService) {
 		$state.go('contracts');
 	}
 
+	$scope.goPayments = function() {
+		$state.go('payments');
+	}
+
 	$scope.addConsumer = function() {
 		$state.go('consumer_add');
 	}

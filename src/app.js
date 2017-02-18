@@ -13,6 +13,11 @@ var specificationCardTemplate = require('./js/pages/specifications/card');
 
 var positionsTemplate = require('./js/pages/positions');
 
+var consumerDeliveryReportTemplate = require('./js/pages/reports/consumer_delivery');
+var consumerPaymentReportTemplate = require('./js/pages/reports/consumer_payment');
+
+var paymentsTemplate = require('./js/pages/payments');
+
 var providersTemplate = require('./js/pages/providers');
 var mediatorsTemplate = require('./js/pages/mediators');
 var summariesTemplate = require('./js/pages/summaries');
@@ -29,6 +34,9 @@ var app = angular
 		'specificationModule',
 		'specificationCardModule',
 		'positionModule',
+		'deliveryConsumerReportModule',
+		'paymentConsumerReportModule',
+		'paymentModule',
 	])
 
 	.controller('MainCtrl', function($scope) {
@@ -114,6 +122,28 @@ var app = angular
 	            url: '/positions',
 	            views: {
 	            	'content': positionsTemplate
+	            }
+	        })
+
+	        // Reports
+	        .state('consumer_delivery', {
+	            url: '/consumer_report/deliveries',
+	            views: {
+	            	'content': consumerDeliveryReportTemplate
+	            }
+	        })
+	        .state('consumer_payment', {
+	            url: '/consumer_report/payments',
+	            views: {
+	            	'content': consumerPaymentReportTemplate
+	            }
+	        })
+
+	        // Payments
+	        .state('payments', {
+	            url: '/payments',
+	            views: {
+	            	'content': paymentsTemplate
 	            }
 	        })
 

@@ -60,9 +60,9 @@ function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
 		ConsumerService.delete();
 	}
 
-	$scope.goSpecifications = function() {
-		console.log('go specifications');
-		$state.go('specifications');
+	$scope.goPayments = function() {
+		console.log('go payments');
+		$state.go('payments');
 	}
 
 	function filterContracts() {

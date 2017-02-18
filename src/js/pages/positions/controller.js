@@ -18,8 +18,6 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 	$scope.showNewProductWindow = false;
 
-	console.log(positionList);
-
 	productList.map(function(o) {
 		o.name = toUnsafeString(o.name);
 		return o;
@@ -33,8 +31,6 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		editingMode = false;
 
 	$scope.products = productList;
-
-	console.log(positionList);
 
 	positionList.map(function(o){
 		o.product.name = toUnsafeString(o.product.name);
@@ -635,6 +631,14 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		})
 
 		return valid;
+	}
+
+	$scope.goPayments = function() {
+		$state.go('payments');
+	}
+
+	$scope.goDeliveries = function() {
+		$state.go('deliveries');
 	}
 }
 
