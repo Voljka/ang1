@@ -4,6 +4,8 @@ var productService = require('../../../services/ProductService');
 var deliveryService = require('../../../services/DeliveryService');
 var paymentService = require('../../../services/PaymentService');
 
+import { WE_CONSUMER } from '../../../constants/operationtypes.js';
+
 // angular.module('positionModule', ['ngFlash'])
 angular.module('deliveryConsumerReportModule', [])
   .config(['$httpProvider', function($httpProvider) {
@@ -17,6 +19,9 @@ angular.module('deliveryConsumerReportModule', [])
   .factory('ProductService', ['$http', productService])
   .factory('DeliveryService', ['$http', deliveryService])
   .factory('PaymentService', ['$http', paymentService])
+  .run(['PaymentService', function(PaymentService){
+    PaymentService.setType(WE_CONSUMER);
+  }])
   .controller('ConsumerDeliveryReportCtrl', ['$scope', '$state', 'positionList', 'deliveryList', 'paymentList', controller]);
 
 module.exports = {

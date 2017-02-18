@@ -4,27 +4,29 @@ import { formattedToSave, formattedToRu } from '../../libs/date';
 import { numberSplitted } from '../../libs/number';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 
-function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentService) {
+function Ctrl($scope, $state, deliveries, operationType, position, Flash, DeliveryService) {
 
 	$scope.showControls = ! _.isEmpty(position);
 
 	$scope.editingMode = false;
 	var isCardForEditing;
 
-	$scope.showPaymentCard = false;
+	$scope.showDeliveryCard = false;
 
-	$scope.paymentList = groupPayments(payments);
+	$scope.deliveryList = groupDeliveries(deliveries);
+
+	console.log($scope.deliveryList);
 
 	$scope.card = {
-		paymentDate: undefined,
-		paymentAmount: undefined,
-		payedAmount: undefined,
+		deliveryDate: undefined,
+		deliveryQuantity: undefined,
+		deliveredQuantity: undefined,
 		productName: undefined,
-		contractAmount: undefined,
+		contractQuantity: undefined,
 	}
 
-	function groupPayments(allPayments) {
-		var groupedByConsumer = _.groupBy( payments, function(o){
+	function groupDeliveries(allDeliveries) {
+		var groupedByConsumer = _.groupBy( allDeliveries, function(o){
 			return o.position.specification.contract.consumer.name;
 		})
 
@@ -70,7 +72,7 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 
 	$scope.sumBy = function(selector, value){
 
-		var result = _.sumBy(payments, function(o){
+		var result = _.sumBy(deliveries, function(o){
 			
 			var objectList = selector.split('.');
 
@@ -80,7 +82,7 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 			})
 
 			if (object == value) {
-				return o.amount
+				return o.quantity
 			} else {
 				return 0
 			}
@@ -88,21 +90,21 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 		return result;
 	}
 
-	$scope.select = function(payment) {
+	$scope.select = function(delivery) {
 		if (! _.isEmpty(position)) {
-			payments = _.map(payments, function(c) {
-				if (c._id === payment._id) {
+			deliveries = _.map(deliveries, function(c) {
+				if (c._id === delivery._id) {
 					// if taken consumer is already selected
-					if (PaymentService.current() && PaymentService.current()._id == payment._id) {
+					if (DeliveryService.current() && DeliveryService.current()._id == delivery._id) {
 						// deselect 
 						$scope.current = undefined;
-						PaymentService.select(undefined);
+						DeliveryService.select(undefined);
 						c.selected = false;
 						return c;
 					} else {
 						// select consumer 
-						PaymentService.select(payment);
-						$scope.current = payment;
+						DeliveryService.select(delivery);
+						$scope.current = delivery;
 						c.selected = true;
 						return c;
 					}
@@ -119,95 +121,95 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 
 		$scope.card = {
 			productName: position.product.name,
-			paymentAmount: 0.00,
-			payedAmount: _.sumBy(payments, 'amount'),
-			paymentDate: new Date( ),
-			contractAmount: position.price * position.quantity * 1.2,
+			deliveryQuantity: 0,
+			deliveredQuantity: _.sumBy(deliveries, 'quantity'),
+			deliveryDate: new Date( ),
+			contractQuantity: position.quantity,
 		}
 
-		$scope.showPaymentCard = true;
+		$scope.showDeliveryCard = true;
 	}
 
 	$scope.edit = function() {
-		var payment = $scope.current;
+		var delivery = $scope.current;
 		isCardForEditing = true;
 
 		$scope.card = {
-			productName: payment.position.product.name,
-			paymentAmount: payment.amount,
-			payedAmount: _.sumBy(payments, 'amount'),
-			paymentDate: new Date( payment.payed_at.substr(0, 10) ),
-			contractAmount: position.price * position.quantity * 1.2,
+			productName: delivery.position.product.name,
+			deliveryQuantity: delivery.quantity,
+			deliveredQuantity: _.sumBy(deliveries, 'quantity'),
+			deliveryDate: new Date( delivery.delivered_at.substr(0, 10) ),
+			contractQuantity: position.quantity,
 		}
 
-		$scope.showPaymentCard = true;
+		$scope.showDeliveryCard = true;
 	}
 
-	$scope.savePayment = function() {
+	$scope.saveDelivery = function() {
 
-		if ($scope.card.paymentAmount > 0) {
+		if ($scope.card.deliveryQuantity > 0) {
 
 			var isTotalExceeded = false;
 
-			var contractAmount = position.price * position.quantity * 1.2;
-			var payedAmount = _.sumBy(payments, 'amount') + $scope.card.paymentAmount;
+			var contractQuantity = position.quantity;
+			var deliveredQuantity = _.sumBy(deliveries, 'quantity') + $scope.card.deliveryQuantity;
 
 			if (isCardForEditing) {
-				payedAmount = payedAmount - $scope.current.amount;
+				deliveredQuantity = deliveredQuantity - $scope.current.quantity;
 			}
 
-			if (payedAmount > contractAmount) {
+			if (deliveredQuantity > contractQuantity) {
 				isTotalExceeded = true;
 			}
 
 			if (! isTotalExceeded) {
 				var data = {
 					position: position._id,
-					amount: $scope.card.paymentAmount,
+					quantity: $scope.card.deliveryQuantity,
 					operation_type: operationType,
-					payed_at: $scope.card.paymentDate,
+					delivered_at: $scope.card.deliveryDate,
 				}
 
 				if (! isCardForEditing) {
-					PaymentService.add(data)
-						.then(function(newPayment){
-							console.log('Added new payment');
-							console.log(newPayment);
+					DeliveryService.add(data)
+						.then(function(newDelivery){
+							console.log('Added new delivery');
+							console.log(newDelivery);
 
-							payments.push(newPayment);
-							$scope.paymentList = groupPayments(payments);
+							deliveries.push(newDelivery);
+							$scope.deliveryList = groupDeliveries(deliveries);
 						})
 				} else {
-					PaymentService.update($scope.current._id, data)
-						.then(function(editedPayment){
-							console.log('Existing payment edited');
-							console.log(editedPayment);
+					DeliveryService.update($scope.current._id, data)
+						.then(function(editedDelivery){
+							console.log('Existing delivery edited');
+							console.log(editedDelivery);
 
-							payments.map( function(o){
-								if (o._id == editedPayment._id) {
-									o.amount = editedPayment.amount;
-									o.payed_at = editedPayment.payed_at;
+							deliveries.map( function(o){
+								if (o._id == editedDelivery._id) {
+									o.quantity = editedDelivery.quantity;
+									o.delivered_at = editedDelivery.delivered_at;
 								}
 
 								return o;
 							})
-							$scope.paymentList = groupPayments(payments);
+							$scope.deliveryList = groupDeliveries(deliveries);
 						})
 				}
 
-				$scope.showPaymentCard = false;
+				$scope.showDeliveryCard = false;
 			} else {
-				var message = '<strong>Contract Amount for selected Product can\'t be exceeded!</strong>';
+				var message = '<strong>Contract Quantity for selected Product can\'t be exceeded!</strong>';
 		        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		} else {
-			var message = '<strong>Payment Amount can\'t be less than 0.01 !</strong>';
+			var message = '<strong>Delivery Quantity can\'t be less than 1!</strong>';
 	        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
 		}
 	}
 
 	$scope.backToList = function(){
-		$scope.showPaymentCard = false;
+		$scope.showDeliveryCard = false;
 	}
 
 	$scope.remove = function() {

@@ -4,14 +4,15 @@
 
 var API_SERVER = 'http://localhost:8080/api/v1';
 
-var current, 
-    operationType;
+var current,
+    operationType,
+    hierarchy;
 
 function Service($http) {
 
   function all() {
     return $http
-      .get(API_SERVER + '/deliveries', { cache: false })
+      .get(API_SERVER + '/deliveries/optype/' + operationType, { cache: false })
       .then(function (data) {
         return data.data;
       })
@@ -69,6 +70,26 @@ function Service($http) {
     return operationType;
   }
 
+  function setHierarchy(type) {
+    hierarchy = type;
+  }
+
+  function currentHierarchy() {
+    return hierarchy;
+  }
+
+  function byParent(elementId) {
+
+    return $http
+      .get(API_SERVER + '/deliveries/hierarchy/'+ hierarchy +'/id/'+elementId+ '/optype/'+operationType, { cache: false })
+      .then(function (data) {
+        return data.data;
+      })
+      .catch(function () {
+        return undefined;
+      });
+  }
+
   return {
     all        : all,
     current    : current,
@@ -78,6 +99,9 @@ function Service($http) {
     remove     : remove,
     setType    : setType,
     currentType: currentType,    
+    setHierarchy    : setHierarchy,
+    currentHierarchy: currentHierarchy,
+    byParent   : byParent,
   };
 }
 

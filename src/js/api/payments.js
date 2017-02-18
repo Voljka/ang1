@@ -11,10 +11,10 @@ const CONTRACT = 2;
 const SPECIFICATION = 3;
 const POSITION = 4;
 
-router.get('/', function(req, res) {
+router.get('/optype/:type', function(req, res) {
 	console.log('request for payments list');
 
-	return Payment.find({}, function(err, payments) {
+	return Payment.find({operation_type: req.params.type}, function(err, payments) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
@@ -22,10 +22,10 @@ router.get('/', function(req, res) {
 	}) 
 });
 
-router.get('/hierarchy/:code/id/:id', function(req, res) {
-	console.log('request for payments by specified contract');
+router.get('/hierarchy/:code/id/:id/optype/:type', function(req, res) {
+	console.log('request for payments by specified hierarchy element');
 
-	return Payment.find({}, function(err, payments) {
+	return Payment.find({operation_type: req.params.type}, function(err, payments) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
@@ -87,7 +87,7 @@ router.post('/', function(req, res) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		return Payment.findById( savedPayment, function(err, populatedPayment) {
+		return Payment.findById( savedPayment._id, function(err, populatedPayment) {
 			if (err)
 				return res.status(500).send({ error: 'Error during request'});
 

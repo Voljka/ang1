@@ -7,14 +7,58 @@ var router = express.Router();
 var Delivery = require('../../models/delivery');
 var changeRecord = require('../../models/common').changeRecord;
 
-router.get('/', function(req, res) {
+var filter = require('lodash/filter');
+
+const CONSUMER = 1;
+const CONTRACT = 2;
+const SPECIFICATION = 3;
+const POSITION = 4;
+
+router.get('/optype/:type', function(req, res) {
 	console.log('request for deliverys list');
 
-	return Delivery.find({}, function(err, deliveries) {
+	return Delivery.find({operation_type: req.params.type}, function(err, deliveries) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
 		res.send(deliveries);
+	}) 
+});
+
+router.get('/hierarchy/:code/id/:id/optype/:type', function(req, res) {
+	console.log('request for deliveries by specified hierarchy element');
+
+	return Delivery.find({operation_type: req.params.type}, function(err, deliveries) {
+		if (err) 
+			return res.status(500).send({ error: 'Error during request'});
+
+		var result;
+		switch (Number(req.params.code)) {
+			case CONSUMER:
+				result = filter( deliveries, function(o) {
+					return o.position.specification.contract.consumer._id == req.params.id
+				})
+				break;
+			case CONTRACT:
+				result = filter( deliveries, function(o) {
+					return o.position.specification.contract._id == req.params.id
+				})
+				break;
+			case SPECIFICATION:
+				result = filter( deliveries, function(o) {
+					return o.position.specification._id == req.params.id
+				})
+				break;
+			case POSITION:
+				result = filter( deliveries, function(o) {
+					return o.position._id == req.params.id
+				})
+				break;
+			default:
+				result = 'Invalid Hierarchy Code'
+		}
+
+		res.send(result);
 	}) 
 });
 
@@ -46,7 +90,12 @@ router.post('/', function(req, res) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		return res.send(savedDelivery);
+		return Delivery.findById( savedDelivery, function(err, populatedDelivery) {
+			if (err)
+				return res.status(500).send({ error: 'Error during request'});
+
+			return res.send(populatedDelivery);
+		})
 	})
 });
 

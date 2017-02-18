@@ -18,6 +18,8 @@ var consumerPaymentReportTemplate = require('./js/pages/reports/consumer_payment
 
 var paymentsTemplate = require('./js/pages/payments');
 
+var deliveriesTemplate = require('./js/pages/deliveries');
+
 var providersTemplate = require('./js/pages/providers');
 var mediatorsTemplate = require('./js/pages/mediators');
 var summariesTemplate = require('./js/pages/summaries');
@@ -37,6 +39,7 @@ var app = angular
 		'deliveryConsumerReportModule',
 		'paymentConsumerReportModule',
 		'paymentModule',
+		'deliveryModule',
 	])
 
 	.controller('MainCtrl', function($scope) {
@@ -144,6 +147,14 @@ var app = angular
 	            url: '/payments',
 	            views: {
 	            	'content': paymentsTemplate
+	            }
+	        })
+
+	        // Deliveries
+	        .state('deliveries', {
+	            url: '/deliveries',
+	            views: {
+	            	'content': deliveriesTemplate
 	            }
 	        })
 

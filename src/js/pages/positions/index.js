@@ -6,6 +6,7 @@ var specificationService = require('../../services/SpecificationService');
 var paymentEventService = require('../../services/PaymentEventService');
 var deliveryEventService = require('../../services/DeliveryEventService');
 var paymentService = require('../../services/PaymentService');
+var deliveryService = require('../../services/DeliveryService');
 
 require('angular-flash-alert');  
 
@@ -27,6 +28,15 @@ angular.module('positionModule', ['ngFlash'])
   .factory('PaymentEventService', ['$http', paymentEventService])
   .factory('DeliveryEventService', ['$http', deliveryEventService])
   .factory('SpecificationService', ['$http', specificationService])
+  .factory('DeliveryService', ['$http', deliveryService])
+  // .run(['PaymentService', function(PaymentService){
+  //   PaymentService.setType(WE_CONSUMER);
+  //   PaymentService.setHierarchy(POSITION);
+  // }])
+  // .run(['DeliveryService', function(DeliveryService){
+  //   DeliveryService.setType(WE_CONSUMER);
+  //   DeliveryService.setHierarchy(POSITION);
+  // }])
   .controller('PositionCtrl', ['$scope', '$state', 'positionList', 'unitList', 'productList', 'deliveryEventList', 'paymentEventList', 'specification', 'Flash', 'SpecificationService', 'ProductService', 'PositionService', controller]);
 
 module.exports = {
@@ -66,9 +76,11 @@ module.exports = {
     specification: ['SpecificationService', function (SpecificationService) {
       return SpecificationService.current()
     }], 
-    operationType: ['PaymentService', function (PaymentService) {
+    operationType: ['PaymentService', 'DeliveryService', function (PaymentService, DeliveryService) {
         PaymentService.setType(WE_CONSUMER);
         PaymentService.setHierarchy(POSITION);
+        DeliveryService.setType(WE_CONSUMER);
+        DeliveryService.setHierarchy(POSITION);
         return true;
     }],          
   }

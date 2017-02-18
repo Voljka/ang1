@@ -6,13 +6,11 @@ var current,
     operationType,
     hierarchy;
 
-// import { CONSUMER, CONTRACT, SPECIFICATION, POSITION } from '../constants/hierarchy.js';
-
 function Service($http) {
 
   function all() {
     return $http
-      .get(API_SERVER + '/payments', { cache: false })
+      .get(API_SERVER + '/payments/optype/'+operationType, { cache: false })
       .then(function (data) {
         return data.data;
       })
@@ -24,7 +22,7 @@ function Service($http) {
   function byParent(elementId) {
 
     return $http
-      .get(API_SERVER + '/payments/hierarchy/'+ hierarchy +'/id/'+elementId, { cache: false })
+      .get(API_SERVER + '/payments/hierarchy/'+ hierarchy +'/id/'+elementId+ '/optype/'+operationType, { cache: false })
       .then(function (data) {
         return data.data;
       })

@@ -4,6 +4,7 @@ var consumerService = require('../../services/ConsumerService');
 var contractService = require('../../services/ContractService');
 var specificationService = require('../../services/SpecificationService');
 var paymentService = require('../../services/PaymentService');
+var deliveryService = require('../../services/DeliveryService');
 
 import { SPECIFICATION } from '../../constants/hierarchy.js';
 import { WE_CONSUMER } from '../../constants/operationtypes.js';
@@ -16,6 +17,15 @@ angular.module('specificationModule', [])
   .factory('ContractService', ['$http', contractService])
   .factory('SpecificationService', ['$http', specificationService])
   .factory('PaymentService', ['$http', paymentService])
+  .factory('DeliveryService', ['$http', deliveryService])
+  // .run(['PaymentService', function(PaymentService){
+  //   PaymentService.setType(WE_CONSUMER);
+  //   PaymentService.setHierarchy(SPECIFICATION);
+  // }])
+  // .run(['DeliveryService', function(DeliveryService){
+  //   DeliveryService.setType(WE_CONSUMER);
+  //   DeliveryService.setHierarchy(SPECIFICATION);
+  // }])
   .controller('SpecificationCtrl', ['$scope', '$state', 'specificationList', 'consumer', 'contract', 'SpecificationService', controller]);
 
 module.exports = {
@@ -34,10 +44,12 @@ module.exports = {
     contract: ['ContractService', function (ContractService) {
       return ContractService.current()
     }],   
-    operationType: ['PaymentService', function (PaymentService) {
+    operationType: ['PaymentService', 'DeliveryService', function (PaymentService, DeliveryService) {
         PaymentService.setType(WE_CONSUMER);
         PaymentService.setHierarchy(SPECIFICATION);
+        DeliveryService.setType(WE_CONSUMER);
+        DeliveryService.setHierarchy(SPECIFICATION);
         return true;
-    }],     
+    }],          
   }
 };

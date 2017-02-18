@@ -61,8 +61,11 @@ function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
 	}
 
 	$scope.goPayments = function() {
-		console.log('go payments');
 		$state.go('payments');
+	}
+
+	$scope.goDeliveries = function() {
+		$state.go('deliveries');
 	}
 
 	function filterContracts() {

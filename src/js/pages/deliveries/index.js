@@ -1,6 +1,6 @@
 var controller = require('./controller');
 
-var paymentService = require('../../services/PaymentService');
+var deliveryService = require('../../services/DeliveryService');
 var consumerService = require('../../services/ConsumerService');
 var contractService = require('../../services/ContractService');
 var positionService = require('../../services/PositionService');
@@ -13,7 +13,7 @@ import { CONSUMER, CONTRACT, SPECIFICATION, POSITION } from '../../constants/hie
 import { formattedToSave, formattedToRu } from '../../libs/date';
 import { numberSplitted } from '../../libs/number';
 
-angular.module('paymentModule', ['ngFlash'])
+angular.module('deliveryModule', ['ngFlash'])
   .config(['$httpProvider', function($httpProvider) {
     $httpProvider.defaults.withCredentials = true;
   }])
@@ -21,7 +21,7 @@ angular.module('paymentModule', ['ngFlash'])
       FlashProvider.setTimeout(5000);
       FlashProvider.setShowClose(true);
   })  
-  .factory('PaymentService', ['$http', paymentService])
+  .factory('DeliveryService', ['$http', deliveryService])
   .factory('ContractService', ['$http', contractService])
   .factory('ConsumerService', ['$http', consumerService])
   .factory('PositionService', ['$http', positionService])
@@ -47,16 +47,16 @@ angular.module('paymentModule', ['ngFlash'])
       return numberSplitted(Number(price));
     }
   })
-  .controller('PaymentCtrl', ['$scope', '$state', 'payments', 'operationType', 'position', 'Flash', 'PaymentService', controller]);
+  .controller('DeliveryCtrl', ['$scope', '$state', 'deliveries', 'operationType', 'position', 'Flash', 'DeliveryService', controller]);
 
 module.exports = {
   template: require('./template.tpl'), 
-  controller: 'PaymentCtrl',
+  controller: 'DeliveryCtrl',
   resolve: {
-    payments: ['ConsumerService', 'ContractService', 'SpecificationService', 'PositionService', 'PaymentService', function (ConsumerService, ContractService, SpecificationService, PositionService, PaymentService) {
+    deliveries: ['ConsumerService', 'ContractService', 'SpecificationService', 'PositionService', 'DeliveryService', function (ConsumerService, ContractService, SpecificationService, PositionService, DeliveryService) {
       var id; 
 
-      switch (PaymentService.currentHierarchy()) {
+      switch (DeliveryService.currentHierarchy()) {
         case CONSUMER: 
           id = ConsumerService.getCurrent()._id;
           break;
@@ -71,30 +71,20 @@ module.exports = {
           break;
       }
 
-  		return PaymentService.byParent(id)
+  		return DeliveryService.byParent(id)
   			.then(function(data) {
   				return data;
   			})
     }],  	
-    position: ['PaymentService', 'PositionService', function (PaymentService, PositionService) {
-      if (PaymentService.currentHierarchy() == POSITION) {
+    position: ['DeliveryService', 'PositionService', function (DeliveryService, PositionService) {
+      if (DeliveryService.currentHierarchy() == POSITION) {
         return PositionService.current()
       } else {
         return {};
       }
     }],   
-    operationType: ['PaymentService', function (PaymentService) {
-        return PaymentService.currentType()
+    operationType: ['DeliveryService', function (DeliveryService) {
+        return DeliveryService.currentType()
     }],   
-    // positions: ['PaymentService', 'SpecificationService', 'PositionService', function (PaymentService, SpecificationService, PositionService) {
-    //   if (PaymentService.currentHierarchy() == SPECIFICATION) {
-    //     return PositionService.bySpecification( SpecificationService.current()._id )
-    //       .then(function(data) {
-    //         return data;
-    //       })
-    //   } else {
-    //     return [];
-    //   }
-    // }],   
   }
 };
