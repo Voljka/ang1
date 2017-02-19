@@ -1,10 +1,12 @@
 'use strict';
 var _ = require('lodash');
 
-const AFTER_PAYED_FULLY = "05c16ce0-f21b-11e6-9aad-1b9e7fe7af50";
-const AFTER_PREPAYED = "17366b60-f21b-11e6-9aad-1b9e7fe7af50";
-const SPECIFICATION_SIGNED = "ea4c4fc0-f21a-11e6-9aad-1b9e7fe7af50";
-const FIXED_DATE = "1e1af220-f21b-11e6-9aad-1b9e7fe7af50";
+// const AFTER_PAYED_FULLY = "05c16ce0-f21b-11e6-9aad-1b9e7fe7af50";
+// const AFTER_PREPAYED = "17366b60-f21b-11e6-9aad-1b9e7fe7af50";
+// const SPECIFICATION_SIGNED = "ea4c4fc0-f21a-11e6-9aad-1b9e7fe7af50";
+// const FIXED_DATE = "1e1af220-f21b-11e6-9aad-1b9e7fe7af50";
+
+import { AFTER_PAYED_FULLY, AFTER_PREPAYED, DELIVERY_AFTER_SPECIFICATION_SIGNED, FIXED_DATE } from '../../../constants/deliveryevents';
 
 import { formattedToSave, formattedToRu, datePlusDays, daysFromToday } from '../../../libs/date';
 import { toSafeString, toUnsafeString } from '../../../libs/strings';
@@ -75,7 +77,7 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList) {
 				}
 
 				break;
-			case SPECIFICATION_SIGNED:
+			case DELIVERY_AFTER_SPECIFICATION_SIGNED:
 			case FIXED_DATE:
 
 				base_date = new Date(o.specification.signed_at.substr(0,10));

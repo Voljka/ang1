@@ -4,10 +4,10 @@ var router = express.Router();
 var DeliveryLetter = require('../../models/deliveryLetter');
 var changeRecord = require('../../models/common').changeRecord;
 
-router.get('/', function(req, res) {
+router.get('/optype/:type', function(req, res) {
 	console.log('request for deliveryLetters list');
 
-	return DeliveryLetter.find({}, function(err, deliveryLetters) {
+	return DeliveryLetter.find({operation_type: req.params.type}, function(err, deliveryLetters) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
@@ -15,10 +15,10 @@ router.get('/', function(req, res) {
 	}) 
 });
 
-router.get('/:id', function(req, res) {
-	console.log('request for specified deliveryLetter info');
+router.get('/position/:id/optype/:type', function(req, res) {
+	console.log('request for deliveryLetter by position and operationType');
 
-	return DeliveryLetter.findOne({_id: req.params.id }, function(err, deliveryLetter) {
+	return DeliveryLetter.findOne({position: req.params.id, operation_type: req.params.type}, function(err, deliveryLetter) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
@@ -36,6 +36,7 @@ router.post('/', function(req, res) {
 	var newDeliveryLetter = new DeliveryLetter({
 		position: req.body.position,
 		send_at: req.body.send_at,
+		operation_type: req.body.operation_type,
 	});
 
 	return newDeliveryLetter.save( function(err, savedDeliveryLetter) {

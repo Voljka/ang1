@@ -165,6 +165,7 @@
 				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goMediators()">Mediators</button>
 				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goPayments()">Payments</button>
 				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goDeliveries()">Deliveries</button>
+				<button class="btn btn-default" ng-if="current && !current.new && !editingMode && dependOnLetter" ng-click="goLetters()">Letters</button>
 			</div>
 		</div>
 	</div>	

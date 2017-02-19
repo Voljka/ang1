@@ -5,6 +5,7 @@ var autopopulate = require('mongoose-autopopulate');
 
 var Schema = mongoose.Schema;
 var Position = require('./position');
+var OperationType = require('./operationType');
 
 var DeliveryLetter = new Schema({
 	_id: { 
@@ -19,6 +20,13 @@ var DeliveryLetter = new Schema({
 		}
 	},
 	send_at: Date,
+	operation_type: {
+		ref: 'OperationType',
+		type: String,
+		autopopulate: {
+			select: '_id name code'
+		}
+	}
 });
 
 DeliveryLetter.plugin(autopopulate);

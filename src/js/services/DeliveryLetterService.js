@@ -2,13 +2,25 @@
 
 var API_SERVER = 'http://localhost:8080/api/v1';
 
-var current;
+var current, 
+    operationType;
 
 function Service($http) {
 
   function all() {
     return $http
-      .get(API_SERVER + '/deliveryletters', { cache: false })
+      .get(API_SERVER + '/deliveryletters/optype/'+operationType, { cache: false })
+      .then(function (data) {
+        return data.data;
+      })
+      .catch(function () {
+        return undefined;
+      });
+  }
+
+  function byPositionId(posId){
+    return $http
+      .get(API_SERVER + '/deliveryletters/position/'+posId +'/optype/'+operationType, { cache: false })
       .then(function (data) {
         return data.data;
       })
@@ -58,13 +70,24 @@ function Service($http) {
     current = letter;
   }
 
+  function setType(type) {
+    operationType = type;
+  }
+
+  function currentType() {
+    return operationType;
+  }
+
   return {
     all        : all,
     current    : current,
     select     : select,
     add        : add,
     update     : update,
-    remove     : remove,    
+    remove     : remove,
+    setType    : setType,
+    currentType : currentType,
+    byPositionId : byPositionId,
   };
 }
 

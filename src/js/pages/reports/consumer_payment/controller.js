@@ -1,13 +1,14 @@
 'use strict';
 var _ = require('lodash');
 
-const DELIVERED = "b6918e10-f21b-11e6-9aad-1b9e7fe7af50";
-const DELIVERY_READY_LETTER = "d0661a90-f21b-11e6-9aad-1b9e7fe7af50";
-const SPECIFICATION_SIGNED = "9f7088d0-f21b-11e6-9aad-1b9e7fe7af50";
+// const DELIVERED = "b6918e10-f21b-11e6-9aad-1b9e7fe7af50";
+// const DELIVERY_READY_LETTER = "d0661a90-f21b-11e6-9aad-1b9e7fe7af50";
+// const SPECIFICATION_SIGNED = "9f7088d0-f21b-11e6-9aad-1b9e7fe7af50";
 
 import { formattedToSave, formattedToRu, datePlusDays, daysFromToday } from '../../../libs/date';
 import { toSafeString, toUnsafeString } from '../../../libs/strings';
 import { numberSplitted } from '../../../libs/number';
+import { DELIVERED, DELIVERY_READY_LETTER, PAYMENT_AFTER_SPECIFICATION_SIGNED } from '../../../constants/paymentevents';
 
 function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterList) {
 
@@ -149,7 +150,7 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 				}
 				break;
 
-			case SPECIFICATION_SIGNED:
+			case PAYMENT_AFTER_SPECIFICATION_SIGNED:
 
 				base_date = new Date(specSignedAt.substr(0,10));
 				payment_date = datePlusDays(days, base_date);

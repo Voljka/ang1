@@ -4,6 +4,8 @@ import { formattedToSave, formattedToRu } from '../../libs/date';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 import { numberSplitted } from '../../libs/number';
 
+import { DELIVERY_READY_LETTER } from '../../constants/paymentevents';
+
 function PositionCtrl($scope, $state, positionList, unitList, productList, deliveryEventList, paymentEventList, specification, Flash, SpecificationService, ProductService, PositionService) {
 
 	$scope.units = unitList;
@@ -17,6 +19,8 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 	$scope.current = undefined;
 
 	$scope.showNewProductWindow = false;
+
+	$scope.dependOnLetter = false;
 
 	productList.map(function(o) {
 		o.name = toUnsafeString(o.name);
@@ -91,6 +95,14 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 						PositionService.select(position);
 						$scope.current = position;
 						c.selected = true;
+
+						if (position.pay_event._id == DELIVERY_READY_LETTER || 
+								(position.pay_close_event && position.pay_close_event._id == DELIVERY_READY_LETTER)) {
+							$scope.dependOnLetter = true;
+
+						} else {
+							$scope.dependOnLetter = false;
+						}
 
 						// change Delivery and Payment Options
 						if (! position.new || (position.new && position.delivery_days)) {
@@ -639,6 +651,10 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 	$scope.goDeliveries = function() {
 		$state.go('deliveries');
+	}
+
+	$scope.goLetters = function() {
+		$state.go('letters');
 	}
 }
 

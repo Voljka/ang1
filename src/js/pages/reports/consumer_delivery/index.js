@@ -2,6 +2,7 @@ var controller = require('./controller');
 var positionService = require('../../../services/PositionService');
 var productService = require('../../../services/ProductService');
 var deliveryService = require('../../../services/DeliveryService');
+var deliveryLetterService = require('../../../services/DeliveryLetterService');
 var paymentService = require('../../../services/PaymentService');
 
 import { WE_CONSUMER } from '../../../constants/operationtypes.js';
@@ -18,9 +19,13 @@ angular.module('deliveryConsumerReportModule', [])
   .factory('PositionService', ['$http', positionService])
   .factory('ProductService', ['$http', productService])
   .factory('DeliveryService', ['$http', deliveryService])
+  .factory('DeliveryLetterService', ['$http', deliveryLetterService])
   .factory('PaymentService', ['$http', paymentService])
   .run(['PaymentService', function(PaymentService){
     PaymentService.setType(WE_CONSUMER);
+  }])
+  .run(['DeliveryLetterService', function(DeliveryLetterService){
+    DeliveryLetterService.setType(WE_CONSUMER);
   }])
   .controller('ConsumerDeliveryReportCtrl', ['$scope', '$state', 'positionList', 'deliveryList', 'paymentList', controller]);
 
