@@ -18,11 +18,11 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 	console.log($scope.deliveryList);
 
 	$scope.card = {
-		deliveryDate: undefined,
-		deliveryQuantity: undefined,
-		deliveredQuantity: undefined,
-		productName: undefined,
-		contractQuantity: undefined,
+		deliveryDate: new Date(),
+		deliveryQuantity: 1,
+		deliveredQuantity: 1,
+		productName: "",
+		contractQuantity: 1,
 	}
 
 	function groupDeliveries(allDeliveries) {

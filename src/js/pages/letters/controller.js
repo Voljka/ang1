@@ -15,7 +15,7 @@ function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 	var isCardForEditing = false;
 
 	$scope.card = {
-		letterDate: undefined,
+		letterDate: new Date(),
 		productName: "",
 	}
 

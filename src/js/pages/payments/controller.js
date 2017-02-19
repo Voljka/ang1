@@ -16,11 +16,11 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 	$scope.paymentList = groupPayments(payments);
 
 	$scope.card = {
-		paymentDate: undefined,
-		paymentAmount: undefined,
-		payedAmount: undefined,
-		productName: undefined,
-		contractAmount: undefined,
+		paymentDate: new Date(),
+		paymentAmount: 1,
+		payedAmount: 1,
+		productName: "",
+		contractAmount: 1,
 	}
 
 	function groupPayments(allPayments) {

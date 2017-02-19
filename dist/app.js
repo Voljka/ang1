@@ -56891,11 +56891,11 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 	console.log($scope.deliveryList);
 
 	$scope.card = {
-		deliveryDate: undefined,
-		deliveryQuantity: undefined,
-		deliveredQuantity: undefined,
-		productName: undefined,
-		contractQuantity: undefined
+		deliveryDate: new Date(),
+		deliveryQuantity: 1,
+		deliveredQuantity: 1,
+		productName: "",
+		contractQuantity: 1
 	};
 
 	function groupDeliveries(allDeliveries) {
@@ -57211,7 +57211,7 @@ function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 	var isCardForEditing = false;
 
 	$scope.card = {
-		letterDate: undefined,
+		letterDate: new Date(),
 		productName: ""
 	};
 
@@ -57356,11 +57356,11 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 	$scope.paymentList = groupPayments(payments);
 
 	$scope.card = {
-		paymentDate: undefined,
-		paymentAmount: undefined,
-		payedAmount: undefined,
-		productName: undefined,
-		contractAmount: undefined
+		paymentDate: new Date(),
+		paymentAmount: 1,
+		payedAmount: 1,
+		productName: "",
+		contractAmount: 1
 	};
 
 	function groupPayments(allPayments) {
