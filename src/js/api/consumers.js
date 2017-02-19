@@ -35,11 +35,12 @@ router.get('/:id/briefs', function(req, res) {
 			return res.status(500).send({ error: 'Error during request'});
 
 		var result = [];
+
 		consumers.forEach(function(o){
 			result.push({
 				name: o.name,
 				is_old: o.is_old,
-				groups: o.group._id,
+				group: o.group._id,
 				country: "461990b0-d286-11e6-b131-e3fb6e4b097e"
 			})
 		})
@@ -74,14 +75,14 @@ router.post('/:id/upload', function(req, res) {
 		arrayOfPromises.push(insertManyConsumers(subArray));
 	}
 
-	return Promise.all(arrayOfPromises)
-		.then( function(result) {
-			console.log('Uploaded');
-			res.send(result);
-		})
-		.catch( function(err) {
-			console.log(err);
-		})
+	// return Promise.all(arrayOfPromises)
+	// 	.then( function(result) {
+	// 		console.log('Uploaded');
+	// 		res.send(result);
+	// 	})
+	// 	.catch( function(err) {
+	// 		console.log(err);
+	// 	})
 });
 
 var insertManyConsumers = function(list){

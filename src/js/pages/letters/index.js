@@ -4,6 +4,7 @@ var letterService = require('../../services/DeliveryLetterService');
 var positionService = require('../../services/PositionService');
 
 import { formattedToSave, formattedToRu } from '../../libs/date';
+import { toUnsafeString } from '../../libs/strings';
 
 angular.module('letterModule', [])
   .config(['$httpProvider', function($httpProvider) {
@@ -11,6 +12,12 @@ angular.module('letterModule', [])
   }])
   .factory('PositionService', ['$http', positionService])
   .factory('DeliveryLetterService', ['$http', letterService])
+  .filter('toUnsafe', function(){
+    return function(str){
+      return toUnsafeString(str)
+    }
+  })
+
 
   .filter('formatRu', function(){
     return function(datetime){

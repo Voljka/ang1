@@ -31,11 +31,11 @@
 					</thead>
 					<tbody>
 						<tr ng-show="letter" ng-click="select()" ng-class="letter.selected ? 'item-selected' : ''">
-							<td> {{ letter.send_at | formatRu }}</td>
-							<td> {{ letter.position.specification.contract.consumer.name }}</td>
+							<td> {{ letter ? (letter.send_at | formatRu) : ''}}</td>
+							<td> {{ letter.position.specification.contract.consumer.name | toUnsafe}}</td>
 							<td> {{ letter.position.specification.contract.number }}</td>
 							<td> {{ letter.position.specification.number }}</td>
-							<td> {{ letter.position.product.name }}</td>
+							<td> {{ letter.position.product.name | toUnsafe}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -61,7 +61,7 @@
 					<div class="col-md-12">
 						<div class="input-group">
 							<span class="input-group-addon">Product</span>
-							<span class="form-control">{{card.productName}}</span>
+							<span class="form-control">{{card.productName | toUnsafe}}</span>
 						</div>
 					</div>	
 				</div>

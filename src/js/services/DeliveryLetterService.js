@@ -55,6 +55,7 @@ function Service($http) {
     return $http
       .delete(API_SERVER + '/deliveryletters/' + id)
       .then(function (data) {
+        console.log('Letter Successfully removed');
         return data.data;
       })
       .catch(function () {

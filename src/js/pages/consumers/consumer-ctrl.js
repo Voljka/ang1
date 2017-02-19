@@ -19,7 +19,8 @@ function ConsumerCtrl($scope, $state, ConsumerService) {
 		$scope.consumers = _.map($scope.consumers, function(c) {
 			if (c._id === consumer._id) {
 				// if taken consumer is already selected
-				if (ConsumerService.getCurrent() == consumer) {
+				// if (ConsumerService.getCurrent() == consumer) {
+				if (consumer.selected) {
 					// deselect 
 					ConsumerService.select(undefined);
 					c.selected = false;

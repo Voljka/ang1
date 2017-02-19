@@ -84,7 +84,8 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 			$scope.filteredObjects = _.map($scope.filteredObjects, function(c) {
 				if (c._id === position._id) {
 					// if taken consumer is already selected
-					if (PositionService.current() && PositionService.current()._id == position._id) {
+					// if (PositionService.current() && PositionService.current()._id == position._id) {
+					if (position.selected) {
 						// deselect 
 						$scope.current = undefined;
 						PositionService.select(undefined);
@@ -596,7 +597,7 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 		if ($scope.newProductName.trim().length > 0) {
 			var data = {
-				name: $scope.newProductName,
+				name: toSafeString($scope.newProductName),
 				kved: $scope.newProductKVED,
 				producer: '34b5df30-d2a5-11e6-8eb4-0ffbdcc06897',
 				unit: $scope.newProductUnit

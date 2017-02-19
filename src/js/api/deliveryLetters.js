@@ -22,8 +22,8 @@ router.get('/position/:id/optype/:type', function(req, res) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		if (! deliveryLetter)
-			return res.status(404).send({ error: 'Requested deliveryLetter not found'});
+		// if (! deliveryLetter)
+		// 	return res.status(404).send({ error: 'Requested deliveryLetter not found'});
 
 		res.send(deliveryLetter);
 	}) 
@@ -43,7 +43,13 @@ router.post('/', function(req, res) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		return res.send(savedDeliveryLetter);
+		return DeliveryLetter.findById(savedDeliveryLetter._id, function(err, savedLetter) {
+			if (err) 
+				return res.status(500).send({ error: 'Error during request'});
+
+			return res.send(savedLetter);
+		})
+
 	})
 });
 
@@ -65,20 +71,31 @@ router.put('/:id', function(req, res) {
 
 
 
+// router.delete('/:id', function(req, res) {
+// 	console.log('request for deleting deliveryLetter');
+
+// 	changeRecord(DeliveryLetter, req.params.id, { is_old: true })
+// 		.then( function(data){
+
+// 			if (! data) {
+// 				return res.status(404).send({ error: 'There are no such deliveryLetter'});
+// 			}
+// 			res.send(data);
+// 		})
+// 		.catch( function(err){
+// 			res.status(500).send({error: "Server Error"});
+// 		})
+// });
+
 router.delete('/:id', function(req, res) {
-	console.log('request for deleting deliveryLetter');
+	console.log('request for deleting delivery letter');
 
-	changeRecord(DeliveryLetter, req.params.id, { is_old: true })
-		.then( function(data){
+	return DeliveryLetter.remove({_id: req.params.id}, function(err, deletedLetter){
+			if (err)
+				return res.status(500).send({ error: 'Error during request'});
 
-			if (! data) {
-				return res.status(404).send({ error: 'There are no such deliveryLetter'});
-			}
-			res.send(data);
-		})
-		.catch( function(err){
-			res.status(500).send({error: "Server Error"});
-		})
+			return res.send(deletedLetter);
+	})
 });
 
 module.exports = router;

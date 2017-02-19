@@ -37,10 +37,10 @@
 						
 						<tr ng-repeat="payment in specification | getObjArray" ng-class="payment.selected ? 'item-selected' : ''" ng-click="select(payment)">
 							<td> {{ payment.payed_at | formatRu }}</td>
-							<td> {{ payment.position.specification.contract.consumer.name }}</td>
+							<td> {{ payment.position.specification.contract.consumer.name | toUnsafe}}</td>
 							<td> {{ payment.position.specification.contract.number }}</td>
 							<td> {{ payment.position.specification.number }}</td>
-							<td> {{ payment.position.product.name }}</td>
+							<td> {{ payment.position.product.name | toUnsafe }}</td>
 							<td class="digit"> {{ payment.amount | asPrice }}</td>
 						</tr>
 
@@ -83,7 +83,7 @@
 					<div class="col-md-12">
 						<div class="input-group">
 							<span class="input-group-addon">Product</span>
-							<span class="form-control">{{card.productName}}</span>
+							<span class="form-control">{{card.productName | toUnsafe}}</span>
 						</div>
 					</div>	
 				</div>

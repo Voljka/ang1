@@ -5,7 +5,7 @@
 			<div class="col-md-6">
 				<div class="input-group">
 					<span class="input-group-addon">Consumer</span>
-					<span class="form-control">{{currentSpecification.contract.consumer.name}}</span>
+					<span class="form-control">{{currentSpecification.contract.consumer.name | toUnsafe}}</span>
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -200,14 +200,14 @@
 					<tbody>
 						<tr ng-class="position.selected ? 'item-selected' : ''" ng-repeat="position in filteredObjects" ng-click="select(position)">
 							<!-- Commodity -->
-							<td ng-show="! position.editing"> {{ position.product.name }}</td>
+							<td ng-show="! position.editing"> {{ position.product.name | toUnsafe}}</td>
 							<td ng-show="position.editing">
 								<input ng-model="filters.product" type="text" ng-change="filterProduct(position)" placeholder="Product Filter">
 								<br>
 								<div class="input-group product-select">
 									<span class="input-group-addon">Товар: </span>
 									<select class="form-control" ng-model="position.product._id" ng-change="changeCommodity(position)"> 
-										<option ng-repeat="commodity in products" ng-value="commodity._id">{{ commodity.name }}</option>	
+										<option ng-repeat="commodity in products" ng-value="commodity._id">{{ commodity.name | toUnsafe}}</option>	
 									</select>
 								</div>	
 								<button class="btn btn-primary" ng-click="addNonExistingProduct()">Add non-existing product</button>

@@ -24,7 +24,8 @@ function SpecificationCtrl($scope, $state, specificationList, consumer, contract
 		specificationList = _.map(specificationList, function(c) {
 			if (c._id === specification._id) {
 				// if taken consumer is already selected
-				if (SpecificationService.current() && SpecificationService.current()._id == specification._id) {
+				// if (SpecificationService.current() && SpecificationService.current()._id == specification._id) {
+				if (specification.selected) {
 					// deselect 
 					$scope.current = undefined;
 					SpecificationService.select(undefined);

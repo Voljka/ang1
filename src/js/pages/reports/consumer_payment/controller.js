@@ -184,10 +184,15 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 		return result;
 	}
 
+	var sortByConsumer = function(obj){
+		return obj.specification.contract.consumer.name;
+	}
 	$scope.changeViewMode = function() {
+		console.log('changing view');
 		$scope.dangerousMode = ! $scope.dangerousMode;
 
-		var sortOrder = $scope.dangerousMode ? ['days_before_payment', 'specification.contract.consumer.name'] : ['specification.contract.consumer.name', 'days_before_payment']
+		var sortOrder = $scope.dangerousMode ? ['days_before_payment', sortByConsumer] : [sortByConsumer, 'days_before_payment']
+		// var sortOrder = $scope.dangerousMode ? ['days_before_payment', 'specification.contract.consumer.name'] : ['specification.contract.consumer.name', 'days_before_payment']
 
 		$scope.positions = _.sortBy(positionList, sortOrder);
 	}

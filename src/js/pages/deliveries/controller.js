@@ -95,7 +95,8 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 			deliveries = _.map(deliveries, function(c) {
 				if (c._id === delivery._id) {
 					// if taken consumer is already selected
-					if (DeliveryService.current() && DeliveryService.current()._id == delivery._id) {
+					// if (DeliveryService.current() && DeliveryService.current()._id == delivery._id) {
+					if (delivery.selected) {
 						// deselect 
 						$scope.current = undefined;
 						DeliveryService.select(undefined);
@@ -213,6 +214,12 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 	}
 
 	$scope.remove = function() {
+		DeliveryService.remove($scope.current._id)
+			.then(function(deletedDelivery){
+				console.log('Delivery successfully deleted');
+				deliveries = _.reject( deliveries, {_id: $scope.current._id})
+				$scope.deliveryList = groupDeliveries(deliveries);
+			})
 	}
 }
 

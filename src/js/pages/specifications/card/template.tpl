@@ -5,7 +5,7 @@
 			<div class="col-md-6">
 				<div class="input-group">
 					<span class="input-group-addon">Consumer</span>
-					<span class="form-control">{{contract.consumer.name}}</span>
+					<span class="form-control">{{contract.consumer.name | toUnsafe}}</span>
 				</div>
 			</div>
 			<div class="col-md-3">

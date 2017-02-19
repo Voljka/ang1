@@ -1,5 +1,5 @@
 <div class="panel panel-info">
-	<div class="panel-heading">Contract of the &quot;{{ consumer.name }}&quot;</div>	
+	<div class="panel-heading">Contract of the &quot;{{ consumer.name | toUnsafe }}&quot;</div>	
 	<div class="panel panel-body">
 		<div class="row">
 			<div class="col-md-6">

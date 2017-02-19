@@ -15,9 +15,9 @@ const SPECIFICATION = 3;
 const POSITION = 4;
 
 router.get('/optype/:type', function(req, res) {
-	console.log('request for deliverys list');
+	console.log('request for deliveries list');
 
-	return Delivery.find({operation_type: req.params.type}, function(err, deliveries) {
+	return Delivery.find({operation_type: req.params.type, id_old: false}, function(err, deliveries) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
@@ -117,20 +117,31 @@ router.put('/:id', function(req, res) {
 
 
 
+// router.delete('/:id', function(req, res) {
+// 	console.log('request for deleting delivery');
+
+// 	changeRecord(Delivery, req.params.id, { is_old: true })
+// 		.then( function(data){
+
+// 			if (! data) {
+// 				return res.status(404).send({ error: 'There are no such a delivery'});
+// 			}
+// 			res.send(data);
+// 		})
+// 		.catch( function(err){
+// 			res.status(500).send({error: "Server Error"});
+// 		})
+// });
+
 router.delete('/:id', function(req, res) {
 	console.log('request for deleting delivery');
 
-	changeRecord(Delivery, req.params.id, { is_old: true })
-		.then( function(data){
+	return Delivery.remove({_id: req.params.id}, function(err, deletedDelivery){
+			if (err)
+				return res.status(500).send({ error: 'Error during request'});
 
-			if (! data) {
-				return res.status(404).send({ error: 'There are no such a delivery'});
-			}
-			res.send(data);
-		})
-		.catch( function(err){
-			res.status(500).send({error: "Server Error"});
-		})
+			return res.send(deletedDelivery);
+	})
 });
 
 module.exports = router;

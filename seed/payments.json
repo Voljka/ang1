@@ -1,1 +1,6 @@
+{"_id":"364a1130-f47a-11e6-8c6f-71f5b8d21156","position":"0ff51f00-d2a8-11e6-953e-4d3273bc57de","amount":75000,"payed_at":{"$date":"2017-02-02T00:00:00.000Z"},"operation_type":"01056f00-d2ac-11e6-bc06-b7d8a62dfd1e","__v":0}
+{"_id":"644b3210-f5ee-11e6-af0e-83114984d873","position":"477b3fe0-f5ee-11e6-af0e-83114984d873","amount":3000,"payed_at":{"$date":"2017-02-16T00:00:00.000Z"},"operation_type":"01056f00-d2ac-11e6-bc06-b7d8a62dfd1e","__v":0}
+{"_id":"80f7f6c0-f5ec-11e6-af0e-83114984d873","position":"3ffed0d0-f5ec-11e6-af0e-83114984d873","amount":1000,"payed_at":{"$date":"2017-02-16T00:00:00.000Z"},"operation_type":"01056f00-d2ac-11e6-bc06-b7d8a62dfd1e","__v":0}
 {"_id":"8351d6e0-d2ae-11e6-9382-9dd6671dfddd","position":"0ff51f00-d2a8-11e6-953e-4d3273bc57de","amount":4500,"payed_at":{"$date":"2017-01-02T00:00:00.000Z"},"operation_type":"01056f00-d2ac-11e6-bc06-b7d8a62dfd1e","__v":0}
+{"_id":"8b24b130-f5cc-11e6-af0e-83114984d873","position":"3f73f700-f51d-11e6-a9dc-d94636fe3686","amount":1000,"payed_at":{"$date":"2017-02-18T00:00:00.000Z"},"operation_type":"01056f00-d2ac-11e6-bc06-b7d8a62dfd1e","__v":0}
+{"_id":"f459a9f0-f5ed-11e6-af0e-83114984d873","position":"cd2c36e0-f5ed-11e6-af0e-83114984d873","amount":7000,"payed_at":{"$date":"2017-02-16T00:00:00.000Z"},"operation_type":"01056f00-d2ac-11e6-bc06-b7d8a62dfd1e","__v":0}

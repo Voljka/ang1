@@ -110,10 +110,14 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList) {
 		return o;
 	})
 
+	var sortByConsumer = function(obj){
+		return obj.specification.contract.consumer.name;
+	}
+
 	$scope.changeViewMode = function() {
 		$scope.dangerousMode = ! $scope.dangerousMode;
 
-		var sortOrder = $scope.dangerousMode ? ['days_before_delivery', 'specification.contract.consumer.name'] : ['specification.contract.consumer.name', 'days_before_delivery']
+		var sortOrder = $scope.dangerousMode ? ['days_before_delivery', sortByConsumer] : [sortByConsumer, 'days_before_delivery']
 
 		$scope.positions = _.sortBy(positionList, sortOrder);
 	}

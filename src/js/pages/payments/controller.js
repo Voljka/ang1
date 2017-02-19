@@ -93,7 +93,8 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 			payments = _.map(payments, function(c) {
 				if (c._id === payment._id) {
 					// if taken consumer is already selected
-					if (PaymentService.current() && PaymentService.current()._id == payment._id) {
+					// if (PaymentService.current() && PaymentService.current()._id == payment._id) {
+					if (payment.selected) {
 						// deselect 
 						$scope.current = undefined;
 						PaymentService.select(undefined);
@@ -211,6 +212,13 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 	}
 
 	$scope.remove = function() {
+		PaymentService.remove($scope.current._id)
+			.then(function(deletedPayment){
+				console.log('Payment successfully deleted');
+				console.log(deletedPayment);
+				payments = _.reject( payments, {_id: $scope.current._id});
+				$scope.paymentList = groupPayments(payments);
+			})
 	}
 }
 

@@ -7,7 +7,7 @@
 			</div>
 
 			<div class="col-md-7">
-				<button class="btn btn-default" ng-clikc="changeViewMode()">
+				<button class="btn btn-default" ng-click="changeViewMode()">
 					{{ dangerousMode ? "Sort by Consumers" : "Sort by Urgenity"}}
 				</button>
 			</div>
@@ -32,14 +32,14 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="position in positions">
-						<td>{{position.product.name}}</td>						
+						<td>{{position.product.name | toUnsafe}}</td>						
 						<td>{{position.quantity}}</td>						
-						<td>{{position.price}}</td>						
-						<td>{{position.quantity * position.price * 1.2}}</td>						
-						<td>{{position.payed_amount}}</td>						
-						<td>{{position.quantity * position.price * 1.2 - position.payed_amount}}</td>
+						<td class="digit">{{position.price | asPrice}}</td>						
+						<td class="digit">{{(position.quantity * position.price * 1.2) | asPrice}}</td>						
+						<td class="digit">{{position.payed_amount | asPrice}}</td>						
+						<td class="digit">{{(position.quantity * position.price * 1.2 - position.payed_amount) | asPrice}}</td>
 						<td ng-class="position.paymentView.danger"><pre>{{position.paymentView.view}}</pre></td>
-						<td>{{position.specification.contract.consumer.name}}</td>	
+						<td>{{position.specification.contract.consumer.name | toUnsafe}}</td>	
 						<td>{{position.specification.contract.number}}</td>						
 						<td>{{position.specification.number}}</td>						
 					</tr>

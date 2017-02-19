@@ -13,6 +13,7 @@ require('angular-flash-alert');
 
 import { POSITION } from '../../constants/hierarchy.js';
 import { WE_CONSUMER } from '../../constants/operationtypes.js';
+import { toUnsafeString } from '../../libs/strings';
 
 angular.module('positionModule', ['ngFlash'])
   .config(['$httpProvider', function($httpProvider) {
@@ -31,6 +32,12 @@ angular.module('positionModule', ['ngFlash'])
   .factory('DeliveryLetterService', ['$http', deliveryLetterService])
   .factory('SpecificationService', ['$http', specificationService])
   .factory('DeliveryService', ['$http', deliveryService])
+  .filter('toUnsafe', function(){
+    return function(str){
+      return toUnsafeString(str)
+    }
+  })
+
   // .run(['PaymentService', function(PaymentService){
   //   PaymentService.setType(WE_CONSUMER);
   //   PaymentService.setHierarchy(POSITION);

@@ -7,6 +7,7 @@ var deliveryService = require('../../services/DeliveryService');
 
 import { CONTRACT } from '../../constants/hierarchy.js';
 import { WE_CONSUMER } from '../../constants/operationtypes.js';
+import { toUnsafeString } from '../../libs/strings';
 
 angular.module('contractModule', [])
   .config(['$httpProvider', function($httpProvider) {
@@ -16,6 +17,12 @@ angular.module('contractModule', [])
   .factory('ContractService', ['$http', contractService])
   .factory('PaymentService', ['$http', paymentService])
   .factory('DeliveryService', ['$http', deliveryService])
+  .filter('toUnsafe', function(){
+    return function(str){
+      return toUnsafeString(str)
+    }
+  })
+
   // .run(['PaymentService', function(PaymentService){
   //   PaymentService.setType(WE_CONSUMER);
   //   PaymentService.setHierarchy(CONTRACT);

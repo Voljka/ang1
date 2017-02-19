@@ -10,7 +10,7 @@
 <!-- 	<button class="btn btn-default" ng-if="current" ng-cilck="goSpecifications()">Specifications</button> -->
 </div>
 
-<h1>{{currentConsumer.name}}</h1>
+<h1>{{currentConsumer.name | toUnsafe }}</h1>
 
 <div class="page-content">
 	<table class="table table-bordered">

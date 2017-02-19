@@ -5,6 +5,9 @@ import { toSafeString, toUnsafeString } from '../../libs/strings';
 
 function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 
+	if (_.isEmpty( letter ))
+		letter = undefined;
+
 	$scope.showLetterCard = false;
 
 	$scope.letter = letter;
@@ -57,6 +60,7 @@ function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 					console.log(newLetter);
 
 					letter = newLetter;
+					$scope.letter = letter
 				})
 		} else {
 			LetterService.update(letter._id, data)
@@ -65,6 +69,7 @@ function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 					console.log(editedLetter);
 
 					letter.send_at = editedLetter.send_at;
+					$scope.letter = letter
 				})
 		}
 
@@ -76,6 +81,11 @@ function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 	}
 
 	$scope.remove = function() {
+		LetterService.remove(letter._id)
+			.then(function(removedLetter){
+				letter = undefined;
+				$scope.letter = letter;
+			})
 	}
 }
 

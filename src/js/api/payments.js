@@ -114,21 +114,31 @@ router.put('/:id', function(req, res) {
 });
 
 
-
 router.delete('/:id', function(req, res) {
 	console.log('request for deleting payment');
 
-	changeRecord(Payment, req.params.id, { is_old: true })
-		.then( function(data){
+	return Payment.remove({_id: req.params.id}, function(err, deletedPayment){
+			if (err)
+				return res.status(500).send({ error: 'Error during request'});
 
-			if (! data) {
-				return res.status(404).send({ error: 'There are no such a payment'});
-			}
-			res.send(data);
-		})
-		.catch( function(err){
-			res.status(500).send({error: "Server Error"});
-		})
+			return res.send(deletedPayment);
+	})
 });
+
+// router.delete('/:id', function(req, res) {
+// 	console.log('request for deleting payment');
+
+// 	changeRecord(Payment, req.params.id, { is_old: true })
+// 		.then( function(data){
+
+// 			if (! data) {
+// 				return res.status(404).send({ error: 'There are no such a payment'});
+// 			}
+// 			res.send(data);
+// 		})
+// 		.catch( function(err){
+// 			res.status(500).send({error: "Server Error"});
+// 		})
+// });
 
 module.exports = router;

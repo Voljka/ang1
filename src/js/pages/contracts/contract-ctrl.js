@@ -19,7 +19,8 @@ function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
 		contractList = _.map(contractList, function(c) {
 			if (c._id === contract._id) {
 				// if taken consumer is already selected
-				if (ContractService.current() && ContractService.current()._id == contract._id) {
+				// if (ContractService.current() && ContractService.current()._id == contract._id) {
+				if (contract.selected) {
 					// deselect 
 					$scope.current = undefined;
 					ContractService.select(undefined);

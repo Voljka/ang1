@@ -6,7 +6,7 @@
 				<div class="input-group">
 					<span class="input-group-addon">Consumer</span>
 					<!-- <input ng-disabled="true" class="form-control" type="text" ng-model=""> -->
-					<span class="form-control">{{currentContract.consumer.name}}</span>
+					<span class="form-control">{{currentContract.consumer.name | toUnsafe}}</span>
 				</div>
 			</div>
 			<div class="col-md-3">

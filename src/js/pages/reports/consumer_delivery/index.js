@@ -6,6 +6,7 @@ var deliveryLetterService = require('../../../services/DeliveryLetterService');
 var paymentService = require('../../../services/PaymentService');
 
 import { WE_CONSUMER } from '../../../constants/operationtypes.js';
+import { toUnsafeString } from '../../../libs/strings';
 
 // angular.module('positionModule', ['ngFlash'])
 angular.module('deliveryConsumerReportModule', [])
@@ -16,6 +17,12 @@ angular.module('deliveryConsumerReportModule', [])
   //     FlashProvider.setTimeout(5000);
   //     FlashProvider.setShowClose(true);
   // })  
+  .filter('toUnsafe', function(){
+    return function(str){
+      return toUnsafeString(str)
+    }
+  })
+
   .factory('PositionService', ['$http', positionService])
   .factory('ProductService', ['$http', productService])
   .factory('DeliveryService', ['$http', deliveryService])

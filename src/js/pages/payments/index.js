@@ -12,6 +12,7 @@ import { WE_CONSUMER, WE_PROVIDER, WE_MEDIATOR, MEDIATOR_PROVIDER } from '../../
 import { CONSUMER, CONTRACT, SPECIFICATION, POSITION } from '../../constants/hierarchy.js';
 import { formattedToSave, formattedToRu } from '../../libs/date';
 import { numberSplitted } from '../../libs/number';
+import { toUnsafeString } from '../../libs/strings';
 
 angular.module('paymentModule', ['ngFlash'])
   .config(['$httpProvider', function($httpProvider) {
@@ -26,7 +27,11 @@ angular.module('paymentModule', ['ngFlash'])
   .factory('ConsumerService', ['$http', consumerService])
   .factory('PositionService', ['$http', positionService])
   .factory('SpecificationService', ['$http', specificationService])
-
+  .filter('toUnsafe', function(){
+    return function(str){
+      return toUnsafeString(str)
+    }
+  })
   .filter('getObjName', function(){
     return function(obj){
       return Object.keys(obj)[0];
