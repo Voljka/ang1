@@ -56295,7 +56295,7 @@ var app = angular.module('normaApp', ['ui.router', 'ngRoute', 'consumerModule', 
 //     };
 // }])
 
-},{"./js/pages/consumers":22,"./js/pages/consumers/card":19,"./js/pages/contracts":28,"./js/pages/contracts/card":24,"./js/pages/deliveries":30,"./js/pages/directories":32,"./js/pages/letters":34,"./js/pages/mediators":36,"./js/pages/payments":38,"./js/pages/positions":41,"./js/pages/providers":43,"./js/pages/reports/consumer_delivery":45,"./js/pages/reports/consumer_payment":48,"./js/pages/specifications":53,"./js/pages/specifications/card":51,"./js/pages/summaries":56,"angular":7,"angular-route":4,"angular-ui-router":5}],10:[function(require,module,exports){
+},{"./js/pages/consumers":23,"./js/pages/consumers/card":20,"./js/pages/contracts":29,"./js/pages/contracts/card":25,"./js/pages/deliveries":31,"./js/pages/directories":33,"./js/pages/letters":35,"./js/pages/mediators":37,"./js/pages/payments":39,"./js/pages/positions":42,"./js/pages/providers":44,"./js/pages/reports/consumer_delivery":46,"./js/pages/reports/consumer_payment":49,"./js/pages/specifications":54,"./js/pages/specifications/card":52,"./js/pages/summaries":57,"angular":7,"angular-route":4,"angular-ui-router":5}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -56414,6 +56414,17 @@ function toUnsafeString(str) {
 },{}],17:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.getSiteHost = getSiteHost;
+function getSiteHost() {
+	return '/api/v1';
+}
+
+},{}],18:[function(require,module,exports){
+'use strict';
+
 var _strings = require('../../../libs/strings');
 
 var _ = require('lodash');
@@ -56460,10 +56471,10 @@ function ConsumerCardCtrl($scope, $state, ConsumerService, GroupService, current
 
 module.exports = ConsumerCardCtrl;
 
-},{"../../../libs/strings":16,"lodash":8}],18:[function(require,module,exports){
+},{"../../../libs/strings":16,"lodash":8}],19:[function(require,module,exports){
 module.exports = "<h3>Consumer Card</h3><input type=text ng-model=consumerName><select class=select ng-model=consumerGroup ng-init=\"consumerGroup=consumerCurrentGroup\"><option ng-repeat=\"group in groups\" ng-value=group._id>{{ group.name }}</option></select><button class=\"btn btn-primary\" ng-click=saveConsumer()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>Cancel</button>";
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var controller = require('./consumer-card-ctrl');
@@ -56490,7 +56501,7 @@ module.exports = {
   controller: 'ConsumerCardCtrl'
 };
 
-},{"../../../services/ConsumerService":57,"../../../services/GroupService":62,"./consumer-card-ctrl":17,"./consumer-card.tpl":18}],20:[function(require,module,exports){
+},{"../../../services/ConsumerService":58,"../../../services/GroupService":63,"./consumer-card-ctrl":18,"./consumer-card.tpl":19}],21:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../libs/strings');
@@ -56577,10 +56588,10 @@ function ConsumerCtrl($scope, $state, ConsumerService) {
 
 module.exports = ConsumerCtrl;
 
-},{"../../libs/strings":16,"lodash":8}],21:[function(require,module,exports){
+},{"../../libs/strings":16,"lodash":8}],22:[function(require,module,exports){
 module.exports = "<div class=page-filter><input ng-model=consumerFilter type=text ng-change=useConsumerFilter() placeholder=\"Consumer name filter\"><br><button class=\"btn btn-info\" ng-click=addConsumer()>Add</button> <button class=\"btn btn-info\" ng-if=currentConsumer ng-click=editConsumer()>Update</button> <button class=\"btn btn-info\" ng-if=currentConsumer ng-click=deleteConsumer()>Delete</button> <button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goContracts()>Contracts</button> <button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goPayments()>Payments</button> <button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goDeliveries()>Deliveries</button></div><div class=page-content><table class=\"table table-bordered\"><thead><tr><td>Name</td><td>Group</td><td>Country</td></tr></thead><tbody><tr ng-class=\"consumer.selected ? 'item-selected' : ''\" ng-repeat=\"consumer in filteredConsumers\" ng-click=selectConsumer(consumer)><td>{{ consumer.name }}</td><td>{{ consumer.group.name }}</td><td>{{ consumer.country.name }}</td></tr></tbody></table></div>";
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 var _hierarchy = require('../../constants/hierarchy.js');
@@ -56620,7 +56631,7 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../services/ConsumerService":57,"../../services/DeliveryService":61,"../../services/PaymentService":64,"./consumer-ctrl":20,"./consumer.tpl":21}],23:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../services/ConsumerService":58,"../../services/DeliveryService":62,"../../services/PaymentService":65,"./consumer-ctrl":21,"./consumer.tpl":22}],24:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
@@ -56675,7 +56686,7 @@ function ContractCardCtrl($scope, $state, consumer, ContractService) {
 
 module.exports = ContractCardCtrl;
 
-},{"../../../libs/date":14,"../../../libs/strings":16,"lodash":8}],24:[function(require,module,exports){
+},{"../../../libs/date":14,"../../../libs/strings":16,"lodash":8}],25:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
@@ -56700,10 +56711,10 @@ module.exports = {
   controller: 'ContractCardCtrl'
 };
 
-},{"../../../libs/strings":16,"../../../services/ConsumerService":57,"../../../services/ContractService":58,"./controller":23,"./template.tpl":25}],25:[function(require,module,exports){
+},{"../../../libs/strings":16,"../../../services/ConsumerService":58,"../../../services/ContractService":59,"./controller":24,"./template.tpl":26}],26:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Contract of the &quot;{{ consumer.name | toUnsafe }}&quot;</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Contract number</span> <input class=form-control type=text ng-model=contractNumber></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Sign Date</span> <input class=form-control type=date ng-model=signed_at></div></div></div></div></div><div class=\"panel panel-default\"><div class=panel-body><center><button class=\"btn btn-primary\" ng-click=save()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>Отмена</button></center></div></div>";
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -56793,10 +56804,10 @@ function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
 
 module.exports = ContractCtrl;
 
-},{"../../libs/date":14,"lodash":8}],27:[function(require,module,exports){
+},{"../../libs/date":14,"lodash":8}],28:[function(require,module,exports){
 module.exports = "<div class=page-filter><input ng-model=contractFilter type=text ng-change=useContractFilter() placeholder=\"Contract number filter\"><br><button class=\"btn btn-info\" ng-click=add()>Add</button> <button class=\"btn btn-info\" ng-if=current ng-click=edit()>Update</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>Delete</button> <button class=\"btn btn-info\" ng-if=current ng-click=goSpec()>Specs</button> <button class=\"btn btn-info\" ng-if=current ng-click=goPayments()>Payments</button> <button class=\"btn btn-info\" ng-if=current ng-click=goDeliveries()>Deliveries</button></div><h1>{{currentConsumer.name | toUnsafe }}</h1><div class=page-content><table class=\"table table-bordered\"><thead><tr><td>Conntract Number</td><td>Signed at</td></tr></thead><tbody><tr ng-class=\"contract.selected ? 'item-selected' : ''\" ng-repeat=\"contract in filteredContracts\" ng-click=select(contract)><td>{{ contract.number }}</td><td>{{ contract.signed_at_formatted }}</td></tr></tbody></table></div>";
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var _hierarchy = require('../../constants/hierarchy.js');
@@ -56852,7 +56863,7 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/ConsumerService":57,"../../services/ContractService":58,"../../services/DeliveryService":61,"../../services/PaymentService":64,"./contract-ctrl":26,"./contract.tpl":27}],29:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/ConsumerService":58,"../../services/ContractService":59,"../../services/DeliveryService":62,"../../services/PaymentService":65,"./contract-ctrl":27,"./contract.tpl":28}],30:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -57084,7 +57095,7 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 
 module.exports = Ctrl;
 
-},{"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],30:[function(require,module,exports){
+},{"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],31:[function(require,module,exports){
 'use strict';
 
 var _operationtypes = require('../../constants/operationtypes.js');
@@ -57173,13 +57184,13 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"../../services/ConsumerService":57,"../../services/ContractService":58,"../../services/DeliveryService":61,"../../services/PositionService":65,"../../services/SpecificationService":67,"./controller":29,"./template.tpl":31,"angular-flash-alert":2}],31:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"../../services/ConsumerService":58,"../../services/ContractService":59,"../../services/DeliveryService":62,"../../services/PositionService":66,"../../services/SpecificationService":68,"./controller":30,"./template.tpl":32,"angular-flash-alert":2}],32:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\" ng-if=\"showControls && ! showDeliveryCard\"><div class=panel-heading>Operations</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-click=add()>Add</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=current ng-click=edit()>Modify</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>Delete</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Delivery List</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>Delivered at</th><th>Consumer</th><th>Contract</th><th>Spec</th><th>Product</th><th>Quantity</th></tr></thead><tbody><tr ng-repeat-start=\"consumer in deliveryList\"></tr><tr ng-repeat-start=\"contract in consumer | getObjArray\"></tr><tr ng-repeat-start=\"specification in contract | getObjArray\"></tr><tr ng-repeat=\"delivery in specification | getObjArray\" ng-class=\"delivery.selected ? 'item-selected' : ''\" ng-click=select(delivery)><td>{{ delivery.delivered_at | formatRu }}</td><td>{{ delivery.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ delivery.position.specification.contract.number }}</td><td>{{ delivery.position.specification.number }}</td><td>{{ delivery.position.product.name | toUnsafe}}</td><td class=digit>{{ delivery.quantity | asPrice }}</td></tr><tr ng-repeat-end class=warning><td colspan=3></td><td colspan=2>{{ specification | getObjName }}</td><td class=digit>{{ sumBy('position.specification.number', specification | getObjName) | asPrice }}</td></tr><tr ng-repeat-end class=active><td colspan=2></td><td colspan=3>{{ contract | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.number', contract | getObjName) | asPrice}}</td></tr><tr ng-repeat-end class=success><td></td><td colspan=4>{{ consumer | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.consumer.name', consumer | getObjName) | asPrice}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showDeliveryCard></div><div class=cover-modal ng-show=showDeliveryCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>Delivery Details</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>Product</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Contract Quantity</span> <span class=form-control>{{card.contractQuantity | asPrice}}</span></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Already Delivered</span> <span class=form-control>{{card.deliveredQuantity | asPrice}}</span></div></div></div></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-4><div class=input-group><span class=input-group-addon>Delivery Date</span> <input class=form-control ng-model=card.deliveryDate type=date></div></div><div class=col-md-4><div class=input-group><span class=input-group-addon>Quantity</span> <input class=form-control ng-model=card.deliveryQuantity type=number></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=saveDelivery()>Save</button> <button class=\"btn btn-primary\" ng-click=backToList()>Cancel</button></div></div></div><br><br><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div></div></div></div></div>";
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 "use strict";
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -57273,7 +57284,7 @@ function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 
 module.exports = Ctrl;
 
-},{"../../libs/date":14,"../../libs/strings":16,"lodash":8}],34:[function(require,module,exports){
+},{"../../libs/date":14,"../../libs/strings":16,"lodash":8}],35:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -57314,12 +57325,12 @@ module.exports = {
     }] }
 };
 
-},{"../../libs/date":14,"../../libs/strings":16,"../../services/DeliveryLetterService":60,"../../services/PositionService":65,"./controller":33,"./template.tpl":35}],35:[function(require,module,exports){
+},{"../../libs/date":14,"../../libs/strings":16,"../../services/DeliveryLetterService":61,"../../services/PositionService":66,"./controller":34,"./template.tpl":36}],36:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Operations</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-if=\"! letter\" ng-click=add()>Add</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=letter.selected ng-click=edit()>Modify</button> <button class=\"btn btn-info\" ng-if=letter.selected ng-click=remove()>Delete</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Delivery Letter</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>Sent at</th><th>Consumer</th><th>Contract</th><th>Spec</th><th>Product</th></tr></thead><tbody><tr ng-show=letter ng-click=select() ng-class=\"letter.selected ? 'item-selected' : ''\"><td>{{ letter ? (letter.send_at | formatRu) : ''}}</td><td>{{ letter.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ letter.position.specification.contract.number }}</td><td>{{ letter.position.specification.number }}</td><td>{{ letter.position.product.name | toUnsafe}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showLetterCard></div><div class=cover-modal ng-show=showLetterCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>Letter Details</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>Product</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-8><div class=input-group><span class=input-group-addon>Letter Date</span> <input class=form-control ng-model=card.letterDate type=date></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=saveLetter()>Save</button> <button class=\"btn btn-primary\" ng-click=backToList()>Cancel</button></div></div></div><br><br></div></div></div></div>";
 
-},{}],36:[function(require,module,exports){
-arguments[4][32][0].apply(exports,arguments)
-},{"dup":32}],37:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
+arguments[4][33][0].apply(exports,arguments)
+},{"dup":33}],38:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -57550,7 +57561,7 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 
 module.exports = Ctrl;
 
-},{"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],38:[function(require,module,exports){
+},{"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],39:[function(require,module,exports){
 'use strict';
 
 var _operationtypes = require('../../constants/operationtypes.js');
@@ -57639,10 +57650,10 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"../../services/ConsumerService":57,"../../services/ContractService":58,"../../services/PaymentService":64,"../../services/PositionService":65,"../../services/SpecificationService":67,"./controller":37,"./template.tpl":39,"angular-flash-alert":2}],39:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"../../services/ConsumerService":58,"../../services/ContractService":59,"../../services/PaymentService":65,"../../services/PositionService":66,"../../services/SpecificationService":68,"./controller":38,"./template.tpl":40,"angular-flash-alert":2}],40:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\" ng-if=\"showControls && ! showPaymentCard\"><div class=panel-heading>Operations</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-click=add()>Add</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=current ng-click=edit()>Modify</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>Delete</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Payment List</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>Payed at</th><th>Consumer</th><th>Contract</th><th>Spec</th><th>Product</th><th>Amount</th></tr></thead><tbody><tr ng-repeat-start=\"consumer in paymentList\"></tr><tr ng-repeat-start=\"contract in consumer | getObjArray\"></tr><tr ng-repeat-start=\"specification in contract | getObjArray\"></tr><tr ng-repeat=\"payment in specification | getObjArray\" ng-class=\"payment.selected ? 'item-selected' : ''\" ng-click=select(payment)><td>{{ payment.payed_at | formatRu }}</td><td>{{ payment.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ payment.position.specification.contract.number }}</td><td>{{ payment.position.specification.number }}</td><td>{{ payment.position.product.name | toUnsafe }}</td><td class=digit>{{ payment.amount | asPrice }}</td></tr><tr ng-repeat-end class=warning><td colspan=3></td><td colspan=2>{{ specification | getObjName }}</td><td class=digit>{{ sumBy('position.specification.number', specification | getObjName) | asPrice }}</td></tr><tr ng-repeat-end class=active><td colspan=2></td><td colspan=3>{{ contract | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.number', contract | getObjName) | asPrice}}</td></tr><tr ng-repeat-end class=success><td></td><td colspan=4>{{ consumer | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.consumer.name', consumer | getObjName) | asPrice}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showPaymentCard></div><div class=cover-modal ng-show=showPaymentCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>Payment Details</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>Product</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Contract Amount</span> <span class=form-control>{{card.contractAmount | asPrice}}</span></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Already Payed</span> <span class=form-control>{{card.payedAmount | asPrice}}</span></div></div></div></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-4><div class=input-group><span class=input-group-addon>Payment Date</span> <input class=form-control ng-model=card.paymentDate type=date></div></div><div class=col-md-4><div class=input-group><span class=input-group-addon>Amount</span> <input class=form-control ng-model=card.paymentAmount type=number></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=savePayment()>Save</button> <button class=\"btn btn-primary\" ng-click=backToList()>Cancel</button></div></div></div><br><br><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div></div></div></div></div>";
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -58280,7 +58291,7 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 module.exports = PositionCtrl;
 
-},{"../../constants/paymentevents":13,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],41:[function(require,module,exports){
+},{"../../constants/paymentevents":13,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],42:[function(require,module,exports){
 'use strict';
 
 var _hierarchy = require('../../constants/hierarchy.js');
@@ -58366,12 +58377,12 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/DeliveryEventService":59,"../../services/DeliveryLetterService":60,"../../services/DeliveryService":61,"../../services/PaymentEventService":63,"../../services/PaymentService":64,"../../services/PositionService":65,"../../services/ProductService":66,"../../services/SpecificationService":67,"../../services/UnitService":68,"./controller":40,"./template.tpl":42,"angular-flash-alert":2}],42:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/DeliveryEventService":60,"../../services/DeliveryLetterService":61,"../../services/DeliveryService":62,"../../services/PaymentEventService":64,"../../services/PaymentService":65,"../../services/PositionService":66,"../../services/ProductService":67,"../../services/SpecificationService":68,"../../services/UnitService":69,"./controller":41,"./template.tpl":43,"angular-flash-alert":2}],43:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Details</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Consumer</span> <span class=form-control>{{currentSpecification.contract.consumer.name | toUnsafe}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Contract number</span> <span class=form-control>{{currentSpecification.contract.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Sign Date</span> <span class=form-control>{{currentSpecification.contract.signed_at_formatted}}</span></div></div></div><div class=row><div class=col-md-6></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Specification number</span> <span class=form-control>{{currentSpecification.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Sign Date</span> <span class=form-control>{{currentSpecification.signed_at_formatted}}</span></div></div></div></div></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-2>Delivery Option</div><div class=col-md-5><button class=\"btn btn-warning\" ng-if=current ng-click=checkDeliveryDetailsAndApply()>Apply</button></div><div class=col-md-5><button class=\"btn btn-warning\" ng-click=checkDeliveryDetailsAndApply(true)>Apply to all</button></div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Delivery days</span> <input class=form-control type=number ng-model=deliveryDays></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Event</span><select class=form-control ng-model=deliveryEvent ng-init=\"deliveryEvent=defaultDeliveryEvent\"><option ng-repeat=\"event_d in deliveryEvents\" ng-value=event_d._id>{{ event_d.name }}</option></select></div></div></div></div></div><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-2>Payment Option</div><div class=col-md-5><button class=\"btn btn-warning\" ng-if=current ng-click=checkPaymentDetailsAndApply()>Apply</button></div><div class=col-md-5><button class=\"btn btn-warning\" ng-click=checkPaymentDetailsAndApply(true)>Apply to all</button></div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-3><div class=input-group><span class=input-group-addon>Initial Payment days</span> <input class=form-control type=number ng-model=paymentStartDays></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Pre-payment, %</span> <input class=form-control type=number min=1 ng-model=prepaymentPercent></div></div><div class=col-md-3></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Close Payment days</span> <input class=form-control type=number ng-model=paymentCloseDays></div></div></div><div class=row><div class=col-md-3><div class=input-group><span class=input-group-addon>Initial Event</span><select class=form-control ng-model=paymentEvent1 ng-init=\"paymentEvent1=defaultPaymentStartEvent\"><option ng-repeat=\"event_p in paymentEvents\" ng-value=event_p._id>{{ event_p.name }}</option></select></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Pre-payment, UAH</span> <input class=form-control type=number min=1 ng-model=prepaymentAmount></div></div><div class=col-md-3></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Close Event</span><select class=form-control ng-model=paymentEvent2 ng-init=\"paymentEvent2=defaultPaymentCloseEvent\"><option ng-repeat=\"event_p in paymentEvents\" ng-value=event_p._id>{{ event_p.name }}</option></select></div></div></div></div></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-2>Position List</div><div class=col-md-2><button class=\"btn btn-default\" ng-show=\"! editingMode\" ng-click=saveSpecification()>Save Specification</button></div><div class=col-md-3><button class=\"btn btn-default\" ng-show=\"! editingMode\" ng-click=add()>Add</button> <button class=\"btn btn-default\" ng-if=\"current && !editingMode\" ng-click=edit()>Modify</button> <button class=\"btn btn-default\" ng-if=\"current && !editingMode\" ng-click=removePosition()>Remove</button></div><div class=col-md-5><button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goProviders()>Providers</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goMediators()>Mediators</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goPayments()>Payments</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goDeliveries()>Deliveries</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode && dependOnLetter\" ng-click=goLetters()>Letters</button></div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered\"><thead><tr><td width=270>Commodity</td><td>Quantity</td><td width=100>Price</td><td width=110>Amount</td><td>Delivery details</td><td>Payment details</td></tr></thead><tfoot><tr><td class=total colspan=3>SUM</td><td class=\"digit total\">{{ splitted(sumNoVAT) }}</td></tr><tr><td class=total colspan=3>VAT</td><td class=\"digit total\">{{ splitted( vat ) }}</td></tr><tr><td class=total colspan=3>TOTAL, VAT included</td><td class=\"digit total\">{{ splitted(total) }}</td></tr></tfoot><tbody><tr ng-class=\"position.selected ? 'item-selected' : ''\" ng-repeat=\"position in filteredObjects\" ng-click=select(position)><td ng-show=\"! position.editing\">{{ position.product.name | toUnsafe}}</td><td ng-show=position.editing><input ng-model=filters.product type=text ng-change=filterProduct(position) placeholder=\"Product Filter\"><br><div class=\"input-group product-select\"><span class=input-group-addon>Товар:</span><select class=form-control ng-model=position.product._id ng-change=changeCommodity(position)><option ng-repeat=\"commodity in products\" ng-value=commodity._id>{{ commodity.name | toUnsafe}}</option></select></div><button class=\"btn btn-primary\" ng-click=addNonExistingProduct()>Add non-existing product</button></td><td class=digit ng-show=\"! position.editing\">{{ position.quantity }}</td><td ng-show=position.editing><input type=number class=editing-number ng-model=position.quantity min=1 ng-change=recalcTotal()></td><td class=digit ng-show=\"! position.editing\">{{ splitted(position.price) }}</td><td ng-show=position.editing><input type=number class=editing-number ng-model=position.price min=0.01 ng-change=recalcTotal()></td><td class=digit>{{ splitted(position.quantity * position.price) }}</td><td ng-show=\"! position.editing\">{{ makeDeliveryDetails(position) }}</td><td ng-show=position.editing><button class=\"btn btn-primary\" ng-show=\"products.length > 0\" ng-click=savePosition(position)>Save</button></td><td ng-show=\"! position.editing\"><pre>{{ makePaymentDetails(position) }} </pre></td><td ng-show=\"position.editing && ! position.new\"><button class=\"btn btn-primary\" ng-click=restorePosition(position)>Restore</button></td><td ng-show=\"position.editing && position.new\"><button class=\"btn btn-primary\" ng-click=removePosition(position)>Don't Save</button></td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showNewProductWindow></div><div class=cover-modal ng-show=showNewProductWindow><div id=modal-new-product><div class=\"panel panel-info\"><div class=panel-heading>New Product</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>Product Name</span> <input class=form-control ng-model=newProductName></div></div></div><br><div class=row><div class=col-md-3><div class=input-group><span class=input-group-addon>KVED</span> <input class=form-control ng-model=newProductKVED></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Measure Unit</span><select class=form-control ng-model=newProductUnit ng-init=\"newProductUnit=units[0]._id\"><option ng-repeat=\"unit in units\" ng-value=unit._id>{{ unit.name }}</option></select></div></div><div class=col-md-6><center><button class=\"btn btn-primary\" ng-click=addProductToDB()>Add product</button> <button class=\"btn btn-warning\" ng-click=backToSpecification()>Cancel</button></center></div></div></div></div></div></div>";
 
-},{}],43:[function(require,module,exports){
-arguments[4][32][0].apply(exports,arguments)
-},{"dup":32}],44:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
+arguments[4][33][0].apply(exports,arguments)
+},{"dup":33}],45:[function(require,module,exports){
 'use strict';
 
 var _deliveryevents = require('../../../constants/deliveryevents');
@@ -58501,7 +58512,7 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList) {
 
 module.exports = Ctrl;
 
-},{"../../../constants/deliveryevents":10,"../../../libs/date":14,"../../../libs/number":15,"../../../libs/strings":16,"lodash":8}],45:[function(require,module,exports){
+},{"../../../constants/deliveryevents":10,"../../../libs/date":14,"../../../libs/number":15,"../../../libs/strings":16,"lodash":8}],46:[function(require,module,exports){
 'use strict';
 
 var _operationtypes = require('../../../constants/operationtypes.js');
@@ -58555,10 +58566,10 @@ module.exports = {
   }
 };
 
-},{"../../../constants/operationtypes.js":12,"../../../libs/strings":16,"../../../services/DeliveryLetterService":60,"../../../services/DeliveryService":61,"../../../services/PaymentService":64,"../../../services/PositionService":65,"../../../services/ProductService":66,"./controller":44,"./template.tpl":46}],46:[function(require,module,exports){
+},{"../../../constants/operationtypes.js":12,"../../../libs/strings":16,"../../../services/DeliveryLetterService":61,"../../../services/DeliveryService":62,"../../../services/PaymentService":65,"../../../services/PositionService":66,"../../../services/ProductService":67,"./controller":45,"./template.tpl":47}],47:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-5>REPORT : DELIVERIES TO CONSUMERS</div><div class=col-md-7><button class=\"btn btn-default\" ng-click=changeViewMode()>{{ dangerousMode ? \"Sort by Consumers\" : \"Sort by Urgenity\"}}</button></div></div></div><div class=\"panel panel-body\"><div class=row><table class=\"table table-bordered\"><thead><tr><td>Product</td><td>Quantity</td><td>Delivered</td><td>Not<br>delivered<br>yet</td><td>Days<br>before<br>Delivery</td><td>Consumer</td><td>Contract</td><td>Spec</td></tr></thead><tbody><tr ng-repeat=\"position in positions\"><td>{{position.product.name | toUnsafe}}</td><td>{{position.quantity}}</td><td>{{position.delivered_quantity}}</td><td>{{position.quantity - position.delivered_quantity}}</td><td ng-class=position.dangerClass>{{position.days_before_delivery}} {{ position.delivery_period_not_started ? \"(Not Started)\" : \"\"}}</td><td>{{position.specification.contract.consumer.name | toUnsafe}}</td><td>{{position.specification.contract.number}}</td><td>{{position.specification.number}}</td></tr></tbody></table></div></div></div>";
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 var _date2 = require('../../../libs/date');
@@ -58764,7 +58775,7 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 
 module.exports = Ctrl;
 
-},{"../../../constants/paymentevents":13,"../../../libs/date":14,"../../../libs/number":15,"../../../libs/strings":16,"lodash":8}],48:[function(require,module,exports){
+},{"../../../constants/paymentevents":13,"../../../libs/date":14,"../../../libs/number":15,"../../../libs/strings":16,"lodash":8}],49:[function(require,module,exports){
 'use strict';
 
 var _operationtypes = require('../../../constants/operationtypes.js');
@@ -58828,10 +58839,10 @@ module.exports = {
   }
 };
 
-},{"../../../constants/operationtypes.js":12,"../../../libs/number":15,"../../../libs/strings":16,"../../../services/DeliveryLetterService":60,"../../../services/DeliveryService":61,"../../../services/PaymentService":64,"../../../services/PositionService":65,"./controller":47,"./template.tpl":49}],49:[function(require,module,exports){
+},{"../../../constants/operationtypes.js":12,"../../../libs/number":15,"../../../libs/strings":16,"../../../services/DeliveryLetterService":61,"../../../services/DeliveryService":62,"../../../services/PaymentService":65,"../../../services/PositionService":66,"./controller":48,"./template.tpl":50}],50:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-5>REPORT : PAYMENTS FROM CONSUMERS</div><div class=col-md-7><button class=\"btn btn-default\" ng-click=changeViewMode()>{{ dangerousMode ? \"Sort by Consumers\" : \"Sort by Urgenity\"}}</button></div></div></div><div class=\"panel panel-body\"><div class=row><table class=\"table table-bordered\"><thead><tr><td>Product</td><td>Quantity</td><td>Price, noVAT</td><td>Amount, VAT</td><td>Payed</td><td>To Pay</td><td>Days<br>before<br>Payment</td><td>Consumer</td><td>Contract</td><td>Spec</td></tr></thead><tbody><tr ng-repeat=\"position in positions\"><td>{{position.product.name | toUnsafe}}</td><td>{{position.quantity}}</td><td class=digit>{{position.price | asPrice}}</td><td class=digit>{{(position.quantity * position.price * 1.2) | asPrice}}</td><td class=digit>{{position.payed_amount | asPrice}}</td><td class=digit>{{(position.quantity * position.price * 1.2 - position.payed_amount) | asPrice}}</td><td ng-class=position.paymentView.danger><pre>{{position.paymentView.view}}</pre></td><td>{{position.specification.contract.consumer.name | toUnsafe}}</td><td>{{position.specification.contract.number}}</td><td>{{position.specification.number}}</td></tr></tbody></table></div></div></div>";
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
@@ -58888,7 +58899,7 @@ function SpecificationCardCtrl($scope, $state, contract, SpecificationService) {
 
 module.exports = SpecificationCardCtrl;
 
-},{"../../../libs/date":14,"../../../libs/strings":16,"lodash":8}],51:[function(require,module,exports){
+},{"../../../libs/date":14,"../../../libs/strings":16,"lodash":8}],52:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
@@ -58915,10 +58926,10 @@ module.exports = {
   controller: 'SpecificationCardCtrl'
 };
 
-},{"../../../libs/strings":16,"../../../services/ContractService":58,"../../../services/SpecificationService":67,"./controller":50,"./template.tpl":52}],52:[function(require,module,exports){
+},{"../../../libs/strings":16,"../../../services/ContractService":59,"../../../services/SpecificationService":68,"./controller":51,"./template.tpl":53}],53:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Details</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Consumer</span> <span class=form-control>{{contract.consumer.name | toUnsafe}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Contract number</span> <span class=form-control>{{contract.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Sign Date</span> <span class=form-control>{{contract.signed_at_formatted}}</span></div></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Specification Data</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Specification number</span> <input class=form-control type=text ng-model=specificationNumber></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Sign Date</span> <input class=form-control type=date ng-model=signed_at></div></div></div></div></div><div class=\"panel panel-default\"><div class=panel-body><center><button class=\"btn btn-primary\" ng-click=save()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>Отмена</button></center></div></div>";
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 var _hierarchy = require('../../constants/hierarchy.js');
@@ -58977,7 +58988,7 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/ConsumerService":57,"../../services/ContractService":58,"../../services/DeliveryService":61,"../../services/PaymentService":64,"../../services/SpecificationService":67,"./specification-ctrl":54,"./specification.tpl":55}],54:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/ConsumerService":58,"../../services/ContractService":59,"../../services/DeliveryService":62,"../../services/PaymentService":65,"../../services/SpecificationService":68,"./specification-ctrl":55,"./specification.tpl":56}],55:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -59060,15 +59071,19 @@ function SpecificationCtrl($scope, $state, specificationList, consumer, contract
 
 module.exports = SpecificationCtrl;
 
-},{"../../libs/date":14,"../../libs/strings":16,"lodash":8}],55:[function(require,module,exports){
+},{"../../libs/date":14,"../../libs/strings":16,"lodash":8}],56:[function(require,module,exports){
 module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Details</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Consumer</span> <span class=form-control>{{currentContract.consumer.name | toUnsafe}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Contract number</span> <span class=form-control>{{currentContract.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Sign Date</span> <span class=form-control>{{currentContract.signed_at_formatted}}</span></div></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Operations</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><button class=\"btn btn-info\" ng-click=add()>Add</button> <button class=\"btn btn-info\" ng-if=current ng-click=edit()>Update</button></div><div class=col-md-6><button class=\"btn btn-info\" ng-if=current ng-click=goPos()>Pos</button> <button class=\"btn btn-info\" ng-if=current ng-click=goPayments()>Payments</button> <button class=\"btn btn-info\" ng-if=current ng-click=goDeliveries()>Deliveries</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Specification List</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered\"><thead><tr><td>Specification Number</td><td>Signed at</td></tr></thead><tbody><tr ng-class=\"specification.selected ? 'item-selected' : ''\" ng-repeat=\"specification in filteredObjects\" ng-click=select(specification)><td>{{ specification.number }}</td><td>{{ specification.signed_at_formatted }}</td></tr></tbody></table></div></div></div></div>";
 
-},{}],56:[function(require,module,exports){
-arguments[4][32][0].apply(exports,arguments)
-},{"dup":32}],57:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
+arguments[4][33][0].apply(exports,arguments)
+},{"dup":33}],58:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 var currentConsumer;
 
@@ -59141,10 +59156,14 @@ function ConsumerService($http) {
 
 module.exports = ConsumerService;
 
-},{}],58:[function(require,module,exports){
+},{"../libs/url":17}],59:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 var currentContract;
 
@@ -59211,10 +59230,14 @@ function ContractService($http) {
 
 module.exports = ContractService;
 
-},{}],59:[function(require,module,exports){
+},{"../libs/url":17}],60:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 function Service($http) {
 
@@ -59233,10 +59256,14 @@ function Service($http) {
 
 module.exports = Service;
 
-},{}],60:[function(require,module,exports){
+},{"../libs/url":17}],61:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 var current, operationType;
 
@@ -59314,12 +59341,16 @@ function Service($http) {
 
 module.exports = Service;
 
-},{}],61:[function(require,module,exports){
+},{"../libs/url":17}],62:[function(require,module,exports){
 'use strict';
 
 // import { WE_CONSUMER, WE_PROVIDER, WE_MEDIATOR, MEDIATOR_PROVIDER } from '../constants/operationtypes.js';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 var current, operationType, hierarchy;
 
@@ -59407,10 +59438,14 @@ function Service($http) {
 
 module.exports = Service;
 
-},{}],62:[function(require,module,exports){
+},{"../libs/url":17}],63:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 function GroupService($http) {
 
@@ -59429,10 +59464,14 @@ function GroupService($http) {
 
 module.exports = GroupService;
 
-},{}],63:[function(require,module,exports){
+},{"../libs/url":17}],64:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 function Service($http) {
 
@@ -59451,10 +59490,14 @@ function Service($http) {
 
 module.exports = Service;
 
-},{}],64:[function(require,module,exports){
+},{"../libs/url":17}],65:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 var current, operationType, hierarchy;
 
@@ -59542,10 +59585,14 @@ function Service($http) {
 
 module.exports = Service;
 
-},{}],65:[function(require,module,exports){
+},{"../libs/url":17}],66:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
+
+// var API_SERVER = 'http://localhost:8080/api/v1';
 
 var currentPosition;
 
@@ -59630,10 +59677,14 @@ function PositionService($http) {
 
 module.exports = PositionService;
 
-},{}],66:[function(require,module,exports){
+},{"../libs/url":17}],67:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 var currentProduct;
 
@@ -59693,10 +59744,14 @@ function ProductService($http) {
 
 module.exports = ProductService;
 
-},{}],67:[function(require,module,exports){
+},{"../libs/url":17}],68:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 var currentSpecification;
 
@@ -59772,10 +59827,14 @@ function SpecificationService($http) {
 
 module.exports = SpecificationService;
 
-},{}],68:[function(require,module,exports){
+},{"../libs/url":17}],69:[function(require,module,exports){
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
 
 function Service($http) {
 
@@ -59794,6 +59853,6 @@ function Service($http) {
 
 module.exports = Service;
 
-},{}]},{},[9])
+},{"../libs/url":17}]},{},[9])
 
 //# sourceMappingURL=app.js.map

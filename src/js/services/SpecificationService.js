@@ -1,6 +1,8 @@
 'use strict';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+import { getSiteHost } from '../libs/url';
+var API_SERVER = getSiteHost();
 
 var currentSpecification;
 

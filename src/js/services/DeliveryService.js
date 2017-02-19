@@ -2,7 +2,9 @@
 
 // import { WE_CONSUMER, WE_PROVIDER, WE_MEDIATOR, MEDIATOR_PROVIDER } from '../constants/operationtypes.js';
 
-var API_SERVER = 'http://localhost:8080/api/v1';
+// var API_SERVER = 'http://localhost:8080/api/v1';
+import { getSiteHost } from '../libs/url';
+var API_SERVER = getSiteHost();
 
 var current,
     operationType,
