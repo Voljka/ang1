@@ -56122,25 +56122,28 @@ var deliveriesTemplate = require('./js/pages/deliveries');
 
 var lettersTemplate = require('./js/pages/letters');
 
+var applicationsTemplate = require('./js/pages/applications');
+
 var providersTemplate = require('./js/pages/providers');
 var mediatorsTemplate = require('./js/pages/mediators');
 var summariesTemplate = require('./js/pages/summaries');
 var directoriesTemplate = require('./js/pages/directories');
 
-var app = angular.module('normaApp', ['ui.router', 'ngRoute', 'consumerModule', 'consumerCardModule', 'contractModule', 'contractCardModule', 'specificationModule', 'specificationCardModule', 'positionModule', 'deliveryConsumerReportModule', 'paymentConsumerReportModule', 'paymentModule', 'deliveryModule', 'letterModule']).controller('MainCtrl', function ($scope) {
+var app = angular.module('normaApp', ['ui.router', 'ngRoute', 'consumerModule', 'consumerCardModule', 'contractModule', 'contractCardModule', 'specificationModule', 'specificationCardModule', 'positionModule', 'deliveryConsumerReportModule', 'paymentConsumerReportModule', 'paymentModule', 'deliveryModule', 'letterModule', 'applicationModule']).controller('MainCtrl', function ($scope) {
 	$scope.temporal_variable = 'Ok';
 }).config(function ($stateProvider, $urlRouterProvider) {
 
-	$urlRouterProvider.otherwise('/home');
+	$urlRouterProvider.otherwise('/consumers');
 
-	$stateProvider.state('home', {
-		url: '/home',
-		views: {
-			'content': {
-				template: "<h3>Home</h3>"
-			}
-		}
-	})
+	$stateProvider
+	// .state('home', {
+	//     url: '/home',
+	//     views: {
+	//     	'content': {
+	//     		template: "<h3>Home</h3>"
+	//     	}
+	//     }
+	// })
 
 	// Consumers
 	.state('consumers', {
@@ -56239,6 +56242,14 @@ var app = angular.module('normaApp', ['ui.router', 'ngRoute', 'consumerModule', 
 		views: {
 			'content': lettersTemplate
 		}
+	})
+
+	// Applications
+	.state('applications', {
+		url: '/applications',
+		views: {
+			'content': applicationsTemplate
+		}
 	}).state('providers', {
 		url: '/providers',
 		views: {
@@ -56249,26 +56260,28 @@ var app = angular.module('normaApp', ['ui.router', 'ngRoute', 'consumerModule', 
 		views: {
 			'content': mediatorsTemplate
 		}
-	}).state('summaries', {
-		url: '/summaries',
-		views: {
-			'content': summariesTemplate
-		}
-	}).state('directories', {
+	})
+	// .state('summaries', {
+	//     url: '/summaries',
+	//     views: {
+	//     	'content': summariesTemplate
+	//     }
+	// })
+	.state('directories', {
 		url: '/directories',
 		views: {
 			'content': directoriesTemplate
 		}
-	})
-	// ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
-	.state('about', {
-		url: '/about',
-		views: {
-			'content': {
-				template: "This is the coolest app!"
-			}
-		}
 	});
+	// ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
+	// .state('about', {
+	//     url: '/about',
+	//     views: {
+	//     	'content':  {
+	//     		template:"This is the coolest app!" 
+	//     	}
+	//     }
+	// });     
 });
 
 // app.directive('sglclick', ['$parse', function($parse) {
@@ -56295,7 +56308,7 @@ var app = angular.module('normaApp', ['ui.router', 'ngRoute', 'consumerModule', 
 //     };
 // }])
 
-},{"./js/pages/consumers":23,"./js/pages/consumers/card":20,"./js/pages/contracts":29,"./js/pages/contracts/card":25,"./js/pages/deliveries":31,"./js/pages/directories":33,"./js/pages/letters":35,"./js/pages/mediators":37,"./js/pages/payments":39,"./js/pages/positions":42,"./js/pages/providers":44,"./js/pages/reports/consumer_delivery":46,"./js/pages/reports/consumer_payment":49,"./js/pages/specifications":54,"./js/pages/specifications/card":52,"./js/pages/summaries":57,"angular":7,"angular-route":4,"angular-ui-router":5}],10:[function(require,module,exports){
+},{"./js/pages/applications":20,"./js/pages/consumers":27,"./js/pages/consumers/card":24,"./js/pages/contracts":33,"./js/pages/contracts/card":29,"./js/pages/deliveries":35,"./js/pages/directories":37,"./js/pages/letters":39,"./js/pages/mediators":41,"./js/pages/payments":43,"./js/pages/positions":46,"./js/pages/providers":48,"./js/pages/reports/consumer_delivery":50,"./js/pages/reports/consumer_payment":53,"./js/pages/specifications":58,"./js/pages/specifications/card":56,"./js/pages/summaries":61,"angular":7,"angular-route":4,"angular-ui-router":5}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -56304,7 +56317,8 @@ Object.defineProperty(exports, "__esModule", {
 var AFTER_PAYED_FULLY = exports.AFTER_PAYED_FULLY = "05c16ce0-f21b-11e6-9aad-1b9e7fe7af50";
 var AFTER_PREPAYED = exports.AFTER_PREPAYED = "17366b60-f21b-11e6-9aad-1b9e7fe7af50";
 var DELIVERY_AFTER_SPECIFICATION_SIGNED = exports.DELIVERY_AFTER_SPECIFICATION_SIGNED = "ea4c4fc0-f21a-11e6-9aad-1b9e7fe7af50";
-var FIXED_DATE = exports.FIXED_DATE = "1e1af220-f21b-11e6-9aad-1b9e7fe7af50";
+var APPLICATION_SENT = exports.APPLICATION_SENT = "1e1af220-f21b-11e6-9aad-1b9e7fe7af50";
+var DELIVERY_EVENT_NOT_SPECIFIED = exports.DELIVERY_EVENT_NOT_SPECIFIED = "adf02600-f224-11e6-9aad-1b9e7fe7af50";
 
 },{}],11:[function(require,module,exports){
 "use strict";
@@ -56337,8 +56351,129 @@ Object.defineProperty(exports, "__esModule", {
 var DELIVERED = exports.DELIVERED = "b6918e10-f21b-11e6-9aad-1b9e7fe7af50";
 var DELIVERY_READY_LETTER = exports.DELIVERY_READY_LETTER = "d0661a90-f21b-11e6-9aad-1b9e7fe7af50";
 var PAYMENT_AFTER_SPECIFICATION_SIGNED = exports.PAYMENT_AFTER_SPECIFICATION_SIGNED = "9f7088d0-f21b-11e6-9aad-1b9e7fe7af50";
+var PAYMENT_EVENT_NOT_SPECIFIED = exports.PAYMENT_EVENT_NOT_SPECIFIED = "a855ab70-f224-11e6-9aad-1b9e7fe7af50";
 
 },{}],14:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var dict = exports.dict = {
+	"cancel": "Отмена",
+	"save_caption": "Сохранить",
+	"add": "Добавить",
+	"modify": "Изменить",
+	"consumers": "Заказчики",
+	"providers": "Поставщики",
+	"mediators": "Посредники",
+	"remove": "Удалить",
+	"directories": "Справочники",
+	"consumer_delivery_report": "Поставки Заказчикам",
+	"consumer_payment_report": "Платежи Заказчиков",
+	"consumer_name_filter": "Фильтр по именам",
+	"contract_number_filter": "Фильтр по номеру",
+	"name": "Название",
+	"group": "Группа",
+	"country": "Страна",
+	"payments": "Платежи",
+	"deliveries": "Доставки",
+	"contracts": "Контракты",
+	"update": "Обновить",
+	"consumer_card": "Карточка Заказчика",
+	"contract_number": "№ контракта",
+	"signed_at": "Дата подписания",
+	"specifications": "Спецификации",
+	"contract_of": "Контракт Заказчика ",
+	"details": "Детали",
+	"consumer": "Заказчик",
+	"operations": "Операции",
+	"specification_list": "Список спецификаций",
+	"specification_number": "№ спецификации",
+	"positions": "Позиции",
+	"event_caption": "Событие",
+	"initial_event": "Событие начальной оплаты",
+	"initial_payment_days": "Дней спустя событие",
+	"close_event": "Событие платежа-закрытия",
+	"close_payment_days": "Дней спустя событие",
+	"prepayment_percent": "Предоплата, %",
+	"prepayment_amount": "Предоплата, грн",
+	"position_list": "Список позиций",
+	"commodity": "Товар",
+	"quantity": "Кол-во",
+	"price": "Цена",
+	"amount": "Стоимость",
+	"delivery_details": "Условия поставки",
+	"payment_details": "Условия оплаты",
+	"after": "после",
+	"day_s": "дней",
+	"summa": "ВСЕГО",
+	"vat": "НДС",
+	"total_vat": "ИТОГО, в т.ч. НДС",
+	"product_filter": "Фильтр по названию",
+	"add_non_existing_commodity": "Добавить несуществующий продукт",
+	"restore_caption": "Не сохранять изменения",
+	"payment_list": "Список оплат",
+	"payed_at": "Дата оплаты",
+	"product": "Товар",
+	"delivery_list": "Список доставок",
+	"delivery_days": "Дней до\nпоставки",
+	"delivered_at": "Дата поставки",
+	"delivery_letter": "Письмо о готовности поставки",
+	"letters": "Письмо о готовности поставки",
+	"letter_date": "Дата отправки письма",
+	"sort_by_consumers": "Отсортировать по заказчикам",
+	"sort_by_urgency": "Отсортировать по срочности",
+	"delivered": "Поставлено",
+	"residual_delivery": "Осталось поставить",
+	"days_to_delivery": "Дней\nдо\nпоставки",
+	"days_to_payment": "Дней\nдо\nоплаты",
+	"payed": "Оплачено",
+	"residual_payment": "Остаток\nк оплате",
+	"price_no_vat": "Цена,\nбез НДС",
+	"amount_vat": "Стоимость,\nс НДС",
+	"apply_caption": "Применить к выбранной",
+	"apply_to_all": "Применить ко всем",
+	"save_specification": "Сохранить спецификацию",
+	"dont_save": "Не сохранять",
+	"new_product": "Новый товар",
+	"product_name": "Название товара",
+	"kved": "КВЭД",
+	"unit": "Ед. изм.",
+	"add_product": "Добавить продукт",
+	"contract_quantity": "Кол-во по контракту",
+	"delivery_date": "Дата поставки",
+	"contract": "Контракт",
+	"specification": "Спец-ция",
+	"contract_amount": "Стоимость по контракту",
+	"specification_details": "Детали спецификации",
+	"applications": "Заявки на доставку",
+	"application_date": "Дата подачи заявки",
+	"application": "Заявка на доставку",
+	"application_details": "Детали Заявки",
+	"sent_at": "Дата отправки",
+
+	"msg_contract_quantity_exceeded": "Превышен общий объем поставки позиции по контракту!",
+	"msg_invalid_delivery_quantity": "Количество товара не может быть 0!",
+	"msg_contract_amount_exceeded": "Превышена общая стоимость позиции по контракту!",
+	"msg_invalid_payment_amount": "Неверная сумма!",
+	"msg_initial_payment_event_not_specified": "Не указано <i>событие первичной оплаты</i>!",
+	"msg_initial_payment_days_not_specified": "Не указано кол-во дней после <i>События первичной оплаты</i>!",
+	"msg_prepay_amount_for_all": "<i>Сумма предоплаты</i> может быть указана только для выбранной позиции!",
+	"msg_percent_more_than_100": "<i>Процент предоплаты</i> не может быть более 100%!",
+	"msg_both_prepay_option_specified": "Должно быть указано либо <i>Процент</i> либо <i>Сумма предполаты</i>, но не оба параметра!",
+	"msg_close_days_not_specified": "Не задано <i>Кол-во дней</i> после события-закрытия!",
+	"msg_close_event_not_specified": "Не задано <i>Событие платежа-закрытия</i>!",
+	"msg_prepay_specified_but_not_close_event": "Когда заданы условия предоплаты, необходимо указать условия <i>платежа-зфкрытия</i> сделки!",
+	"msg_delivery_event_not_specified": "Не задано <i>Событие поставки</i>!",
+	"msg_delivery_days_not_specified": "Кол-во <i>Дней</i> после события поставки не указано!",
+	"msg_specification_data_saved": "Данные спецификации успешно сохранены!",
+	"msg_delivery_and_payment_options_not_specified": "Не все позиции спецификации имеют условия поставки и оплаты!",
+	"msg_product_added": "Новый <i>Товар</i> успешно добавлен!",
+	"msg_empty_product_name": "<i>Название товара</i> не может быть пустым!"
+};
+
+},{}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56376,7 +56511,7 @@ function daysFromToday(specified_date) {
 	return ((specified_date - today) / 24 / 60 / 60 / 1000).toFixed();
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56388,7 +56523,7 @@ function numberSplitted(num) {
 	return String(num).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
 }
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56411,7 +56546,7 @@ function toUnsafeString(str) {
 	return result;
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56422,24 +56557,168 @@ function getSiteHost() {
 	return '/api/v1';
 }
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
+'use strict';
+
+var _dictionary = require('../../i18n/ru/dictionary');
+
+var _ = require('lodash');
+
+function Ctrl($scope, $state, application, position, AppService) {
+
+	console.log(application);
+
+	$scope.dict = _dictionary.dict;
+
+	if (_.isEmpty(application)) application = undefined;
+
+	$scope.showAppCard = false;
+
+	$scope.application = application;
+
+	var isCardForEditing = false;
+
+	$scope.card = {
+		appDate: new Date(),
+		productName: ""
+	};
+
+	$scope.select = function () {
+		application.selected = !application.selected;
+	};
+
+	$scope.add = function () {
+		isCardForEditing = false;
+
+		$scope.card = {
+			appDate: new Date(),
+			productName: position.product.name
+		};
+
+		$scope.showAppCard = true;
+	};
+
+	$scope.edit = function () {
+		isCardForEditing = true;
+
+		$scope.card = {
+			appDate: new Date(application.send_at.substr(0, 10)),
+			productName: application.position.product.name
+		};
+
+		$scope.showAppCard = true;
+	};
+
+	$scope.saveApp = function () {
+
+		var data = {
+			position: position._id,
+			send_at: $scope.card.appDate
+		};
+
+		if (!isCardForEditing) {
+			AppService.add(data).then(function (newApp) {
+				console.log('Added new application');
+				console.log(newApp);
+
+				application = newApp;
+				$scope.application = application;
+			});
+		} else {
+			AppService.update(application._id, data).then(function (editedApp) {
+				console.log('Existing application edited');
+				console.log(editedApp);
+
+				application.send_at = editedApp.send_at;
+				$scope.application = application;
+			});
+		}
+
+		$scope.showAppCard = false;
+	};
+
+	$scope.backToList = function () {
+		$scope.showAppCard = false;
+	};
+
+	$scope.remove = function () {
+		AppService.remove(application._id).then(function (removedApp) {
+			application = undefined;
+			$scope.application = application;
+			$scope.card = {
+				appDate: new Date(),
+				productName: ""
+			};
+		});
+	};
+}
+
+module.exports = Ctrl;
+
+},{"../../i18n/ru/dictionary":14,"lodash":8}],20:[function(require,module,exports){
+'use strict';
+
+var _date = require('../../libs/date');
+
+var _strings = require('../../libs/strings');
+
+var controller = require('./controller');
+
+var appService = require('../../services/ApplicationService');
+var positionService = require('../../services/PositionService');
+
+angular.module('applicationModule', []).config(['$httpProvider', function ($httpProvider) {
+  $httpProvider.defaults.withCredentials = true;
+}]).factory('PositionService', ['$http', positionService]).factory('AppService', ['$http', appService]).filter('toUnsafe', function () {
+  return function (str) {
+    return (0, _strings.toUnsafeString)(str);
+  };
+}).filter('formatRu', function () {
+  return function (datetime) {
+    return (0, _date.formattedToRu)(new Date(datetime.substr(0, 10)));
+  };
+}).controller('AppCtrl', ['$scope', '$state', 'application', 'position', 'AppService', controller]);
+
+module.exports = {
+  template: require('./template.tpl'),
+  controller: 'AppCtrl',
+  resolve: {
+    application: ['PositionService', 'AppService', function (PositionService, AppService) {
+      return AppService.byPositionId(PositionService.current()._id).then(function (data) {
+        return data;
+      });
+    }],
+    position: ['PositionService', function (PositionService) {
+      return PositionService.current();
+    }]
+  }
+};
+
+},{"../../libs/date":15,"../../libs/strings":17,"../../services/ApplicationService":62,"../../services/PositionService":71,"./controller":19,"./template.tpl":21}],21:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>{{dict.operations}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-if=\"! application\" ng-click=add()>{{dict.add}}</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=application.selected ng-click=edit()>{{dict.modify}}</button> <button class=\"btn btn-info\" ng-if=application.selected ng-click=remove()>{{dict.remove}}</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>{{dict.application}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>{{dict.sent_at}}</th><th>{{dict.consumer}}</th><th>{{dict.contract}}</th><th>{{dict.specification}}</th><th>{{dict.product}}</th></tr></thead><tbody><tr ng-show=application ng-click=select() ng-class=\"application.selected ? 'item-selected' : ''\"><td>{{ application ? (application.send_at | formatRu) : ''}}</td><td>{{ application ? (application.position.specification.contract.consumer.name | toUnsafe) : \"\"}}</td><td>{{ application.position.specification.contract.number }}</td><td>{{ application.position.specification.number }}</td><td>{{ application ? (application.position.product.name | toUnsafe) : \"\"}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showAppCard></div><div class=cover-modal ng-show=showAppCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>{{dict.application_details}}</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>{{dict.product}}</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-8><div class=input-group><span class=input-group-addon>{{dict.application_date}}</span> <input class=form-control ng-model=card.appDate type=date></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=saveApp()>{{dict.save_caption}}</button> <button class=\"btn btn-primary\" ng-click=backToList()>{{dict.cancel}}</button></div></div></div><br><br></div></div></div></div>";
+
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
+
+var _dictionary = require('../../../i18n/ru/dictionary');
 
 var _ = require('lodash');
 
 
 function ConsumerCardCtrl($scope, $state, ConsumerService, GroupService, currentConsumer, groupList) {
 
+	$scope.dict = _dictionary.dict;
+
 	$scope.groups = _.filter(groupList, { is_old: false });
 
 	if ($state.current.name === 'consumer_add') {
-		$scope.submitCaption = "Add";
+		$scope.submitCaption = _dictionary.dict.add;
 		$scope.consumerName = "";
 		$scope.consumerCurrentGroup = groupList[0]._id;
 	} else {
-		$scope.submitCaption = "Update";
+		$scope.submitCaption = _dictionary.dict.update;
 		$scope.consumerName = currentConsumer.name;
 		$scope.consumerCurrentGroup = currentConsumer.group._id;
 	}
@@ -56471,10 +56750,10 @@ function ConsumerCardCtrl($scope, $state, ConsumerService, GroupService, current
 
 module.exports = ConsumerCardCtrl;
 
-},{"../../../libs/strings":16,"lodash":8}],19:[function(require,module,exports){
-module.exports = "<h3>Consumer Card</h3><input type=text ng-model=consumerName><select class=select ng-model=consumerGroup ng-init=\"consumerGroup=consumerCurrentGroup\"><option ng-repeat=\"group in groups\" ng-value=group._id>{{ group.name }}</option></select><button class=\"btn btn-primary\" ng-click=saveConsumer()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>Cancel</button>";
+},{"../../../i18n/ru/dictionary":14,"../../../libs/strings":17,"lodash":8}],23:[function(require,module,exports){
+module.exports = "<center><h3>{{dict.consumer_card}}</h3></center><div class=row><div class=col-md-9><div class=input-group><span class=input-group-addon>{{dict.name}}</span> <input class=form-control type=text ng-model=consumerName></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{dict.group}}</span><select class=form-control ng-model=consumerGroup ng-init=\"consumerGroup=consumerCurrentGroup\"><option ng-repeat=\"group in groups\" ng-value=group._id>{{ group.name }}</option></select></div></div></div><br><br><div class=row><center><button class=\"btn btn-primary\" ng-click=saveConsumer()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>{{dict.cancel}}</button></center></div>";
 
-},{}],20:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var controller = require('./consumer-card-ctrl');
@@ -56501,15 +56780,19 @@ module.exports = {
   controller: 'ConsumerCardCtrl'
 };
 
-},{"../../../services/ConsumerService":58,"../../../services/GroupService":63,"./consumer-card-ctrl":18,"./consumer-card.tpl":19}],21:[function(require,module,exports){
+},{"../../../services/ConsumerService":63,"../../../services/GroupService":68,"./consumer-card-ctrl":22,"./consumer-card.tpl":23}],25:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../libs/strings');
+
+var _dictionary = require('../../i18n/ru/dictionary');
 
 var _ = require('lodash');
 
 
 function ConsumerCtrl($scope, $state, ConsumerService) {
+
+	$scope.dict = _dictionary.dict;
 
 	$scope.currentConsumer = ConsumerService.getCurrent();
 
@@ -56588,10 +56871,10 @@ function ConsumerCtrl($scope, $state, ConsumerService) {
 
 module.exports = ConsumerCtrl;
 
-},{"../../libs/strings":16,"lodash":8}],22:[function(require,module,exports){
-module.exports = "<div class=page-filter><input ng-model=consumerFilter type=text ng-change=useConsumerFilter() placeholder=\"Consumer name filter\"><br><button class=\"btn btn-info\" ng-click=addConsumer()>Add</button> <button class=\"btn btn-info\" ng-if=currentConsumer ng-click=editConsumer()>Update</button> <button class=\"btn btn-info\" ng-if=currentConsumer ng-click=deleteConsumer()>Delete</button> <button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goContracts()>Contracts</button> <button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goPayments()>Payments</button> <button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goDeliveries()>Deliveries</button></div><div class=page-content><table class=\"table table-bordered\"><thead><tr><td>Name</td><td>Group</td><td>Country</td></tr></thead><tbody><tr ng-class=\"consumer.selected ? 'item-selected' : ''\" ng-repeat=\"consumer in filteredConsumers\" ng-click=selectConsumer(consumer)><td>{{ consumer.name }}</td><td>{{ consumer.group.name }}</td><td>{{ consumer.country.name }}</td></tr></tbody></table></div>";
+},{"../../i18n/ru/dictionary":14,"../../libs/strings":17,"lodash":8}],26:[function(require,module,exports){
+module.exports = "<div class=row><div class=col-md-5><input ng-model=consumerFilter type=text ng-change=useConsumerFilter() placeholder={{dict.consumer_name_filter}}><br></div></div><div class=row><div class=col-md-6><button class=\"btn btn-info\" ng-click=addConsumer()>{{dict.add}}</button> <button class=\"btn btn-info\" ng-if=currentConsumer ng-click=editConsumer()>{{dict.modify}}</button> <button class=\"btn btn-info\" ng-if=currentConsumer ng-click=deleteConsumer()>{{dict.remove}}</button></div><div class=col-md-6><button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goContracts()>{{dict.contracts}}</button> <button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goPayments()>{{dict.payments}}</button> <button class=\"btn btn-default\" ng-if=currentConsumer ng-click=goDeliveries()>{{dict.deliveries}}</button></div></div><div class=page-content><table class=\"table table-bordered\"><thead><tr><td>{{dict.name}}</td><td>{{dict.group}}</td><td>{{dict.country}}</td></tr></thead><tbody><tr ng-class=\"consumer.selected ? 'item-selected' : ''\" ng-repeat=\"consumer in filteredConsumers\" ng-click=selectConsumer(consumer)><td>{{ consumer.name }}</td><td>{{ consumer.group.name }}</td><td>{{ consumer.country.name }}</td></tr></tbody></table></div>";
 
-},{}],23:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 var _hierarchy = require('../../constants/hierarchy.js');
@@ -56631,17 +56914,21 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../services/ConsumerService":58,"../../services/DeliveryService":62,"../../services/PaymentService":65,"./consumer-ctrl":21,"./consumer.tpl":22}],24:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../services/ConsumerService":63,"../../services/DeliveryService":67,"../../services/PaymentService":70,"./consumer-ctrl":25,"./consumer.tpl":26}],28:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
 
 var _date = require('../../../libs/date');
 
+var _dictionary = require('../../../i18n/ru/dictionary');
+
 var _ = require('lodash');
 
 
 function ContractCardCtrl($scope, $state, consumer, ContractService) {
+
+	$scope.dict = _dictionary.dict;
 
 	consumer.name = (0, _strings.toUnsafeString)(consumer.name);
 	$scope.consumer = consumer;
@@ -56686,7 +56973,7 @@ function ContractCardCtrl($scope, $state, consumer, ContractService) {
 
 module.exports = ContractCardCtrl;
 
-},{"../../../libs/date":14,"../../../libs/strings":16,"lodash":8}],25:[function(require,module,exports){
+},{"../../../i18n/ru/dictionary":14,"../../../libs/date":15,"../../../libs/strings":17,"lodash":8}],29:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
@@ -56711,18 +56998,22 @@ module.exports = {
   controller: 'ContractCardCtrl'
 };
 
-},{"../../../libs/strings":16,"../../../services/ConsumerService":58,"../../../services/ContractService":59,"./controller":24,"./template.tpl":26}],26:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Contract of the &quot;{{ consumer.name | toUnsafe }}&quot;</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Contract number</span> <input class=form-control type=text ng-model=contractNumber></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Sign Date</span> <input class=form-control type=date ng-model=signed_at></div></div></div></div></div><div class=\"panel panel-default\"><div class=panel-body><center><button class=\"btn btn-primary\" ng-click=save()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>Отмена</button></center></div></div>";
+},{"../../../libs/strings":17,"../../../services/ConsumerService":63,"../../../services/ContractService":64,"./controller":28,"./template.tpl":30}],30:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>{{dict.contract_of}} &quot;{{ consumer.name | toUnsafe }}&quot;</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.contract_number}}</span> <input class=form-control type=text ng-model=contractNumber></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.signed_at}}</span> <input class=form-control type=date ng-model=signed_at></div></div></div></div></div><div class=\"panel panel-default\"><div class=panel-body><center><button class=\"btn btn-primary\" ng-click=save()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>{{ dict.cancel}}</button></center></div></div>";
 
-},{}],27:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
+
+var _dictionary = require('../../i18n/ru/dictionary');
 
 var _ = require('lodash');
 
 
 function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
+
+	$scope.dict = _dictionary.dict;
 
 	$scope.currentConsumer = consumer;
 	$scope.current = undefined;
@@ -56804,10 +57095,10 @@ function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
 
 module.exports = ContractCtrl;
 
-},{"../../libs/date":14,"lodash":8}],28:[function(require,module,exports){
-module.exports = "<div class=page-filter><input ng-model=contractFilter type=text ng-change=useContractFilter() placeholder=\"Contract number filter\"><br><button class=\"btn btn-info\" ng-click=add()>Add</button> <button class=\"btn btn-info\" ng-if=current ng-click=edit()>Update</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>Delete</button> <button class=\"btn btn-info\" ng-if=current ng-click=goSpec()>Specs</button> <button class=\"btn btn-info\" ng-if=current ng-click=goPayments()>Payments</button> <button class=\"btn btn-info\" ng-if=current ng-click=goDeliveries()>Deliveries</button></div><h1>{{currentConsumer.name | toUnsafe }}</h1><div class=page-content><table class=\"table table-bordered\"><thead><tr><td>Conntract Number</td><td>Signed at</td></tr></thead><tbody><tr ng-class=\"contract.selected ? 'item-selected' : ''\" ng-repeat=\"contract in filteredContracts\" ng-click=select(contract)><td>{{ contract.number }}</td><td>{{ contract.signed_at_formatted }}</td></tr></tbody></table></div>";
+},{"../../i18n/ru/dictionary":14,"../../libs/date":15,"lodash":8}],32:[function(require,module,exports){
+module.exports = "<div class=row><div class=col-md-5><input ng-model=contractFilter type=text ng-change=useContractFilter() placeholder=\"{{ dict.contract_number_filter}}\"><br></div></div><div class=row><div class=col-md-6><button class=\"btn btn-info\" ng-click=add()>{{dict.add}}</button> <button class=\"btn btn-info\" ng-if=current ng-click=edit()>{{dict.modify}}</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>{{dict.remove}}</button></div><div class=col-md-6><button class=\"btn btn-default\" ng-if=current ng-click=goSpec()>{{dict.specifications}}</button> <button class=\"btn btn-default\" ng-if=current ng-click=goPayments()>{{dict.payments}}</button> <button class=\"btn btn-default\" ng-if=current ng-click=goDeliveries()>{{dict.deliveries}}</button></div></div><h3>{{currentConsumer.name | toUnsafe }}</h3><div class=page-content><table class=\"table table-bordered\"><thead><tr><td>{{dict.contract_number}}</td><td>{{dict.signed_at}}</td></tr></thead><tbody><tr ng-class=\"contract.selected ? 'item-selected' : ''\" ng-repeat=\"contract in filteredContracts\" ng-click=select(contract)><td>{{ contract.number }}</td><td>{{ contract.signed_at_formatted }}</td></tr></tbody></table></div>";
 
-},{}],29:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 var _hierarchy = require('../../constants/hierarchy.js');
@@ -56863,7 +57154,7 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/ConsumerService":58,"../../services/ContractService":59,"../../services/DeliveryService":62,"../../services/PaymentService":65,"./contract-ctrl":27,"./contract.tpl":28}],30:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":17,"../../services/ConsumerService":63,"../../services/ContractService":64,"../../services/DeliveryService":67,"../../services/PaymentService":70,"./contract-ctrl":31,"./contract.tpl":32}],34:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -56872,12 +57163,16 @@ var _number = require('../../libs/number');
 
 var _strings = require('../../libs/strings');
 
+var _dictionary = require('../../i18n/ru/dictionary');
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _ = require('lodash');
 
 
 function Ctrl($scope, $state, deliveries, operationType, position, Flash, DeliveryService) {
+
+	$scope.dict = _dictionary.dict;
 
 	$scope.showControls = !_.isEmpty(position);
 
@@ -57046,16 +57341,16 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 
 				if (!isCardForEditing) {
 					DeliveryService.add(data).then(function (newDelivery) {
-						console.log('Added new delivery');
-						console.log(newDelivery);
+						// console.log('Added new delivery');
+						// console.log(newDelivery);
 
 						deliveries.push(newDelivery);
 						$scope.deliveryList = groupDeliveries(deliveries);
 					});
 				} else {
 					DeliveryService.update($scope.current._id, data).then(function (editedDelivery) {
-						console.log('Existing delivery edited');
-						console.log(editedDelivery);
+						// console.log('Existing delivery edited');
+						// console.log(editedDelivery);
 
 						deliveries.map(function (o) {
 							if (o._id == editedDelivery._id) {
@@ -57071,11 +57366,11 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 
 				$scope.showDeliveryCard = false;
 			} else {
-				var message = '<strong>Contract Quantity for selected Product can\'t be exceeded!</strong>';
+				var message = '<strong>' + _dictionary.dict.msg_contract_quantity_exceeded + '</strong>';
 				var id = Flash.create('danger', message, 0, { class: 'custom-class', id: 'custom-id' }, true);
 			}
 		} else {
-			var message = '<strong>Delivery Quantity can\'t be less than 1!</strong>';
+			var message = '<strong>' + _dictionary.dict.msg_invalid_delivery_quantity + '</strong>';
 			var id = Flash.create('danger', message, 0, { class: 'custom-class', id: 'custom-id' }, true);
 		}
 	};
@@ -57095,7 +57390,7 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 
 module.exports = Ctrl;
 
-},{"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],31:[function(require,module,exports){
+},{"../../i18n/ru/dictionary":14,"../../libs/date":15,"../../libs/number":16,"../../libs/strings":17,"lodash":8}],35:[function(require,module,exports){
 'use strict';
 
 var _operationtypes = require('../../constants/operationtypes.js');
@@ -57184,23 +57479,27 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"../../services/ConsumerService":58,"../../services/ContractService":59,"../../services/DeliveryService":62,"../../services/PositionService":66,"../../services/SpecificationService":68,"./controller":30,"./template.tpl":32,"angular-flash-alert":2}],32:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\" ng-if=\"showControls && ! showDeliveryCard\"><div class=panel-heading>Operations</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-click=add()>Add</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=current ng-click=edit()>Modify</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>Delete</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Delivery List</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>Delivered at</th><th>Consumer</th><th>Contract</th><th>Spec</th><th>Product</th><th>Quantity</th></tr></thead><tbody><tr ng-repeat-start=\"consumer in deliveryList\"></tr><tr ng-repeat-start=\"contract in consumer | getObjArray\"></tr><tr ng-repeat-start=\"specification in contract | getObjArray\"></tr><tr ng-repeat=\"delivery in specification | getObjArray\" ng-class=\"delivery.selected ? 'item-selected' : ''\" ng-click=select(delivery)><td>{{ delivery.delivered_at | formatRu }}</td><td>{{ delivery.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ delivery.position.specification.contract.number }}</td><td>{{ delivery.position.specification.number }}</td><td>{{ delivery.position.product.name | toUnsafe}}</td><td class=digit>{{ delivery.quantity | asPrice }}</td></tr><tr ng-repeat-end class=warning><td colspan=3></td><td colspan=2>{{ specification | getObjName }}</td><td class=digit>{{ sumBy('position.specification.number', specification | getObjName) | asPrice }}</td></tr><tr ng-repeat-end class=active><td colspan=2></td><td colspan=3>{{ contract | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.number', contract | getObjName) | asPrice}}</td></tr><tr ng-repeat-end class=success><td></td><td colspan=4>{{ consumer | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.consumer.name', consumer | getObjName) | asPrice}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showDeliveryCard></div><div class=cover-modal ng-show=showDeliveryCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>Delivery Details</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>Product</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Contract Quantity</span> <span class=form-control>{{card.contractQuantity | asPrice}}</span></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Already Delivered</span> <span class=form-control>{{card.deliveredQuantity | asPrice}}</span></div></div></div></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-4><div class=input-group><span class=input-group-addon>Delivery Date</span> <input class=form-control ng-model=card.deliveryDate type=date></div></div><div class=col-md-4><div class=input-group><span class=input-group-addon>Quantity</span> <input class=form-control ng-model=card.deliveryQuantity type=number></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=saveDelivery()>Save</button> <button class=\"btn btn-primary\" ng-click=backToList()>Cancel</button></div></div></div><br><br><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div></div></div></div></div>";
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/date":15,"../../libs/number":16,"../../libs/strings":17,"../../services/ConsumerService":63,"../../services/ContractService":64,"../../services/DeliveryService":67,"../../services/PositionService":71,"../../services/SpecificationService":73,"./controller":34,"./template.tpl":36,"angular-flash-alert":2}],36:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\" ng-if=\"showControls && ! showDeliveryCard\"><div class=panel-heading>{{dict.operations}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-click=add()>{{dict.add}}</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=current ng-click=edit()>{{dict.modify}}</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>{{dict.remove}}</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>{{dict.delivery_list}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>{{dict.delivered_at}}</th><th>{{dict.consumer}}</th><th>{{dict.contract}}</th><th>{{dict.specification}}</th><th>{{dict.product}}</th><th>{{dict.quantity}}</th></tr></thead><tbody><tr ng-repeat-start=\"consumer in deliveryList\"></tr><tr ng-repeat-start=\"contract in consumer | getObjArray\"></tr><tr ng-repeat-start=\"specification in contract | getObjArray\"></tr><tr ng-repeat=\"delivery in specification | getObjArray\" ng-class=\"delivery.selected ? 'item-selected' : ''\" ng-click=select(delivery)><td>{{ delivery.delivered_at | formatRu }}</td><td>{{ delivery.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ delivery.position.specification.contract.number }}</td><td>{{ delivery.position.specification.number }}</td><td>{{ delivery.position.product.name | toUnsafe}}</td><td class=digit>{{ delivery.quantity | asPrice }}</td></tr><tr ng-repeat-end class=warning><td colspan=3></td><td colspan=2>{{ specification | getObjName }}</td><td class=digit>{{ sumBy('position.specification.number', specification | getObjName) | asPrice }}</td></tr><tr ng-repeat-end class=active><td colspan=2></td><td colspan=3>{{ contract | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.number', contract | getObjName) | asPrice}}</td></tr><tr ng-repeat-end class=success><td></td><td colspan=4>{{ consumer | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.consumer.name', consumer | getObjName) | asPrice}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showDeliveryCard></div><div class=cover-modal ng-show=showDeliveryCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>{{dict.delivery_details}}</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>{{dict.product}}</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.contract_quantity}}</span> <span class=form-control>{{card.contractQuantity | asPrice}}</span></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.delivered}}</span> <span class=form-control>{{card.deliveredQuantity | asPrice}}</span></div></div></div></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-4><div class=input-group><span class=input-group-addon>{{dict.delivery_date}}</span> <input class=form-control ng-model=card.deliveryDate type=date></div></div><div class=col-md-4><div class=input-group><span class=input-group-addon>{{dict.quantity}}</span> <input class=form-control ng-model=card.deliveryQuantity type=number></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=saveDelivery()>{{dict.save_caption}}</button> <button class=\"btn btn-primary\" ng-click=backToList()>{{dict.cancel}}</button></div></div></div><br><br><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div></div></div></div></div>";
 
-},{}],33:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 
-},{}],34:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
 
 var _strings = require('../../libs/strings');
 
+var _dictionary = require('../../i18n/ru/dictionary');
+
 var _ = require('lodash');
 
 
 function Ctrl($scope, $state, letter, position, operationType, LetterService) {
+
+	$scope.dict = _dictionary.dict;
 
 	if (_.isEmpty(letter)) letter = undefined;
 
@@ -57284,7 +57583,7 @@ function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 
 module.exports = Ctrl;
 
-},{"../../libs/date":14,"../../libs/strings":16,"lodash":8}],35:[function(require,module,exports){
+},{"../../i18n/ru/dictionary":14,"../../libs/date":15,"../../libs/strings":17,"lodash":8}],39:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -57325,12 +57624,12 @@ module.exports = {
     }] }
 };
 
-},{"../../libs/date":14,"../../libs/strings":16,"../../services/DeliveryLetterService":61,"../../services/PositionService":66,"./controller":34,"./template.tpl":36}],36:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Operations</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-if=\"! letter\" ng-click=add()>Add</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=letter.selected ng-click=edit()>Modify</button> <button class=\"btn btn-info\" ng-if=letter.selected ng-click=remove()>Delete</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Delivery Letter</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>Sent at</th><th>Consumer</th><th>Contract</th><th>Spec</th><th>Product</th></tr></thead><tbody><tr ng-show=letter ng-click=select() ng-class=\"letter.selected ? 'item-selected' : ''\"><td>{{ letter ? (letter.send_at | formatRu) : ''}}</td><td>{{ letter.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ letter.position.specification.contract.number }}</td><td>{{ letter.position.specification.number }}</td><td>{{ letter.position.product.name | toUnsafe}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showLetterCard></div><div class=cover-modal ng-show=showLetterCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>Letter Details</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>Product</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-8><div class=input-group><span class=input-group-addon>Letter Date</span> <input class=form-control ng-model=card.letterDate type=date></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=saveLetter()>Save</button> <button class=\"btn btn-primary\" ng-click=backToList()>Cancel</button></div></div></div><br><br></div></div></div></div>";
+},{"../../libs/date":15,"../../libs/strings":17,"../../services/DeliveryLetterService":66,"../../services/PositionService":71,"./controller":38,"./template.tpl":40}],40:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>{{dict.operations}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-if=\"! letter\" ng-click=add()>{{dict.add}}</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=letter.selected ng-click=edit()>{{dict.modify}}</button> <button class=\"btn btn-info\" ng-if=letter.selected ng-click=remove()>{{dict.remove}}</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>{{dict.delivery_letter}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>{{dict.sent_at}}</th><th>{{dict.consumer}}</th><th>{{dict.contract}}</th><th>{{dict.specification}}</th><th>{{dict.product}}</th></tr></thead><tbody><tr ng-show=letter ng-click=select() ng-class=\"letter.selected ? 'item-selected' : ''\"><td>{{ letter ? (letter.send_at | formatRu) : ''}}</td><td>{{ letter.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ letter.position.specification.contract.number }}</td><td>{{ letter.position.specification.number }}</td><td>{{ letter.position.product.name | toUnsafe}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showLetterCard></div><div class=cover-modal ng-show=showLetterCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>{{dict.letter_details}}</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>{{dict.product}}</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-8><div class=input-group><span class=input-group-addon>{{dict.letter_date}}</span> <input class=form-control ng-model=card.letterDate type=date></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=saveLetter()>{{dict.save_caption}}</button> <button class=\"btn btn-primary\" ng-click=backToList()>{{dict.cancel}}</button></div></div></div><br><br></div></div></div></div>";
 
-},{}],37:[function(require,module,exports){
-arguments[4][33][0].apply(exports,arguments)
-},{"dup":33}],38:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
+arguments[4][37][0].apply(exports,arguments)
+},{"dup":37}],42:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -57339,12 +57638,16 @@ var _number = require('../../libs/number');
 
 var _strings = require('../../libs/strings');
 
+var _dictionary = require('../../i18n/ru/dictionary');
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _ = require('lodash');
 
 
 function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentService) {
+
+	$scope.dict = _dictionary.dict;
 
 	$scope.showControls = !_.isEmpty(position);
 
@@ -57536,11 +57839,11 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 
 				$scope.showPaymentCard = false;
 			} else {
-				var message = '<strong>Contract Amount for selected Product can\'t be exceeded!</strong>';
+				var message = '<strong>' + _dictionary.dict.msg_contract_amount_exceeded + '</strong>';
 				var id = Flash.create('danger', message, 0, { class: 'custom-class', id: 'custom-id' }, true);
 			}
 		} else {
-			var message = '<strong>Payment Amount can\'t be less than 0.01 !</strong>';
+			var message = '<strong>' + _dictionary.dict.msg_invalid_payment_amount + '</strong>';
 			var id = Flash.create('danger', message, 0, { class: 'custom-class', id: 'custom-id' }, true);
 		}
 	};
@@ -57561,7 +57864,7 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 
 module.exports = Ctrl;
 
-},{"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],39:[function(require,module,exports){
+},{"../../i18n/ru/dictionary":14,"../../libs/date":15,"../../libs/number":16,"../../libs/strings":17,"lodash":8}],43:[function(require,module,exports){
 'use strict';
 
 var _operationtypes = require('../../constants/operationtypes.js');
@@ -57650,10 +57953,10 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"../../services/ConsumerService":58,"../../services/ContractService":59,"../../services/PaymentService":65,"../../services/PositionService":66,"../../services/SpecificationService":68,"./controller":38,"./template.tpl":40,"angular-flash-alert":2}],40:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\" ng-if=\"showControls && ! showPaymentCard\"><div class=panel-heading>Operations</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-click=add()>Add</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=current ng-click=edit()>Modify</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>Delete</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Payment List</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>Payed at</th><th>Consumer</th><th>Contract</th><th>Spec</th><th>Product</th><th>Amount</th></tr></thead><tbody><tr ng-repeat-start=\"consumer in paymentList\"></tr><tr ng-repeat-start=\"contract in consumer | getObjArray\"></tr><tr ng-repeat-start=\"specification in contract | getObjArray\"></tr><tr ng-repeat=\"payment in specification | getObjArray\" ng-class=\"payment.selected ? 'item-selected' : ''\" ng-click=select(payment)><td>{{ payment.payed_at | formatRu }}</td><td>{{ payment.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ payment.position.specification.contract.number }}</td><td>{{ payment.position.specification.number }}</td><td>{{ payment.position.product.name | toUnsafe }}</td><td class=digit>{{ payment.amount | asPrice }}</td></tr><tr ng-repeat-end class=warning><td colspan=3></td><td colspan=2>{{ specification | getObjName }}</td><td class=digit>{{ sumBy('position.specification.number', specification | getObjName) | asPrice }}</td></tr><tr ng-repeat-end class=active><td colspan=2></td><td colspan=3>{{ contract | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.number', contract | getObjName) | asPrice}}</td></tr><tr ng-repeat-end class=success><td></td><td colspan=4>{{ consumer | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.consumer.name', consumer | getObjName) | asPrice}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showPaymentCard></div><div class=cover-modal ng-show=showPaymentCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>Payment Details</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>Product</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Contract Amount</span> <span class=form-control>{{card.contractAmount | asPrice}}</span></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Already Payed</span> <span class=form-control>{{card.payedAmount | asPrice}}</span></div></div></div></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-4><div class=input-group><span class=input-group-addon>Payment Date</span> <input class=form-control ng-model=card.paymentDate type=date></div></div><div class=col-md-4><div class=input-group><span class=input-group-addon>Amount</span> <input class=form-control ng-model=card.paymentAmount type=number></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=savePayment()>Save</button> <button class=\"btn btn-primary\" ng-click=backToList()>Cancel</button></div></div></div><br><br><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div></div></div></div></div>";
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/date":15,"../../libs/number":16,"../../libs/strings":17,"../../services/ConsumerService":63,"../../services/ContractService":64,"../../services/PaymentService":70,"../../services/PositionService":71,"../../services/SpecificationService":73,"./controller":42,"./template.tpl":44,"angular-flash-alert":2}],44:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\" ng-if=\"showControls && ! showPaymentCard\"><div class=panel-heading>{{dict.operations}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><button class=\"btn btn-info\" ng-click=add()>{{dict.add}}</button></div><div class=col-md-8><button class=\"btn btn-info\" ng-if=current ng-click=edit()>{{dict.modify}}</button> <button class=\"btn btn-info\" ng-if=current ng-click=remove()>{{dict.remove}}</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>{{dict.payment_list}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered table-condensed\"><thead><tr><th>{{dict.payed_at}}</th><th>{{dict.consumer}}</th><th>{{dict.contract}}</th><th>{{dict.specification}}</th><th>{{dict.product}}</th><th>{{dict.amount}}</th></tr></thead><tbody><tr ng-repeat-start=\"consumer in paymentList\"></tr><tr ng-repeat-start=\"contract in consumer | getObjArray\"></tr><tr ng-repeat-start=\"specification in contract | getObjArray\"></tr><tr ng-repeat=\"payment in specification | getObjArray\" ng-class=\"payment.selected ? 'item-selected' : ''\" ng-click=select(payment)><td>{{ payment.payed_at | formatRu }}</td><td>{{ payment.position.specification.contract.consumer.name | toUnsafe}}</td><td>{{ payment.position.specification.contract.number }}</td><td>{{ payment.position.specification.number }}</td><td>{{ payment.position.product.name | toUnsafe }}</td><td class=digit>{{ payment.amount | asPrice }}</td></tr><tr ng-repeat-end class=warning><td colspan=3></td><td colspan=2>{{ specification | getObjName }}</td><td class=digit>{{ sumBy('position.specification.number', specification | getObjName) | asPrice }}</td></tr><tr ng-repeat-end class=active><td colspan=2></td><td colspan=3>{{ contract | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.number', contract | getObjName) | asPrice}}</td></tr><tr ng-repeat-end class=success><td></td><td colspan=4>{{ consumer | getObjName }}</td><td class=digit>{{ sumBy('position.specification.contract.consumer.name', consumer | getObjName) | asPrice}}</td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showPaymentCard></div><div class=cover-modal ng-show=showPaymentCard><div id=modal-payment-card><div class=\"panel panel-info\"><div class=\"panel panel-heading\"><div class=row><div class=col-md-12><center><h2>{{dict.payment_details}}</h2></center></div></div><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>{{dict.product}}</span> <span class=form-control>{{card.productName | toUnsafe}}</span></div></div></div><br><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.contract_amount}}</span> <span class=form-control>{{card.contractAmount | asPrice}}</span></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.payed}}</span> <span class=form-control>{{card.payedAmount | asPrice}}</span></div></div></div></div><div class=\"panel panel-body\"><br><br><div class=row><div class=col-md-4><div class=input-group><span class=input-group-addon>{{dict.payment_date}}</span> <input class=form-control ng-model=card.paymentDate type=date></div></div><div class=col-md-4><div class=input-group><span class=input-group-addon>{{dict.amount}}</span> <input class=form-control ng-model=card.paymentAmount type=number></div></div><div class=col-md-4><div class=input-group><button class=\"btn btn-primary\" ng-click=savePayment()>{{dict.save_caption}}</button> <button class=\"btn btn-primary\" ng-click=backToList()>{{dict.cancel}}</button></div></div></div><br><br><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div></div></div></div></div>";
 
-},{}],41:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
@@ -57664,16 +57967,26 @@ var _number = require('../../libs/number');
 
 var _paymentevents = require('../../constants/paymentevents');
 
+var _deliveryevents = require('../../constants/deliveryevents');
+
+var _dictionary = require('../../i18n/ru/dictionary');
+
 var _ = require('lodash');
+
+// import { dict } from '../../i18n/en/dictionary';
 
 
 function PositionCtrl($scope, $state, positionList, unitList, productList, deliveryEventList, paymentEventList, specification, Flash, SpecificationService, ProductService, PositionService) {
+
+	$scope.dict = _dictionary.dict;
+
+	$scope.editingExistedPosition = false;
 
 	$scope.units = unitList;
 	var initialPositionList = JSON.parse(angular.toJson(positionList));
 	// $scope.currentConsumer = consumer;
 	$scope.currentSpecification = specification;
-	$scope.currentSpecification.contract.consumer.name = (0, _strings.toUnsafeString)($scope.currentSpecification.contract.consumer.name);
+	// $scope.currentSpecification.contract.consumer.name = toUnsafeString($scope.currentSpecification.contract.consumer.name);
 	$scope.currentSpecification.signed_at_formatted = (0, _date.formattedToRu)(new Date($scope.currentSpecification.signed_at));
 	$scope.currentSpecification.contract.signed_at_formatted = (0, _date.formattedToRu)(new Date($scope.currentSpecification.contract.signed_at));
 
@@ -57683,12 +57996,13 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 	$scope.dependOnLetter = false;
 
-	productList.map(function (o) {
-		o.name = (0, _strings.toUnsafeString)(o.name);
-		return o;
-	});
-
 	var counter = 0;
+
+	$scope.filters = {
+		product: ""
+	};
+
+	$scope.dependOnApplication = false;
 
 	var removedPositions = [];
 
@@ -57696,11 +58010,6 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 	    editingMode = false;
 
 	$scope.products = productList;
-
-	positionList.map(function (o) {
-		o.product.name = (0, _strings.toUnsafeString)(o.product.name);
-		return o;
-	});
 
 	$scope.deliveryEvents = deliveryEventList;
 
@@ -57719,12 +58028,12 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		$scope.prepaymentAmount = 0;
 	} else {
 		$scope.deliveryDays = 0;
-		$scope.defaultDeliveryEvent = deliveryEventList[4]._id;
+		$scope.defaultDeliveryEvent = _deliveryevents.DELIVERY_EVENT_NOT_SPECIFIED;
 
 		$scope.paymentStartDays = 0;
-		$scope.defaultPaymentStartEvent = paymentEventList[3]._id;
+		$scope.defaultPaymentStartEvent = _paymentevents.PAYMENT_EVENT_NOT_SPECIFIED;
 		$scope.paymentCloseDays = 0;
-		$scope.defaultPaymentCloseEvent = paymentEventList[3]._id;
+		$scope.defaultPaymentCloseEvent = _paymentevents.PAYMENT_EVENT_NOT_SPECIFIED;
 
 		$scope.prepaymentPercent = 0;
 		$scope.prepaymentAmount = 0;
@@ -57744,9 +58053,10 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 			// positionList = _.map(positionList, function(c) {
 			$scope.filteredObjects = _.map($scope.filteredObjects, function (c) {
 				if (c._id === position._id) {
-					// if taken consumer is already selected
-					// if (PositionService.current() && PositionService.current()._id == position._id) {
 					if (position.selected) {
+						$scope.dependOnLetter = false;
+						$scope.dependOnApplication = false;
+
 						// deselect 
 						$scope.current = undefined;
 						PositionService.select(undefined);
@@ -57758,10 +58068,18 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 						$scope.current = position;
 						c.selected = true;
 
-						if (position.pay_event._id == _paymentevents.DELIVERY_READY_LETTER || position.pay_close_event && position.pay_close_event._id == _paymentevents.DELIVERY_READY_LETTER) {
+						if (position.pay_event && (position.pay_event._id == _paymentevents.DELIVERY_READY_LETTER || position.pay_close_event && position.pay_close_event._id == _paymentevents.DELIVERY_READY_LETTER)) {
 							$scope.dependOnLetter = true;
 						} else {
 							$scope.dependOnLetter = false;
+						}
+
+						// console.log(position.delivery_event);
+
+						if (position.delivery_event._id == _deliveryevents.APPLICATION_SENT) {
+							$scope.dependOnApplication = true;
+						} else {
+							$scope.dependOnApplication = false;
 						}
 
 						// change Delivery and Payment Options
@@ -57796,9 +58114,12 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 	$scope.add = function () {
 
+		$scope.editingExistedPosition = false;
 		// $scope.current = undefined;
 		// PositionService.select(undefined);
+		if ($scope.current) $scope.current.selected = false;
 
+		$scope.filters.product = "";
 		var newPosition = {};
 
 		newPosition.new = true;
@@ -57821,9 +58142,11 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 	};
 
 	$scope.edit = function () {
+		$scope.editingExistedPosition = true;
+		$scope.filters.product = "";
 		$scope.filteredObjects.map(function (o) {
 			if (o._id == $scope.current._id) {
-				positionBeforeEditing = Object.assign({}, o);
+				positionBeforeEditing = JSON.parse(angular.toJson(o)); //Object.assign({}, o);
 				o.editing = true;
 			}
 
@@ -57856,17 +58179,17 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 			}
 
 			if (position.pay_close_days) {
-				result += '\nInitial: ' + position.pay_days + ' day(s) after "';
+				result += '\nInitial: ' + position.pay_days + ' ' + _dictionary.dict.day_s + ' ' + _dictionary.dict.after + ' "';
 				var event = _.find(paymentEventList, { _id: position.pay_event._id });
-				result += event.name + '"';
+				result += event.name_ru + '"';
 
-				result += '\nClose: ' + position.pay_close_days + ' day(s) after "';
+				result += '\nClose: ' + position.pay_close_days + ' ' + _dictionary.dict.day_s + ' ' + _dictionary.dict.after + ' "';
 				var event = _.find(paymentEventList, { _id: position.pay_close_event._id });
-				result += event.name + '"';
+				result += event.name_ru + '"';
 			} else {
-				result += '\n' + position.pay_days + ' day(s) after "';
+				result += '\n' + position.pay_days + ' ' + _dictionary.dict.day_s + ' ' + _dictionary.dict.after + ' "';
 				var event = _.find(paymentEventList, { _id: position.pay_event._id });
-				result += event.name + '"';
+				result += event.name_ru + '"';
 			}
 
 			result = result.substr(1, result.length - 1);
@@ -57879,10 +58202,10 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		var result = "";
 		if (!position.new || position.new && position.delivery_days) {
 
-			result += position.delivery_days + ' day(s) after "';
+			result += position.delivery_days + ' ' + _dictionary.dict.day_s + ' ' + _dictionary.dict.after + ' "';
 
 			var event = _.find(deliveryEventList, { _id: position.delivery_event._id });
-			result += event.name + '"';
+			result += event.name_ru + '"';
 		}
 
 		return result;
@@ -58000,44 +58323,44 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		var errorCount = 0;
 		var message = '';
 
-		if ($scope.paymentEvent1 == paymentEventList[3]._id) {
+		if ($scope.paymentEvent1 == _paymentevents.PAYMENT_EVENT_NOT_SPECIFIED) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') You forgot to specify the <i>Initial Payment Event</i>!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_initial_payment_event_not_specified + '</strong>';
 		}
 
 		if ($scope.paymentStartDays < 1) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') <i>Initial Payment Days</i> should be positive!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_initial_payment_days_not_specified + '</strong>';
 		}
 
 		if (all && $scope.prepaymentAmount > 0) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') <i>Pre-payment Amount</i> could not be specified for the whole specification (only for the current position)!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_prepay_amount_for_all + '</strong>';
 		}
 
 		if ($scope.prepaymentPercent > 100) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') <i>Pre-payment Percent</i> can\' be more than 100%!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_percent_more_than_100 + '</strong>';
 		}
 
 		if ($scope.prepaymentPercent > 0 && $scope.prepaymentAmount > 0) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') You should specify either <i>Prepayment Percent</i> or <i>Prepayment Amount</i> but not both the same time!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_both_prepay_option_specified + '</strong>';
 		}
 
-		if ($scope.paymentEvent2 != paymentEventList[3]._id && $scope.paymentCloseDays < 1) {
+		if ($scope.paymentEvent2 != _paymentevents.PAYMENT_EVENT_NOT_SPECIFIED && $scope.paymentCloseDays < 1) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') You should specify <i>Close Payment days</i>!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_close_days_not_specified + '</strong>';
 		}
 
-		if ($scope.paymentEvent2 == paymentEventList[3]._id && $scope.paymentCloseDays > 0) {
+		if ($scope.paymentEvent2 == _paymentevents.PAYMENT_EVENT_NOT_SPECIFIED && $scope.paymentCloseDays > 0) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') You should specify <i>Close Payment Event</i>!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_close_event_not_specified + '</strong>';
 		}
 
 		if ($scope.prepaymentPercent < 100 && $scope.prepaymentPercent != 0 && $scope.paymentCloseDays < 1) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') You should specify <i>Close Payment</i> details if <i>Prepayment Percent</i> specified!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_prepay_specified_but_not_close_event + '</strong>';
 		}
 
 		if (errorCount == 0) {
@@ -58052,14 +58375,14 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		var errorCount = 0;
 		var message = '';
 
-		if ($scope.deliveryEvent == deliveryEventList[4]._id) {
+		if ($scope.deliveryEvent == _deliveryevents.DELIVERY_EVENT_NOT_SPECIFIED) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') You forgot to specify the <i>Delivery Event</i>!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_delivery_event_not_specified + '</strong>';
 		}
 
 		if ($scope.deliveryDays < 1) {
 			errorCount++;
-			message += '<br><strong>(' + errorCount + ') <i>Delivery Days</i> should be positive!</strong>';
+			message += '<br><strong>(' + errorCount + ') ' + _dictionary.dict.msg_delivery_days_not_specified + '</strong>';
 		}
 
 		if (errorCount == 0) {
@@ -58079,10 +58402,6 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 		return result.toFixed(2);
 	}
-
-	$scope.filters = {
-		product: ""
-	};
 
 	$scope.filterProduct = function (position) {
 		console.log('filter');
@@ -58165,6 +58484,8 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 	};
 
 	$scope.saveSpecification = function () {
+		// console.log('positions before saving specification');
+		// console.log($scope.filteredObjects);
 
 		if (isAllPositionsHaveSufficientDataForSaving()) {
 
@@ -58176,18 +58497,24 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 			// add new positions
 			$scope.filteredObjects.forEach(function (o) {
+				// console.log('Object we are investigating');
+				// console.log(o);
+
 				var newPosition = _.omit(o, ['editing', 'new', '_id', 'product', 'delivery_event', 'pay_event', 'pay_close_event', '$$hashKey', 'selected', 'specification']);
-				var changedPosition = _.omit(o, ['editing', 'new', 'product', 'delivery_event', 'pay_event', 'pay_close_event', '$$hashKey', 'selected', 'specification']);
-				newPosition = Object.assign(newPosition, { product: o.product._id }, { specification: SpecificationService.current()._id }, { delivery_event: o.delivery_event._id }, { pay_event: o.pay_event._id }, { pay_close_event: o.pay_close_event ? o.pay_close_event._id : undefined }, { pay_close_days: o.pay_close_days ? o.pay_close_days : undefined });
+
+				newPosition = Object.assign({}, newPosition, { product: o.product._id }, { specification: SpecificationService.current()._id }, { delivery_event: o.delivery_event._id }, { pay_event: o.pay_event._id }, { pay_close_event: o.pay_close_event ? o.pay_close_event._id : undefined }, { pay_close_days: o.pay_close_days ? o.pay_close_days : undefined });
 
 				if (o.new) {
+
+					// console.log('New position that we try to pastetinto db')
+					// console.log(newPosition);
+
 					data.added.push(newPosition);
 				} else {
 					var existingPosition = _.find(initialPositionList, { _id: o._id });
 
 					if (existingPosition.product._id != newPosition.product || existingPosition.price != newPosition.price || existingPosition.quantity != newPosition.quantity || existingPosition.delivery_days != newPosition.delivery_days || existingPosition.delivery_event._id != newPosition.delivery_event || existingPosition.pay_days != newPosition.pay_days || existingPosition.pay_event._id != newPosition.pay_event || existingPosition.prepay_percent != newPosition.prepay_percent || existingPosition.prepay_amount != newPosition.prepay_amount || existingPosition.pay_close_days != newPosition.pay_close_days || existingPosition.pay_close_event && existingPosition.pay_close_event._id != newPosition.pay_close_event) {
 
-						// data.edited.push(changedPosition);
 						newPosition._id = o._id;
 						data.edited.push(newPosition);
 					} else {
@@ -58201,22 +58528,18 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 			console.log(data);
 
 			SpecificationService.updateData(data).then(function (respond) {
-				console.log(respond);
 
-				var message = '<strong>Specification data successfully saved!</strong>';
+				var message = '<strong>' + _dictionary.dict.msg_specification_data_saved + '</strong>';
 				var id = Flash.create('success', message, 3000, { class: 'custom-class', id: 'custom-id' }, true);
 				return PositionService.bySpecification(SpecificationService.current()._id);
 			}).then(function (newPositionList) {
+
 				initialPositionList = JSON.parse(angular.toJson(newPositionList));
 				positionList = newPositionList;
-				positionList.map(function (o) {
-					o.product.name = (0, _strings.toUnsafeString)(o.product.name);
-					return o;
-				});
 				$scope.filteredObjects = positionList;
 			});
 		} else {
-			var message = '<strong>All positions must have delivery and payment options!</strong>';
+			var message = '<strong>' + _dictionary.dict.msg_delivery_and_payment_options_not_specified + '</strong>';
 			var id = Flash.create('danger', message, 0, { class: 'custom-class', id: 'custom-id' }, true);
 		}
 	};
@@ -58236,28 +58559,46 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 			};
 
 			ProductService.add(data).then(function (newProduct) {
+
 				// add new Position to the ProductList
 				productList.push(newProduct);
-				// $scope.products.push(newProduct);
+				$scope.products = productList;
+
+				// console.log("positions before saving");
+				// console.log($scope.filteredObjects);
+
+				// console.log("$scope.current");
+				// console.log($scope.current);
+
+				// console.log("newProduct");
+				// console.log(newProduct);
 
 				// select new Product as position.product
 				$scope.filteredObjects.map(function (o) {
 					if (o._id == $scope.current._id) {
+						// console.log('we found position in a list to be updated by new product')
 						o.product = {
 							_id: newProduct._id,
 							name: newProduct.name
 						};
+
+						// console.log('position product after updating');
+						// console.log(o.product);
+					} else {
+						console.log('o._id != $scope.current._id');
 					}
 
 					return o;
 				});
+				// console.log("positions after saving product");
+				// console.log($scope.filteredObjects);
 
 				$scope.showNewProductWindow = false;
-				var message = '<strong>New <i>Position Name</i> successfully added!</strong>';
+				var message = '<strong>' + _dictionary.dict.msg_product_added + '</strong>';
 				var id = Flash.create('success', message, 5000, { class: 'custom-class', id: 'custom-id' }, true);
 			});
 		} else {
-			var message = '<strong>New <i>Position Name</i> should not to be empty!</strong>';
+			var message = '<strong>' + _dictionary.dict.msg_empty_product_name + '</strong>';
 			var id = Flash.create('danger', message, 0, { class: 'custom-class', id: 'custom-id' }, true);
 		}
 	};
@@ -58287,11 +58628,15 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 	$scope.goLetters = function () {
 		$state.go('letters');
 	};
+
+	$scope.goApplications = function () {
+		$state.go('applications');
+	};
 }
 
 module.exports = PositionCtrl;
 
-},{"../../constants/paymentevents":13,"../../libs/date":14,"../../libs/number":15,"../../libs/strings":16,"lodash":8}],42:[function(require,module,exports){
+},{"../../constants/deliveryevents":10,"../../constants/paymentevents":13,"../../i18n/ru/dictionary":14,"../../libs/date":15,"../../libs/number":16,"../../libs/strings":17,"lodash":8}],46:[function(require,module,exports){
 'use strict';
 
 var _hierarchy = require('../../constants/hierarchy.js');
@@ -58377,12 +58722,12 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/DeliveryEventService":60,"../../services/DeliveryLetterService":61,"../../services/DeliveryService":62,"../../services/PaymentEventService":64,"../../services/PaymentService":65,"../../services/PositionService":66,"../../services/ProductService":67,"../../services/SpecificationService":68,"../../services/UnitService":69,"./controller":41,"./template.tpl":43,"angular-flash-alert":2}],43:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Details</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Consumer</span> <span class=form-control>{{currentSpecification.contract.consumer.name | toUnsafe}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Contract number</span> <span class=form-control>{{currentSpecification.contract.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Sign Date</span> <span class=form-control>{{currentSpecification.contract.signed_at_formatted}}</span></div></div></div><div class=row><div class=col-md-6></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Specification number</span> <span class=form-control>{{currentSpecification.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Sign Date</span> <span class=form-control>{{currentSpecification.signed_at_formatted}}</span></div></div></div></div></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-2>Delivery Option</div><div class=col-md-5><button class=\"btn btn-warning\" ng-if=current ng-click=checkDeliveryDetailsAndApply()>Apply</button></div><div class=col-md-5><button class=\"btn btn-warning\" ng-click=checkDeliveryDetailsAndApply(true)>Apply to all</button></div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Delivery days</span> <input class=form-control type=number ng-model=deliveryDays></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Event</span><select class=form-control ng-model=deliveryEvent ng-init=\"deliveryEvent=defaultDeliveryEvent\"><option ng-repeat=\"event_d in deliveryEvents\" ng-value=event_d._id>{{ event_d.name }}</option></select></div></div></div></div></div><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-2>Payment Option</div><div class=col-md-5><button class=\"btn btn-warning\" ng-if=current ng-click=checkPaymentDetailsAndApply()>Apply</button></div><div class=col-md-5><button class=\"btn btn-warning\" ng-click=checkPaymentDetailsAndApply(true)>Apply to all</button></div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-3><div class=input-group><span class=input-group-addon>Initial Payment days</span> <input class=form-control type=number ng-model=paymentStartDays></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Pre-payment, %</span> <input class=form-control type=number min=1 ng-model=prepaymentPercent></div></div><div class=col-md-3></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Close Payment days</span> <input class=form-control type=number ng-model=paymentCloseDays></div></div></div><div class=row><div class=col-md-3><div class=input-group><span class=input-group-addon>Initial Event</span><select class=form-control ng-model=paymentEvent1 ng-init=\"paymentEvent1=defaultPaymentStartEvent\"><option ng-repeat=\"event_p in paymentEvents\" ng-value=event_p._id>{{ event_p.name }}</option></select></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Pre-payment, UAH</span> <input class=form-control type=number min=1 ng-model=prepaymentAmount></div></div><div class=col-md-3></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Close Event</span><select class=form-control ng-model=paymentEvent2 ng-init=\"paymentEvent2=defaultPaymentCloseEvent\"><option ng-repeat=\"event_p in paymentEvents\" ng-value=event_p._id>{{ event_p.name }}</option></select></div></div></div></div></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-2>Position List</div><div class=col-md-2><button class=\"btn btn-default\" ng-show=\"! editingMode\" ng-click=saveSpecification()>Save Specification</button></div><div class=col-md-3><button class=\"btn btn-default\" ng-show=\"! editingMode\" ng-click=add()>Add</button> <button class=\"btn btn-default\" ng-if=\"current && !editingMode\" ng-click=edit()>Modify</button> <button class=\"btn btn-default\" ng-if=\"current && !editingMode\" ng-click=removePosition()>Remove</button></div><div class=col-md-5><button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goProviders()>Providers</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goMediators()>Mediators</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goPayments()>Payments</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goDeliveries()>Deliveries</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode && dependOnLetter\" ng-click=goLetters()>Letters</button></div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered\"><thead><tr><td width=270>Commodity</td><td>Quantity</td><td width=100>Price</td><td width=110>Amount</td><td>Delivery details</td><td>Payment details</td></tr></thead><tfoot><tr><td class=total colspan=3>SUM</td><td class=\"digit total\">{{ splitted(sumNoVAT) }}</td></tr><tr><td class=total colspan=3>VAT</td><td class=\"digit total\">{{ splitted( vat ) }}</td></tr><tr><td class=total colspan=3>TOTAL, VAT included</td><td class=\"digit total\">{{ splitted(total) }}</td></tr></tfoot><tbody><tr ng-class=\"position.selected ? 'item-selected' : ''\" ng-repeat=\"position in filteredObjects\" ng-click=select(position)><td ng-show=\"! position.editing\">{{ position.product.name | toUnsafe}}</td><td ng-show=position.editing><input ng-model=filters.product type=text ng-change=filterProduct(position) placeholder=\"Product Filter\"><br><div class=\"input-group product-select\"><span class=input-group-addon>Товар:</span><select class=form-control ng-model=position.product._id ng-change=changeCommodity(position)><option ng-repeat=\"commodity in products\" ng-value=commodity._id>{{ commodity.name | toUnsafe}}</option></select></div><button class=\"btn btn-primary\" ng-click=addNonExistingProduct()>Add non-existing product</button></td><td class=digit ng-show=\"! position.editing\">{{ position.quantity }}</td><td ng-show=position.editing><input type=number class=editing-number ng-model=position.quantity min=1 ng-change=recalcTotal()></td><td class=digit ng-show=\"! position.editing\">{{ splitted(position.price) }}</td><td ng-show=position.editing><input type=number class=editing-number ng-model=position.price min=0.01 ng-change=recalcTotal()></td><td class=digit>{{ splitted(position.quantity * position.price) }}</td><td ng-show=\"! position.editing\">{{ makeDeliveryDetails(position) }}</td><td ng-show=position.editing><button class=\"btn btn-primary\" ng-show=\"products.length > 0\" ng-click=savePosition(position)>Save</button></td><td ng-show=\"! position.editing\"><pre>{{ makePaymentDetails(position) }} </pre></td><td ng-show=\"position.editing && ! position.new\"><button class=\"btn btn-primary\" ng-click=restorePosition(position)>Restore</button></td><td ng-show=\"position.editing && position.new\"><button class=\"btn btn-primary\" ng-click=removePosition(position)>Don't Save</button></td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showNewProductWindow></div><div class=cover-modal ng-show=showNewProductWindow><div id=modal-new-product><div class=\"panel panel-info\"><div class=panel-heading>New Product</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>Product Name</span> <input class=form-control ng-model=newProductName></div></div></div><br><div class=row><div class=col-md-3><div class=input-group><span class=input-group-addon>KVED</span> <input class=form-control ng-model=newProductKVED></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Measure Unit</span><select class=form-control ng-model=newProductUnit ng-init=\"newProductUnit=units[0]._id\"><option ng-repeat=\"unit in units\" ng-value=unit._id>{{ unit.name }}</option></select></div></div><div class=col-md-6><center><button class=\"btn btn-primary\" ng-click=addProductToDB()>Add product</button> <button class=\"btn btn-warning\" ng-click=backToSpecification()>Cancel</button></center></div></div></div></div></div></div>";
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":17,"../../services/DeliveryEventService":65,"../../services/DeliveryLetterService":66,"../../services/DeliveryService":67,"../../services/PaymentEventService":69,"../../services/PaymentService":70,"../../services/PositionService":71,"../../services/ProductService":72,"../../services/SpecificationService":73,"../../services/UnitService":74,"./controller":45,"./template.tpl":47,"angular-flash-alert":2}],47:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>{{ dict.details }}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>{{ dict.consumer }}</span> <span class=form-control>{{currentSpecification.contract.consumer.name | toUnsafe}}</span></div></div></div><div class=row><div class=col-md-3><div class=input-group><span class=input-group-addon>{{ dict.contract_number }}</span> <span class=form-control>{{currentSpecification.contract.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{ dict.signed_at }}</span> <span class=form-control>{{currentSpecification.contract.signed_at_formatted}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{ dict.specification_number }}</span> <span class=form-control>{{currentSpecification.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{ dict.signed_at }}</span> <span class=form-control>{{currentSpecification.signed_at_formatted}}</span></div></div></div></div></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-2>{{ dict.delivery_details }}</div><div class=col-md-5><button class=\"btn btn-warning\" ng-if=current ng-click=checkDeliveryDetailsAndApply()>{{ dict.apply_caption }}</button></div><div class=col-md-5><button class=\"btn btn-warning\" ng-click=checkDeliveryDetailsAndApply(true)>{{ dict.apply_to_all }}</button></div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>{{ dict.delivery_days }}</span> <input class=form-control type=number ng-model=deliveryDays></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>{{ dict.event_caption }}</span><select class=form-control ng-model=deliveryEvent ng-init=\"deliveryEvent=defaultDeliveryEvent\"><option ng-repeat=\"event_d in deliveryEvents\" ng-value=event_d._id>{{ event_d.name_ru }}</option></select></div></div></div></div></div><div class=row><flash-message><div class=flash-div>{{ flash.text}}</div></flash-message></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-2>{{ dict.payment_details }}</div><div class=col-md-5><button class=\"btn btn-warning\" ng-if=current ng-click=checkPaymentDetailsAndApply()>{{ dict.apply_caption }}</button></div><div class=col-md-5><button class=\"btn btn-warning\" ng-click=checkPaymentDetailsAndApply(true)>{{ dict.apply_to_all }}</button></div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-4><div class=input-group><span class=input-group-addon>{{ dict.initial_event }}</span><select class=form-control ng-model=paymentEvent1 ng-init=\"paymentEvent1=defaultPaymentStartEvent\"><option ng-repeat=\"event_p in paymentEvents\" ng-value=event_p._id>{{ event_p.name_ru }}</option></select></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{ dict.prepayment_percent }}</span> <input class=form-control type=number min=1 ng-model=prepaymentPercent></div></div><div class=col-md-1></div><div class=col-md-4><div class=input-group><span class=input-group-addon>{{ dict.close_event }}</span><select class=form-control ng-model=paymentEvent2 ng-init=\"paymentEvent2=defaultPaymentCloseEvent\"><option ng-repeat=\"event_p in paymentEvents\" ng-value=event_p._id>{{ event_p.name_ru }}</option></select></div></div></div><div class=row><div class=col-md-4><div class=input-group><span class=input-group-addon>{{ dict.initial_payment_days }}</span> <input class=form-control type=number ng-model=paymentStartDays></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{ dict.prepayment_amount }}</span> <input class=form-control type=number min=1 ng-model=prepaymentAmount></div></div><div class=col-md-1></div><div class=col-md-4><div class=input-group><span class=input-group-addon>{{ dict.close_payment_days }}</span> <input class=form-control type=number ng-model=paymentCloseDays></div></div></div></div></div><div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-4>{{ dict.position_list }}</div></div></div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><button class=\"btn btn-info\" ng-show=\"! editingMode\" ng-click=saveSpecification()>{{ dict.save_specification }}</button> <button class=\"btn btn-info\" ng-show=\"! editingMode\" ng-click=add()>{{ dict.add }}</button> <button class=\"btn btn-info\" ng-if=\"current && !editingMode\" ng-click=edit()>{{ dict.modify }}</button> <button class=\"btn btn-info\" ng-if=\"current && !editingMode\" ng-click=removePosition()>{{ dict.remove }}</button></div><div class=col-md-6><button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goProviders()>{{ dict.providers }}</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goMediators()>{{ dict.mediators }}</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goPayments()>{{ dict.payments }}</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode\" ng-click=goDeliveries()>{{ dict.deliveries }}</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode && dependOnLetter\" ng-click=goLetters()>{{ dict.letters }}</button> <button class=\"btn btn-default\" ng-if=\"current && !current.new && !editingMode && dependOnApplication\" ng-click=goApplications()>{{ dict.applications }}</button></div></div><div class=row><div class=col-md-12><table class=\"table table-bordered\"><thead><tr><td width=270>{{ dict.product }}</td><td>{{ dict.quantity }}</td><td width=100>{{ dict.price_no_vat }}</td><td width=110>{{ dict.amount }}</td><td>{{ dict.delivery_details }}</td><td>{{ dict.payment_details }}</td></tr></thead><tfoot><tr><td class=total colspan=3>{{ dict.summa }}</td><td class=\"digit total\">{{ splitted(sumNoVAT) }}</td></tr><tr><td class=total colspan=3>{{ dict.vat }}</td><td class=\"digit total\">{{ splitted( vat ) }}</td></tr><tr><td class=total colspan=3>{{ dist.total_vat}}</td><td class=\"digit total\">{{ splitted(total) }}</td></tr></tfoot><tbody><tr ng-class=\"position.selected ? 'item-selected' : ''\" ng-repeat=\"position in filteredObjects\" ng-click=select(position)><td ng-show=\"! position.editing\">{{ position.product.name | toUnsafe}}</td><td ng-show=position.editing><input ng-model=filters.product type=text ng-change=filterProduct(position) placeholder=\"{{ dict.product_filter }}\"><br><div class=\"input-group product-select\"><span class=input-group-addon>{{ dict.product }}:</span><select class=form-control ng-model=position.product._id ng-change=changeCommodity(position)><option ng-repeat=\"commodity in products\" ng-value=commodity._id>{{ commodity.name | toUnsafe}}</option></select></div><button class=\"btn btn-primary\" ng-click=addNonExistingProduct()>{{ dict.add_non_existing_commodity }}</button></td><td class=digit ng-show=\"! position.editing\">{{ position.quantity }}</td><td ng-show=position.editing><input type=number class=editing-number ng-model=position.quantity min=1 ng-change=recalcTotal()></td><td class=digit ng-show=\"! position.editing\">{{ splitted(position.price) }}</td><td ng-show=position.editing><input type=number class=editing-number ng-model=position.price min=0.01 ng-change=recalcTotal()></td><td class=digit>{{ splitted(position.quantity * position.price) }}</td><td ng-show=\"! position.editing\">{{ makeDeliveryDetails(position) }}</td><td ng-show=position.editing><button class=\"btn btn-primary\" ng-show=\"products.length > 0\" ng-click=savePosition(position)>{{ dict.save_caption }}</button></td><td ng-show=\"! position.editing\"><pre>{{ makePaymentDetails(position) }} </pre></td><td ng-show=\"position.editing && editingExistedPosition\"><button class=\"btn btn-primary\" ng-click=restorePosition(position)>{{ dict.restore_caption }}</button></td><td ng-show=\"position.editing && ! editingExistedPosition\"><button class=\"btn btn-primary\" ng-click=removePosition(position)>{{ dict.dont_save }}</button></td></tr></tbody></table></div></div></div></div><div class=cover ng-show=showNewProductWindow></div><div class=cover-modal ng-show=showNewProductWindow><div id=modal-new-product><div class=\"panel panel-info\"><div class=panel-heading>{{ dict.new_product }}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>{{ dict.product_name }}</span> <input class=form-control ng-model=newProductName></div></div></div><br><div class=row><div class=col-md-3><div class=input-group><span class=input-group-addon>{{ dict.kved }}</span> <input class=form-control ng-model=newProductKVED></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{ dict.unit }}</span><select class=form-control ng-model=newProductUnit ng-init=\"newProductUnit=units[0]._id\"><option ng-repeat=\"unit in units\" ng-value=unit._id>{{ unit.name }}</option></select></div></div><div class=col-md-6><center><button class=\"btn btn-primary\" ng-click=addProductToDB()>{{ dict.add_product }}</button> <button class=\"btn btn-warning\" ng-click=backToSpecification()>{{ dict.cancel }}</button></center></div></div></div></div></div></div>";
 
-},{}],44:[function(require,module,exports){
-arguments[4][33][0].apply(exports,arguments)
-},{"dup":33}],45:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
+arguments[4][37][0].apply(exports,arguments)
+},{"dup":37}],49:[function(require,module,exports){
 'use strict';
 
 var _deliveryevents = require('../../../constants/deliveryevents');
@@ -58393,14 +58738,13 @@ var _strings = require('../../../libs/strings');
 
 var _number = require('../../../libs/number');
 
+var _dictionary = require('../../../i18n/ru/dictionary');
+
 var _ = require('lodash');
 
-// const AFTER_PAYED_FULLY = "05c16ce0-f21b-11e6-9aad-1b9e7fe7af50";
-// const AFTER_PREPAYED = "17366b60-f21b-11e6-9aad-1b9e7fe7af50";
-// const SPECIFICATION_SIGNED = "ea4c4fc0-f21a-11e6-9aad-1b9e7fe7af50";
-// const FIXED_DATE = "1e1af220-f21b-11e6-9aad-1b9e7fe7af50";
+function Ctrl($scope, $state, appList, positionList, deliveryList, paymentList) {
 
-function Ctrl($scope, $state, positionList, deliveryList, paymentList) {
+	$scope.dict = _dictionary.dict;
 
 	$scope.dangerousMode = false;
 	positionList.map(function (o) {
@@ -58463,12 +58807,33 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList) {
 
 				break;
 			case _deliveryevents.DELIVERY_AFTER_SPECIFICATION_SIGNED:
-			case _deliveryevents.FIXED_DATE:
 
 				base_date = new Date(o.specification.signed_at.substr(0, 10));
 				base_date_unix = +new Date(o.specification.signed_at.substr(0, 10));
 				delivery_date = (0, _date.datePlusDays)(o.delivery_days, base_date);
 				days_before_delivery = (0, _date.daysFromToday)(delivery_date);
+				break;
+			case _deliveryevents.APPLICATION_SENT:
+				var validApp = _.find(appList, function (ap) {
+					return ap.position._id == o._id;
+				});
+
+				if (validApp) {
+					console.log('found app');
+					console.log(validApp);
+
+					base_date = new Date(validApp.send_at.substr(0, 10));
+					base_date_unix = +new Date(validApp.send_at.substr(0, 10));
+					delivery_date = (0, _date.datePlusDays)(o.delivery_days, base_date);
+					days_before_delivery = (0, _date.daysFromToday)(delivery_date);
+				} else {
+					console.log('App not found');
+					base_date = new Date();
+					base_date_unix = +new Date();
+					delivery_date = (0, _date.datePlusDays)(o.delivery_days, base_date);
+					days_before_delivery = (0, _date.daysFromToday)(delivery_date);
+					o.delivery_period_not_started = true;
+				}
 				break;
 			default:
 				alert('We have unresolved DELIVERY EVENT option');
@@ -58512,7 +58877,7 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList) {
 
 module.exports = Ctrl;
 
-},{"../../../constants/deliveryevents":10,"../../../libs/date":14,"../../../libs/number":15,"../../../libs/strings":16,"lodash":8}],46:[function(require,module,exports){
+},{"../../../constants/deliveryevents":10,"../../../i18n/ru/dictionary":14,"../../../libs/date":15,"../../../libs/number":16,"../../../libs/strings":17,"lodash":8}],50:[function(require,module,exports){
 'use strict';
 
 var _operationtypes = require('../../../constants/operationtypes.js');
@@ -58525,6 +58890,7 @@ var productService = require('../../../services/ProductService');
 var deliveryService = require('../../../services/DeliveryService');
 var deliveryLetterService = require('../../../services/DeliveryLetterService');
 var paymentService = require('../../../services/PaymentService');
+var appService = require('../../../services/ApplicationService');
 
 // angular.module('positionModule', ['ngFlash'])
 angular.module('deliveryConsumerReportModule', []).config(['$httpProvider', function ($httpProvider) {
@@ -58538,11 +58904,11 @@ angular.module('deliveryConsumerReportModule', []).config(['$httpProvider', func
   return function (str) {
     return (0, _strings.toUnsafeString)(str);
   };
-}).factory('PositionService', ['$http', positionService]).factory('ProductService', ['$http', productService]).factory('DeliveryService', ['$http', deliveryService]).factory('DeliveryLetterService', ['$http', deliveryLetterService]).factory('PaymentService', ['$http', paymentService]).run(['PaymentService', function (PaymentService) {
+}).factory('PositionService', ['$http', positionService]).factory('AppService', ['$http', appService]).factory('ProductService', ['$http', productService]).factory('DeliveryService', ['$http', deliveryService]).factory('DeliveryLetterService', ['$http', deliveryLetterService]).factory('PaymentService', ['$http', paymentService]).run(['PaymentService', function (PaymentService) {
   PaymentService.setType(_operationtypes.WE_CONSUMER);
 }]).run(['DeliveryLetterService', function (DeliveryLetterService) {
   DeliveryLetterService.setType(_operationtypes.WE_CONSUMER);
-}]).controller('ConsumerDeliveryReportCtrl', ['$scope', '$state', 'positionList', 'deliveryList', 'paymentList', controller]);
+}]).controller('ConsumerDeliveryReportCtrl', ['$scope', '$state', 'appList', 'positionList', 'deliveryList', 'paymentList', controller]);
 
 module.exports = {
   template: require('./template.tpl'),
@@ -58558,6 +58924,11 @@ module.exports = {
         return data;
       });
     }],
+    appList: ['AppService', function (AppService) {
+      return AppService.all().then(function (data) {
+        return data;
+      });
+    }],
     paymentList: ['PaymentService', function (PaymentService) {
       return PaymentService.all().then(function (data) {
         return data;
@@ -58566,10 +58937,10 @@ module.exports = {
   }
 };
 
-},{"../../../constants/operationtypes.js":12,"../../../libs/strings":16,"../../../services/DeliveryLetterService":61,"../../../services/DeliveryService":62,"../../../services/PaymentService":65,"../../../services/PositionService":66,"../../../services/ProductService":67,"./controller":45,"./template.tpl":47}],47:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-5>REPORT : DELIVERIES TO CONSUMERS</div><div class=col-md-7><button class=\"btn btn-default\" ng-click=changeViewMode()>{{ dangerousMode ? \"Sort by Consumers\" : \"Sort by Urgenity\"}}</button></div></div></div><div class=\"panel panel-body\"><div class=row><table class=\"table table-bordered\"><thead><tr><td>Product</td><td>Quantity</td><td>Delivered</td><td>Not<br>delivered<br>yet</td><td>Days<br>before<br>Delivery</td><td>Consumer</td><td>Contract</td><td>Spec</td></tr></thead><tbody><tr ng-repeat=\"position in positions\"><td>{{position.product.name | toUnsafe}}</td><td>{{position.quantity}}</td><td>{{position.delivered_quantity}}</td><td>{{position.quantity - position.delivered_quantity}}</td><td ng-class=position.dangerClass>{{position.days_before_delivery}} {{ position.delivery_period_not_started ? \"(Not Started)\" : \"\"}}</td><td>{{position.specification.contract.consumer.name | toUnsafe}}</td><td>{{position.specification.contract.number}}</td><td>{{position.specification.number}}</td></tr></tbody></table></div></div></div>";
+},{"../../../constants/operationtypes.js":12,"../../../libs/strings":17,"../../../services/ApplicationService":62,"../../../services/DeliveryLetterService":66,"../../../services/DeliveryService":67,"../../../services/PaymentService":70,"../../../services/PositionService":71,"../../../services/ProductService":72,"./controller":49,"./template.tpl":51}],51:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-5>{{dict.consumer_delivery_report}}</div><div class=col-md-7><button class=\"btn btn-default\" ng-click=changeViewMode()>{{ dangerousMode ? dict.sort_by_consumers : dict.sort_by_urgency}}</button></div></div></div><div class=\"panel panel-body\"><div class=row><table class=\"table table-bordered\"><thead><tr><td>{{dict.product}}</td><td>{{dict.quantity}}</td><td>{{dict.delivered}}</td><td>{{dict.residual_delivery}}</td><td>{{dict.days_to_delivery}}</td><td>{{dict.consumer}}</td><td>{{dict.contract}}</td><td>{{dict.specification}}</td></tr></thead><tbody><tr ng-repeat=\"position in positions\"><td>{{position.product.name | toUnsafe}}</td><td>{{position.quantity}}</td><td>{{position.delivered_quantity}}</td><td>{{position.quantity - position.delivered_quantity}}</td><td ng-class=position.dangerClass>{{position.days_before_delivery}} {{ position.delivery_period_not_started ? \"(Not Started)\" : \"\"}}</td><td>{{position.specification.contract.consumer.name | toUnsafe}}</td><td>{{position.specification.contract.number}}</td><td>{{position.specification.number}}</td></tr></tbody></table></div></div></div>";
 
-},{}],48:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 var _date2 = require('../../../libs/date');
@@ -58580,13 +58951,13 @@ var _number = require('../../../libs/number');
 
 var _paymentevents = require('../../../constants/paymentevents');
 
+var _dictionary = require('../../../i18n/ru/dictionary');
+
 var _ = require('lodash');
 
-// const DELIVERED = "b6918e10-f21b-11e6-9aad-1b9e7fe7af50";
-// const DELIVERY_READY_LETTER = "d0661a90-f21b-11e6-9aad-1b9e7fe7af50";
-// const SPECIFICATION_SIGNED = "9f7088d0-f21b-11e6-9aad-1b9e7fe7af50";
-
 function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterList) {
+
+	$scope.dict = _dictionary.dict;
 
 	$scope.dangerousMode = false;
 	positionList.map(function (o) {
@@ -58594,20 +58965,32 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 		var days_before_payment;
 		var paymentArray = [];
 
-		if (o.prepay_amount && o.payed_amount >= o.prepay_amount) {
-			paymentArray.push({
-				days: 999,
-				danger: "",
-				notStarted: false,
-				alreadyPayed: true
-			});
+		if (o.prepay_amount) {
+			if (o.payed_amount >= o.prepay_amount) {
+				paymentArray.push({
+					days: 999,
+					danger: "",
+					notStarted: false,
+					alreadyPayed: true
+				});
+			} else {
+				var _date = getPaymentDay(o._id, o.specification.signed_at, o.quantity, o.pay_event._id, o.pay_days);
+				days_before_payment = (0, _date2.daysFromToday)(_date.paymentDate);
+				paymentArray.push({
+					days: days_before_payment,
+					danger: getDangerClass(days_before_payment),
+					notStarted: _date.notStarted,
+					amount: o.prepay_amount - o.payed_amount
+				});
+			}
 		} else {
 			var _date = getPaymentDay(o._id, o.specification.signed_at, o.quantity, o.pay_event._id, o.pay_days);
 			days_before_payment = (0, _date2.daysFromToday)(_date.paymentDate);
 			paymentArray.push({
 				days: days_before_payment,
 				danger: getDangerClass(days_before_payment),
-				notStarted: _date.notStarted
+				notStarted: _date.notStarted,
+				amount: o.price * o.quantity * 1.2 - o.payed_amount
 			});
 		}
 
@@ -58619,7 +59002,8 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 			paymentArray.push({
 				days: days_before_payment,
 				danger: getDangerClass(days_before_payment),
-				notStarted: _date.notStarted
+				notStarted: _date.notStarted,
+				amount: o.payed_amount > o.prepay_amount ? o.quantity * o.price * 1.2 - o.payed_amount : o.quantity * o.price * 1.2 - o.prepay_amount
 			});
 		}
 
@@ -58647,7 +59031,6 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 
 		payments.forEach(function (p) {
 			counter++;
-			minPeriod = 1000;
 
 			switch (true) {
 				case counter == 1 && payments.length == 2:
@@ -58672,6 +59055,9 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 					if (minPeriod > Number(p.days)) {
 						minPeriod = Number(p.days);
 						dangerClass = p.danger;
+					}
+					if (p.amount) {
+						preResult += " (" + (0, _number.numberSplitted)(p.amount) + ")";
 					}
 			}
 
@@ -58761,7 +59147,6 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 		return obj.specification.contract.consumer.name;
 	};
 	$scope.changeViewMode = function () {
-		console.log('changing view');
 		$scope.dangerousMode = !$scope.dangerousMode;
 
 		var sortOrder = $scope.dangerousMode ? ['days_before_payment', sortByConsumer] : [sortByConsumer, 'days_before_payment'];
@@ -58775,7 +59160,7 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 
 module.exports = Ctrl;
 
-},{"../../../constants/paymentevents":13,"../../../libs/date":14,"../../../libs/number":15,"../../../libs/strings":16,"lodash":8}],49:[function(require,module,exports){
+},{"../../../constants/paymentevents":13,"../../../i18n/ru/dictionary":14,"../../../libs/date":15,"../../../libs/number":16,"../../../libs/strings":17,"lodash":8}],53:[function(require,module,exports){
 'use strict';
 
 var _operationtypes = require('../../../constants/operationtypes.js');
@@ -58839,20 +59224,24 @@ module.exports = {
   }
 };
 
-},{"../../../constants/operationtypes.js":12,"../../../libs/number":15,"../../../libs/strings":16,"../../../services/DeliveryLetterService":61,"../../../services/DeliveryService":62,"../../../services/PaymentService":65,"../../../services/PositionService":66,"./controller":48,"./template.tpl":50}],50:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-5>REPORT : PAYMENTS FROM CONSUMERS</div><div class=col-md-7><button class=\"btn btn-default\" ng-click=changeViewMode()>{{ dangerousMode ? \"Sort by Consumers\" : \"Sort by Urgenity\"}}</button></div></div></div><div class=\"panel panel-body\"><div class=row><table class=\"table table-bordered\"><thead><tr><td>Product</td><td>Quantity</td><td>Price, noVAT</td><td>Amount, VAT</td><td>Payed</td><td>To Pay</td><td>Days<br>before<br>Payment</td><td>Consumer</td><td>Contract</td><td>Spec</td></tr></thead><tbody><tr ng-repeat=\"position in positions\"><td>{{position.product.name | toUnsafe}}</td><td>{{position.quantity}}</td><td class=digit>{{position.price | asPrice}}</td><td class=digit>{{(position.quantity * position.price * 1.2) | asPrice}}</td><td class=digit>{{position.payed_amount | asPrice}}</td><td class=digit>{{(position.quantity * position.price * 1.2 - position.payed_amount) | asPrice}}</td><td ng-class=position.paymentView.danger><pre>{{position.paymentView.view}}</pre></td><td>{{position.specification.contract.consumer.name | toUnsafe}}</td><td>{{position.specification.contract.number}}</td><td>{{position.specification.number}}</td></tr></tbody></table></div></div></div>";
+},{"../../../constants/operationtypes.js":12,"../../../libs/number":16,"../../../libs/strings":17,"../../../services/DeliveryLetterService":66,"../../../services/DeliveryService":67,"../../../services/PaymentService":70,"../../../services/PositionService":71,"./controller":52,"./template.tpl":54}],54:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\"><div class=panel-heading><div class=row><div class=col-md-5>{{dict.consumer_payment_report}}</div><div class=col-md-7><button class=\"btn btn-default\" ng-click=changeViewMode()>{{ dangerousMode ? dict.sort_by_consumers : dict.sort_by_urgency }}</button></div></div></div><div class=\"panel panel-body\"><div class=row><table class=\"table table-bordered\"><thead><tr><td>{{dict.product}}</td><td>{{dict.quantity}}</td><td>{{dict.price_no_vat}}</td><td>{{dict.amount_vat}}</td><td>{{dict.payed}}</td><td>{{dict.residual_payment}}</td><td>{{dict.days_to_payment}}</td><td>{{dict.consumer}}</td><td>{{dict.contract}}</td><td>{{dict.specification}}</td></tr></thead><tbody><tr ng-repeat=\"position in positions\"><td>{{position.product.name | toUnsafe}}</td><td>{{position.quantity}}</td><td class=digit>{{position.price | asPrice}}</td><td class=digit>{{(position.quantity * position.price * 1.2) | asPrice}}</td><td class=digit>{{position.payed_amount | asPrice}}</td><td class=digit>{{(position.quantity * position.price * 1.2 - position.payed_amount) | asPrice}}</td><td ng-class=position.paymentView.danger><pre>{{position.paymentView.view}}</pre></td><td>{{position.specification.contract.consumer.name | toUnsafe}}</td><td>{{position.specification.contract.number}}</td><td>{{position.specification.number}}</td></tr></tbody></table></div></div></div>";
 
-},{}],51:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
 
 var _date = require('../../../libs/date');
 
+var _dictionary = require('../../../i18n/ru/dictionary');
+
 var _ = require('lodash');
 
 
 function SpecificationCardCtrl($scope, $state, contract, SpecificationService) {
+
+	$scope.dict = _dictionary.dict;
 
 	$scope.contract = contract;
 
@@ -58860,11 +59249,11 @@ function SpecificationCardCtrl($scope, $state, contract, SpecificationService) {
 	$scope.contract.signed_at_formatted = (0, _date.formattedToRu)(new Date($scope.contract.signed_at));
 
 	if ($state.current.name == 'specification_add') {
-		$scope.submitCaption = "Добавить";
+		$scope.submitCaption = _dictionary.dict.add;
 		$scope.specificationNumber = "";
 		$scope.signed_at = new Date();
 	} else {
-		$scope.submitCaption = "Сохранить";
+		$scope.submitCaption = _dictionary.dict.save_caption;
 		$scope.specificationNumber = SpecificationService.current().number;
 		$scope.signed_at = new Date(SpecificationService.current().signed_at.substr(0, 10));
 	}
@@ -58899,7 +59288,7 @@ function SpecificationCardCtrl($scope, $state, contract, SpecificationService) {
 
 module.exports = SpecificationCardCtrl;
 
-},{"../../../libs/date":14,"../../../libs/strings":16,"lodash":8}],52:[function(require,module,exports){
+},{"../../../i18n/ru/dictionary":14,"../../../libs/date":15,"../../../libs/strings":17,"lodash":8}],56:[function(require,module,exports){
 'use strict';
 
 var _strings = require('../../../libs/strings');
@@ -58926,10 +59315,10 @@ module.exports = {
   controller: 'SpecificationCardCtrl'
 };
 
-},{"../../../libs/strings":16,"../../../services/ContractService":59,"../../../services/SpecificationService":68,"./controller":51,"./template.tpl":53}],53:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Details</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Consumer</span> <span class=form-control>{{contract.consumer.name | toUnsafe}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Contract number</span> <span class=form-control>{{contract.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Sign Date</span> <span class=form-control>{{contract.signed_at_formatted}}</span></div></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Specification Data</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Specification number</span> <input class=form-control type=text ng-model=specificationNumber></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>Sign Date</span> <input class=form-control type=date ng-model=signed_at></div></div></div></div></div><div class=\"panel panel-default\"><div class=panel-body><center><button class=\"btn btn-primary\" ng-click=save()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>Отмена</button></center></div></div>";
+},{"../../../libs/strings":17,"../../../services/ContractService":64,"../../../services/SpecificationService":73,"./controller":55,"./template.tpl":57}],57:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>{{dict.details}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.consumer}}</span> <span class=form-control>{{contract.consumer.name | toUnsafe}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{dict.contract_number}}</span> <span class=form-control>{{contract.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>{{dict.signed_at}}</span> <span class=form-control>{{contract.signed_at_formatted}}</span></div></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>{{dict.specification_details}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.specification_number}}</span> <input class=form-control type=text ng-model=specificationNumber></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.signed_at}}</span> <input class=form-control type=date ng-model=signed_at></div></div></div></div></div><div class=\"panel panel-default\"><div class=panel-body><center><button class=\"btn btn-primary\" ng-click=save()>{{ submitCaption }}</button> <button class=\"btn btn-warning\" ng-click=backToList()>{{dict.cancel}}</button></center></div></div>";
 
-},{}],54:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 var _hierarchy = require('../../constants/hierarchy.js');
@@ -58988,17 +59377,21 @@ module.exports = {
   }
 };
 
-},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":16,"../../services/ConsumerService":58,"../../services/ContractService":59,"../../services/DeliveryService":62,"../../services/PaymentService":65,"../../services/SpecificationService":68,"./specification-ctrl":55,"./specification.tpl":56}],55:[function(require,module,exports){
+},{"../../constants/hierarchy.js":11,"../../constants/operationtypes.js":12,"../../libs/strings":17,"../../services/ConsumerService":63,"../../services/ContractService":64,"../../services/DeliveryService":67,"../../services/PaymentService":70,"../../services/SpecificationService":73,"./specification-ctrl":59,"./specification.tpl":60}],59:[function(require,module,exports){
 'use strict';
 
 var _date = require('../../libs/date');
 
 var _strings = require('../../libs/strings');
 
+var _dictionary = require('../../i18n/ru/dictionary');
+
 var _ = require('lodash');
 
 
 function SpecificationCtrl($scope, $state, specificationList, consumer, contract, SpecificationService) {
+
+	$scope.dict = _dictionary.dict;
 
 	// $scope.currentConsumer = consumer;
 	$scope.currentContract = contract;
@@ -59071,12 +59464,85 @@ function SpecificationCtrl($scope, $state, specificationList, consumer, contract
 
 module.exports = SpecificationCtrl;
 
-},{"../../libs/date":14,"../../libs/strings":16,"lodash":8}],56:[function(require,module,exports){
-module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>Details</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>Consumer</span> <span class=form-control>{{currentContract.consumer.name | toUnsafe}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Contract number</span> <span class=form-control>{{currentContract.number}}</span></div></div><div class=col-md-3><div class=input-group><span class=input-group-addon>Sign Date</span> <span class=form-control>{{currentContract.signed_at_formatted}}</span></div></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Operations</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><button class=\"btn btn-info\" ng-click=add()>Add</button> <button class=\"btn btn-info\" ng-if=current ng-click=edit()>Update</button></div><div class=col-md-6><button class=\"btn btn-info\" ng-if=current ng-click=goPos()>Pos</button> <button class=\"btn btn-info\" ng-if=current ng-click=goPayments()>Payments</button> <button class=\"btn btn-info\" ng-if=current ng-click=goDeliveries()>Deliveries</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>Specification List</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered\"><thead><tr><td>Specification Number</td><td>Signed at</td></tr></thead><tbody><tr ng-class=\"specification.selected ? 'item-selected' : ''\" ng-repeat=\"specification in filteredObjects\" ng-click=select(specification)><td>{{ specification.number }}</td><td>{{ specification.signed_at_formatted }}</td></tr></tbody></table></div></div></div></div>";
+},{"../../i18n/ru/dictionary":14,"../../libs/date":15,"../../libs/strings":17,"lodash":8}],60:[function(require,module,exports){
+module.exports = "<div class=\"panel panel-info\"><div class=panel-heading>{{dict.details}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><div class=input-group><span class=input-group-addon>{{dict.consumer}}</span> <span class=form-control>{{currentContract.consumer.name | toUnsafe}}</span></div></div></div><div class=row><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.contract_number}}</span> <span class=form-control>{{currentContract.number}}</span></div></div><div class=col-md-6><div class=input-group><span class=input-group-addon>{{dict.signed_at}}</span> <span class=form-control>{{currentContract.signed_at_formatted}}</span></div></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>{{dict.operations}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-6><button class=\"btn btn-info\" ng-click=add()>{{dict.add}}</button> <button class=\"btn btn-info\" ng-if=current ng-click=edit()>{{dict.modify}}</button></div><div class=col-md-6><button class=\"btn btn-default\" ng-if=current ng-click=goPos()>{{dict.positions}}</button> <button class=\"btn btn-default\" ng-if=current ng-click=goPayments()>{{dict.payments}}</button> <button class=\"btn btn-default\" ng-if=current ng-click=goDeliveries()>{{dict.deliveries}}</button></div></div></div></div><br><div class=\"panel panel-info\"><div class=panel-heading>{{dict.specification_list}}</div><div class=\"panel panel-body\"><div class=row><div class=col-md-12><table class=\"table table-bordered\"><thead><tr><td>{{dict.specification_number}}</td><td>{{dict.signed_at}}</td></tr></thead><tbody><tr ng-class=\"specification.selected ? 'item-selected' : ''\" ng-repeat=\"specification in filteredObjects\" ng-click=select(specification)><td>{{ specification.number }}</td><td>{{ specification.signed_at_formatted }}</td></tr></tbody></table></div></div></div></div>";
 
-},{}],57:[function(require,module,exports){
-arguments[4][33][0].apply(exports,arguments)
-},{"dup":33}],58:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
+arguments[4][37][0].apply(exports,arguments)
+},{"dup":37}],62:[function(require,module,exports){
+'use strict';
+
+var _url = require('../libs/url');
+
+var API_SERVER = (0, _url.getSiteHost)();
+
+var current;
+
+function Service($http) {
+
+  function all() {
+    return $http.get(API_SERVER + '/applications', { cache: false }).then(function (data) {
+      return data.data;
+    }).catch(function () {
+      return undefined;
+    });
+  }
+
+  function byPositionId(posId) {
+    return $http.get(API_SERVER + '/applications/position/' + posId, { cache: false }).then(function (data) {
+      return data.data;
+    }).catch(function () {
+      return undefined;
+    });
+  }
+
+  function add(data) {
+    return $http.post(API_SERVER + '/applications', data).then(function (data) {
+      return data.data;
+    }).catch(function () {
+      return undefined;
+    });
+  }
+
+  function update(id, data) {
+    return $http.put(API_SERVER + '/applications/' + id, data).then(function (data) {
+      return data.data;
+    }).catch(function () {
+      return undefined;
+    });
+  }
+
+  function remove(id) {
+    return $http.delete(API_SERVER + '/applications/' + id).then(function (data) {
+      console.log('Application Successfully removed');
+      return data.data;
+    }).catch(function () {
+      return undefined;
+    });
+  }
+
+  function current() {
+    return current;
+  }
+
+  function select(letter) {
+    current = letter;
+  }
+
+  return {
+    all: all,
+    current: current,
+    select: select,
+    add: add,
+    update: update,
+    remove: remove,
+    byPositionId: byPositionId
+  };
+}
+
+module.exports = Service;
+
+},{"../libs/url":18}],63:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59156,7 +59622,7 @@ function ConsumerService($http) {
 
 module.exports = ConsumerService;
 
-},{"../libs/url":17}],59:[function(require,module,exports){
+},{"../libs/url":18}],64:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59230,7 +59696,7 @@ function ContractService($http) {
 
 module.exports = ContractService;
 
-},{"../libs/url":17}],60:[function(require,module,exports){
+},{"../libs/url":18}],65:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59256,7 +59722,7 @@ function Service($http) {
 
 module.exports = Service;
 
-},{"../libs/url":17}],61:[function(require,module,exports){
+},{"../libs/url":18}],66:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59341,7 +59807,7 @@ function Service($http) {
 
 module.exports = Service;
 
-},{"../libs/url":17}],62:[function(require,module,exports){
+},{"../libs/url":18}],67:[function(require,module,exports){
 'use strict';
 
 // import { WE_CONSUMER, WE_PROVIDER, WE_MEDIATOR, MEDIATOR_PROVIDER } from '../constants/operationtypes.js';
@@ -59438,7 +59904,7 @@ function Service($http) {
 
 module.exports = Service;
 
-},{"../libs/url":17}],63:[function(require,module,exports){
+},{"../libs/url":18}],68:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59464,7 +59930,7 @@ function GroupService($http) {
 
 module.exports = GroupService;
 
-},{"../libs/url":17}],64:[function(require,module,exports){
+},{"../libs/url":18}],69:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59490,7 +59956,7 @@ function Service($http) {
 
 module.exports = Service;
 
-},{"../libs/url":17}],65:[function(require,module,exports){
+},{"../libs/url":18}],70:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59585,7 +60051,7 @@ function Service($http) {
 
 module.exports = Service;
 
-},{"../libs/url":17}],66:[function(require,module,exports){
+},{"../libs/url":18}],71:[function(require,module,exports){
 'use strict';
 
 var _url = require('../libs/url');
@@ -59677,7 +60143,7 @@ function PositionService($http) {
 
 module.exports = PositionService;
 
-},{"../libs/url":17}],67:[function(require,module,exports){
+},{"../libs/url":18}],72:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59744,7 +60210,7 @@ function ProductService($http) {
 
 module.exports = ProductService;
 
-},{"../libs/url":17}],68:[function(require,module,exports){
+},{"../libs/url":18}],73:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59827,7 +60293,7 @@ function SpecificationService($http) {
 
 module.exports = SpecificationService;
 
-},{"../libs/url":17}],69:[function(require,module,exports){
+},{"../libs/url":18}],74:[function(require,module,exports){
 'use strict';
 
 // var API_SERVER = 'http://localhost:8080/api/v1';
@@ -59853,6 +60319,6 @@ function Service($http) {
 
 module.exports = Service;
 
-},{"../libs/url":17}]},{},[9])
+},{"../libs/url":18}]},{},[9])
 
 //# sourceMappingURL=app.js.map

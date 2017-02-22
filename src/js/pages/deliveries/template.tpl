@@ -1,13 +1,13 @@
 <div class="panel panel-info" ng-if="showControls && ! showDeliveryCard">
-	<div class="panel-heading">Operations</div>	
+	<div class="panel-heading">{{dict.operations}}</div>	
 	<div class="panel panel-body">
 		<div class="row">
 			<div class="col-md-4">
-				<button class="btn btn-info" ng-click="add()">Add</button>
+				<button class="btn btn-info" ng-click="add()">{{dict.add}}</button>
 			</div>
 			<div class="col-md-8">
-				<button class="btn btn-info" ng-if="current" ng-click="edit()">Modify</button>
-				<button class="btn btn-info" ng-if="current" ng-click="remove()">Delete</button>
+				<button class="btn btn-info" ng-if="current" ng-click="edit()">{{dict.modify}}</button>
+				<button class="btn btn-info" ng-if="current" ng-click="remove()">{{dict.remove}}</button>
 			</div>
 		</div>
 	</div>
@@ -15,19 +15,19 @@
 <br>
 
 <div class="panel panel-info">
-	<div class="panel-heading">Delivery List</div>	
+	<div class="panel-heading">{{dict.delivery_list}}</div>	
 	<div class="panel panel-body">
 		<div class="row">
 			<div class="col-md-12">
 				<table class="table table-bordered table-condensed">
 					<thead>
 						<tr>
-							<th>Delivered at</th>
-							<th>Consumer</th></td>
-							<th>Contract</th></td>
-							<th>Spec</th>
-							<th>Product</th>
-							<th>Quantity</th>
+							<th>{{dict.delivered_at}}</th>
+							<th>{{dict.consumer}}</th>
+							<th>{{dict.contract}}</th>
+							<th>{{dict.specification}}</th>
+							<th>{{dict.product}}</th>
+							<th>{{dict.quantity}}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -75,14 +75,14 @@
 				<div class="row">
 					<div class="col-md-12">
 						<center>
-							<h2>Delivery Details</h2>
+							<h2>{{dict.delivery_details}}</h2>
 						</center>
 					</div>	
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="input-group">
-							<span class="input-group-addon">Product</span>
+							<span class="input-group-addon">{{dict.product}}</span>
 							<span class="form-control">{{card.productName | toUnsafe}}</span>
 						</div>
 					</div>	
@@ -91,13 +91,13 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="input-group">
-							<span class="input-group-addon">Contract Quantity</span>
+							<span class="input-group-addon">{{dict.contract_quantity}}</span>
 							<span class="form-control">{{card.contractQuantity | asPrice}}</span>
 						</div>
 					</div>	
 					<div class="col-md-6">
 						<div class="input-group">
-							<span class="input-group-addon">Already Delivered</span>
+							<span class="input-group-addon">{{dict.delivered}}</span>
 							<span class="form-control">{{card.deliveredQuantity | asPrice}}</span>
 							
 						</div>
@@ -109,20 +109,20 @@
 				<div class="row">
 					<div class="col-md-4">
 						<div class="input-group">
-							<span class="input-group-addon">Delivery Date</span>
+							<span class="input-group-addon">{{dict.delivery_date}}</span>
 							<input class="form-control" ng-model="card.deliveryDate" type="date">
 						</div>
 					</div>	
 					<div class="col-md-4">
 						<div class="input-group">
-							<span class="input-group-addon">Quantity</span>
+							<span class="input-group-addon">{{dict.quantity}}</span>
 							<input class="form-control" ng-model="card.deliveryQuantity" type="number">
 						</div>
 					</div>	
 					<div class="col-md-4">
 						<div class="input-group">
-							<button class="btn btn-primary" ng-click="saveDelivery()">Save</button>
-							<button class="btn btn-primary" ng-click="backToList()">Cancel</button>
+							<button class="btn btn-primary" ng-click="saveDelivery()">{{dict.save_caption}}</button>
+							<button class="btn btn-primary" ng-click="backToList()">{{dict.cancel}}</button>
 						</div>
 					</div>	
 				</div>

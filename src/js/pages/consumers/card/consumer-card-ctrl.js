@@ -2,16 +2,21 @@
 var _ = require('lodash');
 import { toSafeString, toUnsafeString } from '../../../libs/strings';
 
+import { dict } from '../../../i18n/ru/dictionary';
+
+
 function ConsumerCardCtrl($scope, $state, ConsumerService, GroupService, currentConsumer, groupList) {
+
+	$scope.dict = dict;
 
 	$scope.groups = _.filter(groupList, {is_old: false}); 
 
 	if ($state.current.name === 'consumer_add') {
-		$scope.submitCaption = "Add";
+		$scope.submitCaption = dict.add;
 		$scope.consumerName = "";
 		$scope.consumerCurrentGroup = groupList[0]._id;
 	} else {
-		$scope.submitCaption = "Update";
+		$scope.submitCaption = dict.update;
 		$scope.consumerName = currentConsumer.name;
 		$scope.consumerCurrentGroup = currentConsumer.group._id;
 	}

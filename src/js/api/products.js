@@ -109,7 +109,12 @@ router.post('/', function(req, res) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		return res.send(savedProduct);
+		return Product.findById( savedProduct._id, function(err, populatedProduct){
+			if (err)
+				return res.status(500).send({ error: 'Error during request'});
+			
+			return res.send(populatedProduct);
+		})
 	})
 });
 

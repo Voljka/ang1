@@ -3,7 +3,11 @@ var _ = require('lodash');
 import { toSafeString, toUnsafeString } from '../../../libs/strings';
 import { formattedToSave, formattedToRu } from '../../../libs/date';
 
+import { dict } from '../../../i18n/ru/dictionary';
+
 function ContractCardCtrl($scope, $state, consumer, ContractService) {
+
+	$scope.dict = dict;
 
 	consumer.name = toUnsafeString(consumer.name)
 	$scope.consumer = consumer;

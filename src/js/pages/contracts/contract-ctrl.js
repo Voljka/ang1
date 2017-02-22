@@ -2,7 +2,11 @@
 var _ = require('lodash');
 import { formattedToSave, formattedToRu } from '../../libs/date';
 
+import { dict } from '../../i18n/ru/dictionary';
+
 function ContractCtrl($scope, $state, contractList, consumer, ContractService) {
+
+	$scope.dict = dict;
 
 	$scope.currentConsumer = consumer;
 	$scope.current = undefined;

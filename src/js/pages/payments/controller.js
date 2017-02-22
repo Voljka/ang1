@@ -4,7 +4,11 @@ import { formattedToSave, formattedToRu } from '../../libs/date';
 import { numberSplitted } from '../../libs/number';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 
+import { dict } from '../../i18n/ru/dictionary';
+
 function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentService) {
+
+	$scope.dict = dict;
 
 	$scope.showControls = ! _.isEmpty(position);
 
@@ -198,11 +202,11 @@ function Ctrl($scope, $state, payments, operationType, position, Flash, PaymentS
 
 				$scope.showPaymentCard = false;
 			} else {
-				var message = '<strong>Contract Amount for selected Product can\'t be exceeded!</strong>';
+				var message = '<strong>'+ dict.msg_contract_amount_exceeded + '</strong>';
 		        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		} else {
-			var message = '<strong>Payment Amount can\'t be less than 0.01 !</strong>';
+			var message = '<strong>' + dict.msg_invalid_payment_amount + '</strong>';
 	        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
 		}
 	}

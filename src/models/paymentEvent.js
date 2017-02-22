@@ -14,6 +14,10 @@ var PaymentEvent = new Schema({
 		type: String,
 		required: true
 	},
+	name_ru: {
+		type: String,
+		required: true
+	},
 	// our: Boolean
 });
 

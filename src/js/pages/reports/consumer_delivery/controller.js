@@ -1,18 +1,17 @@
 'use strict';
 var _ = require('lodash');
 
-// const AFTER_PAYED_FULLY = "05c16ce0-f21b-11e6-9aad-1b9e7fe7af50";
-// const AFTER_PREPAYED = "17366b60-f21b-11e6-9aad-1b9e7fe7af50";
-// const SPECIFICATION_SIGNED = "ea4c4fc0-f21a-11e6-9aad-1b9e7fe7af50";
-// const FIXED_DATE = "1e1af220-f21b-11e6-9aad-1b9e7fe7af50";
-
-import { AFTER_PAYED_FULLY, AFTER_PREPAYED, DELIVERY_AFTER_SPECIFICATION_SIGNED, FIXED_DATE } from '../../../constants/deliveryevents';
+import { AFTER_PAYED_FULLY, AFTER_PREPAYED, DELIVERY_AFTER_SPECIFICATION_SIGNED, APPLICATION_SENT } from '../../../constants/deliveryevents';
 
 import { formattedToSave, formattedToRu, datePlusDays, daysFromToday } from '../../../libs/date';
 import { toSafeString, toUnsafeString } from '../../../libs/strings';
 import { numberSplitted } from '../../../libs/number';
 
-function Ctrl($scope, $state, positionList, deliveryList, paymentList) {
+import { dict } from '../../../i18n/ru/dictionary';
+
+function Ctrl($scope, $state, appList, positionList, deliveryList, paymentList) {
+
+	$scope.dict = dict;
 
 	$scope.dangerousMode = false;
 	positionList.map(function(o){
@@ -78,12 +77,33 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList) {
 
 				break;
 			case DELIVERY_AFTER_SPECIFICATION_SIGNED:
-			case FIXED_DATE:
 
 				base_date = new Date(o.specification.signed_at.substr(0,10));
 				base_date_unix = +new Date(o.specification.signed_at.substr(0,10));
 				delivery_date = datePlusDays(o.delivery_days, base_date);
 				days_before_delivery = daysFromToday(delivery_date);
+				break;
+			case APPLICATION_SENT:
+				var validApp = _.find( appList, function(ap){
+					return ap.position._id == o._id;
+				})
+				
+				if (validApp) {
+					console.log('found app');
+					console.log(validApp);
+
+					base_date = new Date(validApp.send_at.substr(0,10));
+					base_date_unix = +new Date(validApp.send_at.substr(0,10));
+					delivery_date = datePlusDays(o.delivery_days, base_date);
+					days_before_delivery = daysFromToday(delivery_date);
+				} else {
+					console.log('App not found');
+					base_date = new Date();
+					base_date_unix = +new Date();
+					delivery_date = datePlusDays(o.delivery_days, base_date);
+					days_before_delivery = daysFromToday(delivery_date);
+					o.delivery_period_not_started = true;
+				}
 				break;
 			default:
 				alert('We have unresolved DELIVERY EVENT option');

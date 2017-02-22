@@ -1,16 +1,16 @@
 'use strict';
 var _ = require('lodash');
 
-// const DELIVERED = "b6918e10-f21b-11e6-9aad-1b9e7fe7af50";
-// const DELIVERY_READY_LETTER = "d0661a90-f21b-11e6-9aad-1b9e7fe7af50";
-// const SPECIFICATION_SIGNED = "9f7088d0-f21b-11e6-9aad-1b9e7fe7af50";
-
 import { formattedToSave, formattedToRu, datePlusDays, daysFromToday } from '../../../libs/date';
 import { toSafeString, toUnsafeString } from '../../../libs/strings';
 import { numberSplitted } from '../../../libs/number';
 import { DELIVERED, DELIVERY_READY_LETTER, PAYMENT_AFTER_SPECIFICATION_SIGNED } from '../../../constants/paymentevents';
 
+import { dict } from '../../../i18n/ru/dictionary';
+
 function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterList) {
+
+	$scope.dict = dict;
 
 	$scope.dangerousMode = false;
 	positionList.map(function(o){
@@ -18,13 +18,24 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 		var	days_before_payment;
 		var paymentArray = [];
 
-		if (o.prepay_amount && o.payed_amount >= o.prepay_amount) {
-			paymentArray.push({
-				days: 999,
-				danger: "",
-				notStarted: false,
-				alreadyPayed: true,
-			});
+		if (o.prepay_amount) {
+			if (o.payed_amount >= o.prepay_amount) {
+				paymentArray.push({
+					days: 999,
+					danger: "",
+					notStarted: false,
+					alreadyPayed: true,
+				});
+			} else {
+				var _date = getPaymentDay(o._id, o.specification.signed_at, o.quantity, o.pay_event._id, o.pay_days);
+				days_before_payment = daysFromToday(_date.paymentDate);
+				paymentArray.push({
+					days: days_before_payment,
+					danger: getDangerClass( days_before_payment ),
+					notStarted: _date.notStarted,
+					amount: o.prepay_amount - o.payed_amount,
+				});
+			} 
 		} else {	
 			var _date = getPaymentDay(o._id, o.specification.signed_at, o.quantity, o.pay_event._id, o.pay_days);
 			days_before_payment = daysFromToday(_date.paymentDate);
@@ -32,6 +43,7 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 				days: days_before_payment,
 				danger: getDangerClass( days_before_payment ),
 				notStarted: _date.notStarted,
+				amount: o.price*o.quantity*1.2 - o.payed_amount,
 			});
 		}
 
@@ -43,7 +55,8 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 			paymentArray.push({
 				days: days_before_payment,
 				danger: getDangerClass( days_before_payment ),
-				notStarted: _date.notStarted
+				notStarted: _date.notStarted,
+				amount: (o.payed_amount > o.prepay_amount ? o.quantity*o.price*1.2 - o.payed_amount : o.quantity*o.price*1.2 - o.prepay_amount),
 			});
 		}
 
@@ -71,7 +84,6 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 
 		payments.forEach(function(p){
 			counter++;
-			minPeriod = 1000;
 
 			switch (true) {
 				case (counter == 1 && payments.length == 2):
@@ -96,6 +108,9 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 					if (minPeriod > Number(p.days)) {
 						minPeriod = Number(p.days);
 						dangerClass = p.danger;
+					}
+					if (p.amount) {
+						preResult += " (" + numberSplitted(p.amount) + ")";
 					}
 			}
 
@@ -188,7 +203,6 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 		return obj.specification.contract.consumer.name;
 	}
 	$scope.changeViewMode = function() {
-		console.log('changing view');
 		$scope.dangerousMode = ! $scope.dangerousMode;
 
 		var sortOrder = $scope.dangerousMode ? ['days_before_payment', sortByConsumer] : [sortByConsumer, 'days_before_payment']

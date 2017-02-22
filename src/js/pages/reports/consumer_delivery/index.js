@@ -4,6 +4,7 @@ var productService = require('../../../services/ProductService');
 var deliveryService = require('../../../services/DeliveryService');
 var deliveryLetterService = require('../../../services/DeliveryLetterService');
 var paymentService = require('../../../services/PaymentService');
+var appService = require('../../../services/ApplicationService');
 
 import { WE_CONSUMER } from '../../../constants/operationtypes.js';
 import { toUnsafeString } from '../../../libs/strings';
@@ -24,6 +25,7 @@ angular.module('deliveryConsumerReportModule', [])
   })
 
   .factory('PositionService', ['$http', positionService])
+  .factory('AppService', ['$http', appService])
   .factory('ProductService', ['$http', productService])
   .factory('DeliveryService', ['$http', deliveryService])
   .factory('DeliveryLetterService', ['$http', deliveryLetterService])
@@ -34,7 +36,7 @@ angular.module('deliveryConsumerReportModule', [])
   .run(['DeliveryLetterService', function(DeliveryLetterService){
     DeliveryLetterService.setType(WE_CONSUMER);
   }])
-  .controller('ConsumerDeliveryReportCtrl', ['$scope', '$state', 'positionList', 'deliveryList', 'paymentList', controller]);
+  .controller('ConsumerDeliveryReportCtrl', ['$scope', '$state', 'appList', 'positionList', 'deliveryList', 'paymentList', controller]);
 
 module.exports = {
   template: require('./template.tpl'), 
@@ -48,6 +50,12 @@ module.exports = {
     }],   
     deliveryList: ['DeliveryService', function (DeliveryService) {
       return DeliveryService.all()
+        .then(function(data) {
+          return data;
+        })
+    }],   
+    appList: ['AppService', function (AppService) {
+      return AppService.all()
         .then(function(data) {
           return data;
         })

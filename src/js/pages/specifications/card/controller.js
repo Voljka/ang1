@@ -3,7 +3,11 @@ var _ = require('lodash');
 import { toSafeString, toUnsafeString } from '../../../libs/strings';
 import { formattedToSave, formattedToRu } from '../../../libs/date';
 
+import { dict } from '../../../i18n/ru/dictionary';
+
 function SpecificationCardCtrl($scope, $state, contract, SpecificationService) {
+
+	$scope.dict = dict;
 
 	$scope.contract = contract;
 
@@ -11,11 +15,11 @@ function SpecificationCardCtrl($scope, $state, contract, SpecificationService) {
 	$scope.contract.signed_at_formatted = formattedToRu( new Date($scope.contract.signed_at))
 
 	if ($state.current.name == 'specification_add') {
-		$scope.submitCaption = "Добавить";
+		$scope.submitCaption = dict.add;
 		$scope.specificationNumber = "";
 		$scope.signed_at = new Date();
 	} else {
-		$scope.submitCaption = "Сохранить";
+		$scope.submitCaption = dict.save_caption;
 		$scope.specificationNumber = SpecificationService.current().number;
 		$scope.signed_at = new Date (SpecificationService.current().signed_at.substr(0,10));
 	}

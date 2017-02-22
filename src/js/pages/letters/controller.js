@@ -3,8 +3,12 @@ var _ = require('lodash');
 import { formattedToSave, formattedToRu } from '../../libs/date';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 
+import { dict } from '../../i18n/ru/dictionary';
+
 function Ctrl($scope, $state, letter, position, operationType, LetterService) {
 
+	$scope.dict = dict;
+	
 	if (_.isEmpty( letter ))
 		letter = undefined;
 

@@ -3,7 +3,11 @@ var _ = require('lodash');
 import { formattedToSave, formattedToRu } from '../../libs/date';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 
+import { dict } from '../../i18n/ru/dictionary';
+
 function SpecificationCtrl($scope, $state, specificationList, consumer, contract, SpecificationService) {
+
+	$scope.dict = dict;
 
 	// $scope.currentConsumer = consumer;
 	$scope.currentContract = contract;

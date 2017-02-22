@@ -2,7 +2,11 @@
 var _ = require('lodash');
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 
+import { dict } from '../../i18n/ru/dictionary';
+
 function ConsumerCtrl($scope, $state, ConsumerService) {
+
+	$scope.dict = dict;
 
 	$scope.currentConsumer = ConsumerService.getCurrent();
 

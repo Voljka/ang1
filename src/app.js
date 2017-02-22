@@ -22,6 +22,8 @@ var deliveriesTemplate = require('./js/pages/deliveries');
 
 var lettersTemplate = require('./js/pages/letters');
 
+var applicationsTemplate = require('./js/pages/applications');
+
 var providersTemplate = require('./js/pages/providers');
 var mediatorsTemplate = require('./js/pages/mediators');
 var summariesTemplate = require('./js/pages/summaries');
@@ -43,6 +45,7 @@ var app = angular
 		'paymentModule',
 		'deliveryModule',
 		'letterModule',
+		'applicationModule',
 	])
 
 	.controller('MainCtrl', function($scope) {
@@ -51,17 +54,17 @@ var app = angular
 
 	.config(function($stateProvider, $urlRouterProvider) {
     
-    	$urlRouterProvider.otherwise('/home');
+    	$urlRouterProvider.otherwise('/consumers');
     
     	$stateProvider
-	        .state('home', {
-	            url: '/home',
-	            views: {
-	            	'content': {
-	            		template: "<h3>Home</h3>"
-	            	}
-	            }
-	        })
+	        // .state('home', {
+	        //     url: '/home',
+	        //     views: {
+	        //     	'content': {
+	        //     		template: "<h3>Home</h3>"
+	        //     	}
+	        //     }
+	        // })
 
 	        // Consumers
 	        .state('consumers', {
@@ -169,6 +172,14 @@ var app = angular
 	            }
 	        })
 
+	        // Applications
+	        .state('applications', {
+	            url: '/applications',
+	            views: {
+	            	'content': applicationsTemplate
+	            }
+	        })
+
 	        .state('providers', {
 	            url: '/providers',
 	            views: {
@@ -181,12 +192,12 @@ var app = angular
 	            	'content': mediatorsTemplate
 	            }
 	        })
-	        .state('summaries', {
-	            url: '/summaries',
-	            views: {
-	            	'content': summariesTemplate
-	            }
-	        })
+	        // .state('summaries', {
+	        //     url: '/summaries',
+	        //     views: {
+	        //     	'content': summariesTemplate
+	        //     }
+	        // })
 	        .state('directories', {
 	            url: '/directories',
 	            views: {
@@ -194,14 +205,14 @@ var app = angular
 	            }
 	        })
 	        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
-	        .state('about', {
-	            url: '/about',
-	            views: {
-	            	'content':  {
-	            		template:"This is the coolest app!" 
-	            	}
-	            }
-	        });     
+	        // .state('about', {
+	        //     url: '/about',
+	        //     views: {
+	        //     	'content':  {
+	        //     		template:"This is the coolest app!" 
+	        //     	}
+	        //     }
+	        // });     
 })
 
 // app.directive('sglclick', ['$parse', function($parse) {

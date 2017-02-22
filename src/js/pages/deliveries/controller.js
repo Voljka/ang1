@@ -4,7 +4,11 @@ import { formattedToSave, formattedToRu } from '../../libs/date';
 import { numberSplitted } from '../../libs/number';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 
+import { dict } from '../../i18n/ru/dictionary';
+
 function Ctrl($scope, $state, deliveries, operationType, position, Flash, DeliveryService) {
+
+	$scope.dict = dict;
 
 	$scope.showControls = ! _.isEmpty(position);
 
@@ -174,8 +178,8 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 				if (! isCardForEditing) {
 					DeliveryService.add(data)
 						.then(function(newDelivery){
-							console.log('Added new delivery');
-							console.log(newDelivery);
+							// console.log('Added new delivery');
+							// console.log(newDelivery);
 
 							deliveries.push(newDelivery);
 							$scope.deliveryList = groupDeliveries(deliveries);
@@ -183,8 +187,8 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 				} else {
 					DeliveryService.update($scope.current._id, data)
 						.then(function(editedDelivery){
-							console.log('Existing delivery edited');
-							console.log(editedDelivery);
+							// console.log('Existing delivery edited');
+							// console.log(editedDelivery);
 
 							deliveries.map( function(o){
 								if (o._id == editedDelivery._id) {
@@ -200,11 +204,11 @@ function Ctrl($scope, $state, deliveries, operationType, position, Flash, Delive
 
 				$scope.showDeliveryCard = false;
 			} else {
-				var message = '<strong>Contract Quantity for selected Product can\'t be exceeded!</strong>';
+				var message = '<strong>' + dict.msg_contract_quantity_exceeded + '</strong>';
 		        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		} else {
-			var message = '<strong>Delivery Quantity can\'t be less than 1!</strong>';
+			var message = '<strong>' + dict.msg_invalid_delivery_quantity + '</strong>';
 	        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
 		}
 	}

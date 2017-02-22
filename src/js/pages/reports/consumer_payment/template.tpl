@@ -3,12 +3,12 @@
 	<div class="panel-heading">
 		<div class="row">
 			<div class="col-md-5">
-				REPORT : PAYMENTS FROM CONSUMERS
+				{{dict.consumer_payment_report}}
 			</div>
 
 			<div class="col-md-7">
 				<button class="btn btn-default" ng-click="changeViewMode()">
-					{{ dangerousMode ? "Sort by Consumers" : "Sort by Urgenity"}}
+					{{ dangerousMode ? dict.sort_by_consumers : dict.sort_by_urgency }}
 				</button>
 			</div>
 		</div>
@@ -18,16 +18,16 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<td>Product</td>
-						<td>Quantity</td>
-						<td>Price, noVAT</td>
-						<td>Amount, VAT</td>
-						<td>Payed</td>
-						<td>To Pay</td>
-						<td>Days<br>before<br>Payment</td>
-						<td>Consumer</td>
-						<td>Contract</td>
-						<td>Spec</td>
+						<td>{{dict.product}}</td>
+						<td>{{dict.quantity}}</td>
+						<td>{{dict.price_no_vat}}</td>
+						<td>{{dict.amount_vat}}</td>
+						<td>{{dict.payed}}</td>
+						<td>{{dict.residual_payment}}</td>
+						<td>{{dict.days_to_payment}}</td>
+						<td>{{dict.consumer}}</td>
+						<td>{{dict.contract}}</td>
+						<td>{{dict.specification}}</td>
 					</tr>
 				</thead>
 				<tbody>

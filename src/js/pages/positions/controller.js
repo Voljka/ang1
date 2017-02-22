@@ -4,15 +4,23 @@ import { formattedToSave, formattedToRu } from '../../libs/date';
 import { toSafeString, toUnsafeString } from '../../libs/strings';
 import { numberSplitted } from '../../libs/number';
 
-import { DELIVERY_READY_LETTER } from '../../constants/paymentevents';
+import { DELIVERY_READY_LETTER, PAYMENT_EVENT_NOT_SPECIFIED } from '../../constants/paymentevents';
+import { DELIVERY_EVENT_NOT_SPECIFIED, APPLICATION_SENT } from '../../constants/deliveryevents';
+
+// import { dict } from '../../i18n/en/dictionary';
+import { dict } from '../../i18n/ru/dictionary';
 
 function PositionCtrl($scope, $state, positionList, unitList, productList, deliveryEventList, paymentEventList, specification, Flash, SpecificationService, ProductService, PositionService) {
+
+	$scope.dict = dict;
+
+	$scope.editingExistedPosition = false;
 
 	$scope.units = unitList;
 	var initialPositionList = JSON.parse(angular.toJson( positionList ));
 	// $scope.currentConsumer = consumer;
 	$scope.currentSpecification = specification;
-	$scope.currentSpecification.contract.consumer.name = toUnsafeString($scope.currentSpecification.contract.consumer.name);
+	// $scope.currentSpecification.contract.consumer.name = toUnsafeString($scope.currentSpecification.contract.consumer.name);
 	$scope.currentSpecification.signed_at_formatted = formattedToRu( new Date($scope.currentSpecification.signed_at))
 	$scope.currentSpecification.contract.signed_at_formatted = formattedToRu( new Date($scope.currentSpecification.contract.signed_at))
 
@@ -22,12 +30,13 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 	$scope.dependOnLetter = false;
 
-	productList.map(function(o) {
-		o.name = toUnsafeString(o.name);
-		return o;
-	})
-
 	var counter = 0;
+
+	$scope.filters = {
+		product: ""
+	}
+
+	$scope.dependOnApplication = false;
 
 	var removedPositions = [];
 
@@ -35,11 +44,6 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		editingMode = false;
 
 	$scope.products = productList;
-
-	positionList.map(function(o){
-		o.product.name = toUnsafeString(o.product.name);
-		return o;
-	})
 
 	$scope.deliveryEvents = deliveryEventList;
 
@@ -58,12 +62,12 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		$scope.prepaymentAmount = 0;
 	} else {
 		$scope.deliveryDays = 0;
-		$scope.defaultDeliveryEvent = deliveryEventList[4]._id;
+		$scope.defaultDeliveryEvent = DELIVERY_EVENT_NOT_SPECIFIED;
 
 		$scope.paymentStartDays = 0;
-		$scope.defaultPaymentStartEvent = paymentEventList[3]._id;
+		$scope.defaultPaymentStartEvent = PAYMENT_EVENT_NOT_SPECIFIED;
 		$scope.paymentCloseDays = 0;
-		$scope.defaultPaymentCloseEvent = paymentEventList[3]._id;
+		$scope.defaultPaymentCloseEvent = PAYMENT_EVENT_NOT_SPECIFIED;
 
 		$scope.prepaymentPercent = 0;
 		$scope.prepaymentAmount = 0;
@@ -83,9 +87,10 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 			// positionList = _.map(positionList, function(c) {
 			$scope.filteredObjects = _.map($scope.filteredObjects, function(c) {
 				if (c._id === position._id) {
-					// if taken consumer is already selected
-					// if (PositionService.current() && PositionService.current()._id == position._id) {
 					if (position.selected) {
+						$scope.dependOnLetter = false;
+						$scope.dependOnApplication = false;
+						
 						// deselect 
 						$scope.current = undefined;
 						PositionService.select(undefined);
@@ -97,12 +102,20 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 						$scope.current = position;
 						c.selected = true;
 
-						if (position.pay_event._id == DELIVERY_READY_LETTER || 
-								(position.pay_close_event && position.pay_close_event._id == DELIVERY_READY_LETTER)) {
+						if (position.pay_event  && (position.pay_event._id == DELIVERY_READY_LETTER || 
+								(position.pay_close_event && position.pay_close_event._id == DELIVERY_READY_LETTER))) {
 							$scope.dependOnLetter = true;
 
 						} else {
 							$scope.dependOnLetter = false;
+						}
+
+						// console.log(position.delivery_event);
+
+						if (position.delivery_event._id == APPLICATION_SENT) {
+							$scope.dependOnApplication = true;
+						} else {
+							$scope.dependOnApplication = false;
 						}
 
 						// change Delivery and Payment Options
@@ -137,9 +150,13 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 	$scope.add = function() {
 
+		$scope.editingExistedPosition = false;
 		// $scope.current = undefined;
 		// PositionService.select(undefined);
+		if ($scope.current)
+			$scope.current.selected = false;
 
+		$scope.filters.product="";
 		var newPosition = {};
 
 		newPosition.new = true;
@@ -162,9 +179,11 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 	}
 
 	$scope.edit = function() {
+		$scope.editingExistedPosition = true;
+		$scope.filters.product="";
 		$scope.filteredObjects.map( function(o){
 			if (o._id == $scope.current._id) {
-				positionBeforeEditing = Object.assign({}, o);
+				positionBeforeEditing = JSON.parse(angular.toJson( o )); //Object.assign({}, o);
 				o.editing = true;
 			}
 
@@ -197,18 +216,18 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 			}
 
 			if (position.pay_close_days) {
-				result += '\nInitial: ' + position.pay_days + ' day(s) after "';
+				result += '\nInitial: ' + position.pay_days + ' ' + dict.day_s + ' ' + dict.after + ' "';
 				var event = _.find(paymentEventList, {_id: position.pay_event._id});
-				result += event.name + '"';
+				result += event.name_ru + '"';
 
-				result += '\nClose: ' + position.pay_close_days + ' day(s) after "';
+				result += '\nClose: ' + position.pay_close_days + ' ' + dict.day_s + ' ' + dict.after + ' "';
 				var event = _.find(paymentEventList, {_id: position.pay_close_event._id});
-				result += event.name + '"';
+				result += event.name_ru + '"';
 
 			} else {
-				result += '\n' + position.pay_days + ' day(s) after "';
+				result += '\n' + position.pay_days + ' ' + dict.day_s + ' ' + dict.after + ' "';
 				var event = _.find(paymentEventList, {_id: position.pay_event._id});
-				result += event.name + '"';
+				result += event.name_ru + '"';
 			}
 
 			result = result.substr(1, result.length-1);
@@ -221,10 +240,10 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		var result = "";
 		if (! position.new || (position.new && position.delivery_days)) {
 
-			result += position.delivery_days + ' day(s) after "';
+			result += position.delivery_days + ' ' + dict.day_s + ' ' + dict.after + ' "';
 
 			var event = _.find(deliveryEventList, {_id: position.delivery_event._id});
-			result += event.name + '"';
+			result += event.name_ru + '"';
 		}
 
 		return result;
@@ -297,7 +316,6 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 					o.prepay_percent = undefined;
 					o.prepay_amount = $scope.prepaymentAmount;
 				} 
-
 			}
 
 			return o;
@@ -343,44 +361,44 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		var errorCount = 0;
 		var message = '';
 
-		if ($scope.paymentEvent1 == paymentEventList[3]._id) {
+		if ($scope.paymentEvent1 == PAYMENT_EVENT_NOT_SPECIFIED) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') You forgot to specify the <i>Initial Payment Event</i>!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_initial_payment_event_not_specified +'</strong>';
 		}
 		
 		if ($scope.paymentStartDays < 1) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') <i>Initial Payment Days</i> should be positive!</strong>';
+	        message += '<br><strong>('+errorCount+') ' + dict.msg_initial_payment_days_not_specified + '</strong>';
 		} 
 
 		if (all && $scope.prepaymentAmount > 0) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') <i>Pre-payment Amount</i> could not be specified for the whole specification (only for the current position)!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_prepay_amount_for_all +'</strong>';
 		}
 
 		if ($scope.prepaymentPercent > 100) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') <i>Pre-payment Percent</i> can\' be more than 100%!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_percent_more_than_100  +'</strong>';
 		}
 
 		if ($scope.prepaymentPercent > 0 && $scope.prepaymentAmount > 0) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') You should specify either <i>Prepayment Percent</i> or <i>Prepayment Amount</i> but not both the same time!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_both_prepay_option_specified +'</strong>';
 		}
 
-		if ($scope.paymentEvent2 != paymentEventList[3]._id && $scope.paymentCloseDays < 1) {
+		if ($scope.paymentEvent2 != PAYMENT_EVENT_NOT_SPECIFIED && $scope.paymentCloseDays < 1) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') You should specify <i>Close Payment days</i>!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_close_days_not_specified +'</strong>';
 		}
 
-		if ($scope.paymentEvent2 == paymentEventList[3]._id && $scope.paymentCloseDays > 0) {
+		if ($scope.paymentEvent2 == PAYMENT_EVENT_NOT_SPECIFIED && $scope.paymentCloseDays > 0) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') You should specify <i>Close Payment Event</i>!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_close_event_not_specified +'</strong>';
 		}
 
 		if ($scope.prepaymentPercent < 100 && $scope.prepaymentPercent !=0 && $scope.paymentCloseDays < 1) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') You should specify <i>Close Payment</i> details if <i>Prepayment Percent</i> specified!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_prepay_specified_but_not_close_event +'</strong>';
 		}
 
 		if (errorCount == 0) {
@@ -396,14 +414,14 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		var errorCount = 0;
 		var message = '';
 
-		if ($scope.deliveryEvent == deliveryEventList[4]._id) {
+		if ($scope.deliveryEvent == DELIVERY_EVENT_NOT_SPECIFIED) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') You forgot to specify the <i>Delivery Event</i>!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_delivery_event_not_specified +'</strong>';
 		}
 
 		if ($scope.deliveryDays < 1) {
 			errorCount++;
-	        message += '<br><strong>('+errorCount+') <i>Delivery Days</i> should be positive!</strong>';
+	        message += '<br><strong>('+errorCount+') '+ dict.msg_delivery_days_not_specified +'</strong>';
 		} 
 
 		if (errorCount == 0) {
@@ -423,10 +441,6 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		})
 
 		return result.toFixed(2);
-	}
-
-	$scope.filters = {
-		product: ""
 	}
 
 	$scope.filterProduct = function(position){
@@ -513,7 +527,9 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 	}
 
 	$scope.saveSpecification = function(){
-		
+		// console.log('positions before saving specification');
+		// console.log($scope.filteredObjects);
+
 		if (isAllPositionsHaveSufficientDataForSaving()) {
 
 			var data = {
@@ -524,9 +540,12 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 			// add new positions
 			$scope.filteredObjects.forEach(function(o){
+				// console.log('Object we are investigating');
+				// console.log(o);
+
 				var newPosition = _.omit(o, ['editing', 'new', '_id', 'product', 'delivery_event', 'pay_event', 'pay_close_event', '$$hashKey', 'selected', 'specification']);
-				var changedPosition = _.omit(o, ['editing', 'new', 'product', 'delivery_event', 'pay_event', 'pay_close_event', '$$hashKey', 'selected', 'specification']);
-				newPosition = Object.assign(newPosition, 
+
+				newPosition = Object.assign({}, newPosition, 
 									{ product: o.product._id},
 									{ specification: SpecificationService.current()._id},
 									{ delivery_event: o.delivery_event._id},
@@ -535,6 +554,10 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 									{ pay_close_days: o.pay_close_days ? o.pay_close_days : undefined})
 
 				if (o.new) {
+
+					// console.log('New position that we try to pastetinto db')
+					// console.log(newPosition);
+
 					data.added.push( newPosition );
 				} else {
 					var existingPosition = _.find(initialPositionList, {_id: o._id});
@@ -551,7 +574,6 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 						existingPosition.pay_close_days != newPosition.pay_close_days ||
 						(existingPosition.pay_close_event && existingPosition.pay_close_event._id != newPosition.pay_close_event) ){
 
-						// data.edited.push(changedPosition);
 						newPosition._id = o._id;
 						data.edited.push(newPosition);
 					} else {
@@ -566,24 +588,20 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 			SpecificationService.updateData(data)
 				.then( function(respond){
-					console.log(respond);
 
-					var message = '<strong>Specification data successfully saved!</strong>';
+					var message = '<strong>'+ dict.msg_specification_data_saved +'</strong>';
 			        var id = Flash.create('success', message, 3000, {class: 'custom-class', id: 'custom-id'}, true);
 			        return PositionService.bySpecification(SpecificationService.current()._id)
 				})
 				.then(function(newPositionList) {
+
 					initialPositionList = JSON.parse(angular.toJson( newPositionList ));
 					positionList = newPositionList;
-					positionList.map(function(o){
-						o.product.name = toUnsafeString(o.product.name);
-						return o;
-					})
 					$scope.filteredObjects = positionList;
 				})
 
 		} else {
-			var message = '<strong>All positions must have delivery and payment options!</strong>';
+			var message = '<strong>'+ dict.msg_delivery_and_payment_options_not_specified +'</strong>';
 	        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
 		}
 	}
@@ -605,28 +623,48 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 			ProductService.add(data)
 				.then( function(newProduct) {
+
 					// add new Position to the ProductList
 					productList.push(newProduct);
-					// $scope.products.push(newProduct);
+					$scope.products = productList;
+
+
+					// console.log("positions before saving");
+					// console.log($scope.filteredObjects);
+
+					// console.log("$scope.current");
+					// console.log($scope.current);
+
+					// console.log("newProduct");
+					// console.log(newProduct);
 
 					// select new Product as position.product
 					$scope.filteredObjects.map(function(o){
 						if (o._id == $scope.current._id) {
+							// console.log('we found position in a list to be updated by new product')
 							o.product = {
 								_id: newProduct._id,
 								name: newProduct.name
 							}
+
+							// console.log('position product after updating');
+							// console.log(o.product);
+
+						} else {
+							console.log('o._id != $scope.current._id');
 						}
 
 						return o;
 					})
+					// console.log("positions after saving product");
+					// console.log($scope.filteredObjects);
 
 					$scope.showNewProductWindow = false;
-					var message = '<strong>New <i>Position Name</i> successfully added!</strong>';
+					var message = '<strong>'+ dict.msg_product_added +'</strong>';
 			        var id = Flash.create('success', message, 5000, {class: 'custom-class', id: 'custom-id'}, true);
 				})
 		} else {
-			var message = '<strong>New <i>Position Name</i> should not to be empty!</strong>';
+			var message = '<strong>'+ dict.msg_empty_product_name +'</strong>';
 	        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
 		}
 	}
@@ -656,6 +694,10 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 
 	$scope.goLetters = function() {
 		$state.go('letters');
+	}
+
+	$scope.goApplications = function() {
+		$state.go('applications');
 	}
 }
 

@@ -37,7 +37,7 @@ var Position = new Schema({
 		type: String,
 		ref: 'DeliveryEvent',
 		autopopulate: {
-			select: '_id name'
+			select: '_id name name_ru'
 		}
 	},
 	pay_days: Number,
@@ -45,7 +45,7 @@ var Position = new Schema({
 		type: String,
 		ref: 'PaymentEvent',
 		autopopulate: {
-			select: '_id name'
+			select: '_id name name_ru'
 		}
 	},
 	pay_close_days: Number,
@@ -53,7 +53,7 @@ var Position = new Schema({
 		type: String,
 		ref: 'PaymentEvent',
 		autopopulate: {
-			select: '_id name'
+			select: '_id name name_ru'
 		}
 	},
 	prepay_percent: Number,

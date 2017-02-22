@@ -1,23 +1,30 @@
-<div class="page-filter">
-	<input ng-model="contractFilter" type="text" ng-change="useContractFilter()" placeholder="Contract number filter">
-	<br>
-	<button class="btn btn-info" ng-click="add()">Add</button>
-	<button class="btn btn-info" ng-if="current" ng-click="edit()">Update</button>
-	<button class="btn btn-info" ng-if="current" ng-click="remove()">Delete</button>
-	<button class="btn btn-info" ng-if="current" ng-click="goSpec()">Specs</button>
-	<button class="btn btn-info" ng-if="current" ng-click="goPayments()">Payments</button>
-	<button class="btn btn-info" ng-if="current" ng-click="goDeliveries()">Deliveries</button>
-<!-- 	<button class="btn btn-default" ng-if="current" ng-cilck="goSpecifications()">Specifications</button> -->
+<div class="row">
+	<div class="col-md-5">
+		<input ng-model="contractFilter" type="text" ng-change="useContractFilter()" placeholder="{{ dict.contract_number_filter}}">
+		<br>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<button class="btn btn-info" ng-click="add()">{{dict.add}}</button>
+		<button class="btn btn-info" ng-if="current" ng-click="edit()">{{dict.modify}}</button>
+		<button class="btn btn-info" ng-if="current" ng-click="remove()">{{dict.remove}}</button>
+	</div>
+	<div class="col-md-6">
+		<button class="btn btn-default" ng-if="current" ng-click="goSpec()">{{dict.specifications}}</button>
+		<button class="btn btn-default" ng-if="current" ng-click="goPayments()">{{dict.payments}}</button>
+		<button class="btn btn-default" ng-if="current" ng-click="goDeliveries()">{{dict.deliveries}}</button>
+	</div>
 </div>
 
-<h1>{{currentConsumer.name | toUnsafe }}</h1>
+<h3>{{currentConsumer.name | toUnsafe }}</h3>
 
 <div class="page-content">
 	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<td>Conntract Number</td>
-				<td>Signed at</td>
+				<td>{{dict.contract_number}}</td>
+				<td>{{dict.signed_at}}</td>
 			</tr>
 		</thead>
 		<tbody>
