@@ -9,6 +9,8 @@ var Delivery = require('../../models/delivery');
 var Position = require('../../models/position');
 var changeRecord = require('../../models/common').changeRecord;
 
+const WE_CONSUMER = "01056f00-d2ac-11e6-bc06-b7d8a62dfd1e";
+
 router.get('/', function(req, res) {
 	console.log('request for positions list');
 
@@ -50,7 +52,7 @@ var calcDeliveries = function(list) {
 
 var calcOnePositionDeliveries = function(position) {
 
-	return Delivery.find({position : position._id})
+	return Delivery.find({position : position._id, operation_type: WE_CONSUMER})
 			.then( function(deliveries) {
 
 				var sum = 0;
@@ -94,7 +96,7 @@ var calcPayments = function(list) {
 
 var calcOnePositionPayments = function(position) {
 
-	return Payment.find({position : position._id})
+	return Payment.find({position : position._id, operation_type: WE_CONSUMER})
 			.then( function(payments) {
 
 				var sum = 0;
@@ -125,12 +127,12 @@ router.get('/:id', function(req, res) {
 router.get('/:id/payments', function(req, res) {
 	console.log('request for specified position info');
 
-	return Payment.find({position: req.params.id }).exec( function(err, payments) {
+	return Payment.find({position: req.params.id, operation_type: WE_CONSUMER }).exec( function(err, payments) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		if (! payments)
-			return res.status(404).send({ error: 'Requested position not found'});
+		// if (! payments)
+		// 	return res.status(404).send({ error: 'Requested position not found'});
 
 		res.send(payments);
 	}) 
@@ -140,12 +142,12 @@ router.get('/:id/payments', function(req, res) {
 router.get('/:id/deliveries', function(req, res) {
 	console.log('request for specified position info');
 
-	return Delivery.find({position: req.params.id }).exec( function(err, deliveries) {
+	return Delivery.find({position: req.params.id, operation_type: WE_CONSUMER }).exec( function(err, deliveries) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		if (! deliveries)
-			return res.status(404).send({ error: 'Requested position not found'});
+		// if (! deliveries)
+		// 	return res.status(404).send({ error: 'Requested position not found'});
 
 		res.send(deliveries);
 	}) 

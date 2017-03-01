@@ -60,6 +60,8 @@ var deliveryEvents = require('./src/js/api/deliveryEvents');
 var paymentEvents = require('./src/js/api/paymentEvents');
 var deliveryLetters = require('./src/js/api/deliveryLetters');
 var applications = require('./src/js/api/applications');
+var bills = require('./src/js/api/bills');
+var billpositions = require('./src/js/api/billPositions');
 
 // API routes
 app.use(apiBase+'/sessions', sessions); // redirect API calls
@@ -83,6 +85,8 @@ app.use(apiBase+'/deliveryevents', deliveryEvents); // redirect API calls
 app.use(apiBase+'/paymentevents', paymentEvents); // redirect API calls
 app.use(apiBase+'/deliveryletters', deliveryLetters); // redirect API calls
 app.use(apiBase+'/applications', applications); // redirect API calls
+app.use(apiBase+'/bills', bills); // redirect API calls
+app.use(apiBase+'/billpositions', billpositions); // redirect API calls
 
 app.use('/', express.static(__dirname + '/dist')); // redirect root
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS

@@ -207,20 +207,20 @@ function PositionCtrl($scope, $state, positionList, unitList, productList, deliv
 		var result = "";
 		if (! position.new || (position.new && position.pay_days)) {
 			if (position.prepay_percent) {
-				result += '\nPre-payment: ' + position.prepay_percent + '% ( ';
+				result += '\n' + dict.prepayment + ': ' + position.prepay_percent + '% ( ';
 				result += numberSplitted( position.prepay_amount ) + ' UAH )';
 			} else {
 				if (position.prepay_amount > 0) {
-					result += '\nPre-payment: ' + numberSplitted( position.prepay_amount ) + ' UAH ';
+					result += '\n'+ dict.prepayment +': ' + numberSplitted( position.prepay_amount ) + ' UAH ';
 				}
 			}
 
 			if (position.pay_close_days) {
-				result += '\nInitial: ' + position.pay_days + ' ' + dict.day_s + ' ' + dict.after + ' "';
+				result += '\n'+ dict.initial +': ' + position.pay_days + ' ' + dict.day_s + ' ' + dict.after + ' "';
 				var event = _.find(paymentEventList, {_id: position.pay_event._id});
 				result += event.name_ru + '"';
 
-				result += '\nClose: ' + position.pay_close_days + ' ' + dict.day_s + ' ' + dict.after + ' "';
+				result += '\n'+ dict.close +': ' + position.pay_close_days + ' ' + dict.day_s + ' ' + dict.after + ' "';
 				var event = _.find(paymentEventList, {_id: position.pay_close_event._id});
 				result += event.name_ru + '"';
 

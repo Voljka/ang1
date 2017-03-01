@@ -36,7 +36,7 @@ router.post('/', function(req, res) {
 	console.log('request for new operationType');
 
 	var newOperationType = new OperationType({
-		name: req.body.name,
+		name: req.body.name
 		// delivered_at: req.delivered_at,
 		// quantity: req.body.quantity,
 		// operation_type: req.body.operation_type

@@ -92,15 +92,46 @@ export const dict = {
 	"application": "Application",
 	"application_details": "Application Details",
 	"sent_at": "Send at",
+	"prepayment": "Pre-payment",
+	"initial": "Initial",
+	"close": "Close",
+	"already_paid": "Already paid",
+	"not_started": "Not started",
+	"payment_date": "Paymemt Date",
+	"not_specified": "not specified",
 
-	"msg_contract_quantity_exceeded": "Contract quantity can\t be exceded!",
+	"provider": "Provider Name",
+	"provider_name_filter": "Provider name filter",
+	"bills": "Bills",
+	"provider_card": "Provider Card",
+
+	"bill_list": "Bill List",
+	"bill_number": "Bill Schema",
+	"bill_issued_at": "Issued at",
+	"provide_schema": "Provide Schema",
+	"mediator": "Mediator",
+	"yes": "Yes",
+
+	"save_bill": "Save Bill",
+	"price_with_vat": "Price, VAT inc",
+	"change_consumer_position": "Change Consumer Position",
+	"add_consumer_position": "Add Consumer Position",
+	"select_position": "Select Postion",
+
+	"optype_we_provider": "WE - PROVIDER",
+	"optype_through_mediator": "Using mediator",
+	"optype_we_mediator": "WE - MEDIATOR",
+	"optype_we_consumer": "WE - CONSUMER",
+	"optype_mediator_provider": "MEDIATOR - PROVIDER",
+
+	"msg_contract_quantity_exceeded": "Contract quantity can\'t be exceded!",
 	"msg_invalid_delivery_quantity": "Delivery Quantity can\'t be less than 1!",
 	"msg_contract_amount_exceeded": "Contract Amount for selected Product can\'t be exceeded!",
 	"msg_invalid_payment_amount": "Payment Amount can\'t be less than 0.01 !",
 	"msg_initial_payment_event_not_specified": "You forgot to specify the <i>Initial Payment Event</i>!",
 	"msg_initial_payment_days_not_specified": "<i>Initial Payment Days</i> should be positive!",
 	"msg_prepay_amount_for_all": "<i>Pre-payment Amount</i> could not be specified for the whole specification (only for the current position)!",
-	"msg_percent_more_than_100": "<i>Pre-payment Percent</i> can\' be more than 100%!",
+	"msg_percent_more_than_100": "<i>Pre-payment Percent</i> can\'t be more than 100%!",
 	"msg_both_prepay_option_specified": "You should specify either <i>Prepayment Percent</i> or <i>Prepayment Amount</i> but not both the same time!",
 	"msg_close_days_not_specified": "You should specify <i>Close Payment days</i>!",
 	"msg_close_event_not_specified": "You should specify <i>Close Payment Event</i>!",
@@ -110,6 +141,8 @@ export const dict = {
 	"msg_specification_data_saved": "Specification data successfully saved!",
 	"msg_delivery_and_payment_options_not_specified": "All positions must have delivery and payment options!",
 	"msg_product_added": "New <i>Product</i> successfully added!",
-	"msg_empty_product_name": "New <i>Product Name</i> should not to be empty!"
+	"msg_empty_product_name": "New <i>Product Name</i> should not to be empty!",
+	"msg_buying_more_than_ordered_goods": "You are trying to buy more goods than ordered by Consumer!",
+	"msg_bill_data_saved": "Bill data successfully saved!"
 
 };

@@ -27,7 +27,7 @@ var Position = new Schema({
 		type: String,
 		ref: 'Product',
 		autopopulate: {
-			select: 'id name unit'
+			select: '_id name unit'
 		}
 	},
 	quantity: Number,

@@ -91,6 +91,37 @@ export const dict = {
 	"application": "Заявка на доставку",
 	"application_details": "Детали Заявки",
 	"sent_at": "Дата отправки",
+	"prepayment": "Предоплата",
+	"initial": "Первая",
+	"close": "Закрытие",
+	"already_paid": "Уже оплачен",
+	"not_started": "Условие не выполнено",
+	"payment_date": "Дата платежа",
+	"not_specified": "не указан",
+
+	"provider": "Поставщик",
+	"provider_name_filter": "Фильтр по названию",
+	"bills": "Счета",
+	"provider_card": "Карточка Поставщика",
+
+	"bill_list": "Список счетов",
+	"bill_number": "Номер счета",
+	"bill_issued_at": "Дата выписки",
+	"provide_schema": "Схема приобретения",
+	"mediator": "Посредник",
+	"yes": "Да",
+
+	"save_bill": "Сохранить счет",
+	"price_with_vat": "Цена, с НДС",
+	"change_consumer_position": "Изменить привязку к покупателю",
+	"add_consumer_position": "Привязать к покупателю",
+	"select_position": "Выбрать позицию",
+
+	"optype_we_provider": "Напрямую с поставщиком",
+	"optype_through_mediator": "Через посредника",
+	"optype_we_mediator": "Между нами и посредником",
+	"optype_we_consumer": "Между нами и покупателем",
+	"optype_mediator_provider": "Между посредником и поставщиком",
 
 	"msg_contract_quantity_exceeded": "Превышен общий объем поставки позиции по контракту!",
 	"msg_invalid_delivery_quantity": "Количество товара не может быть 0!",
@@ -109,5 +140,8 @@ export const dict = {
 	"msg_specification_data_saved": "Данные спецификации успешно сохранены!",
 	"msg_delivery_and_payment_options_not_specified": "Не все позиции спецификации имеют условия поставки и оплаты!",
 	"msg_product_added": "Новый <i>Товар</i> успешно добавлен!",
-	"msg_empty_product_name": "<i>Название товара</i> не может быть пустым!"
+	"msg_empty_product_name": "<i>Название товара</i> не может быть пустым!",
+	"msg_buying_more_than_ordered_goods": "Покупатель заказал меньше товара чем Вы хотите купить!",
+	"msg_bill_data_saved": "Данные счета сохранены!"
+
 };

@@ -73,3 +73,12 @@ td {
 
 .low-priority {
   background: lightgreen; }
+
+#modal-set-consumer-position-relation {
+  z-index: 50;
+  width: 90%;
+  display: inline-block;
+  margin: auto; }
+
+#table-consumers-positions {
+  max-height: 600px; }

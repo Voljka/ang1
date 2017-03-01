@@ -5,6 +5,7 @@ var router = express.Router();
 // var Payment = require('../../models/payment');
 var Country = require('../../models/country');
 var Provider = require('../../models/provider');
+var Bill = require('../../models/bill');
 var changeRecord = require('../../models/common').changeRecord;
 
 router.get('/', function(req, res) {
@@ -21,17 +22,14 @@ router.get('/', function(req, res) {
 	}) 
 });
 
-router.get('/:id', function(req, res) {
-	console.log('request for specified provider info');
+router.get('/:id/bills', function(req, res) {
+	console.log('request for the bills of the specified provider');
 
-	return Provider.findOne({_id: req.params.id }, function(err, provider) {
+	return Bill.find({provider: req.params.id }, function(err, providers) {
 		if (err) 
 			return res.status(500).send({ error: 'Error during request'});
 
-		if (! provider)
-			return res.status(404).send({ error: 'Requested provider not found'});
-
-		res.send(provider);
+		res.send(providers);
 	}) 
 });
 

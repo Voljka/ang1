@@ -25,6 +25,13 @@ var lettersTemplate = require('./js/pages/letters');
 var applicationsTemplate = require('./js/pages/applications');
 
 var providersTemplate = require('./js/pages/providers');
+var providerCardTemplate = require('./js/pages/providers/card');
+
+var billsTemplate = require('./js/pages/bills');
+var billCardTemplate = require('./js/pages/bills/card');
+
+var billPositionsTemplate = require('./js/pages/billPositions');
+
 var mediatorsTemplate = require('./js/pages/mediators');
 var summariesTemplate = require('./js/pages/summaries');
 var directoriesTemplate = require('./js/pages/directories');
@@ -46,6 +53,11 @@ var app = angular
 		'deliveryModule',
 		'letterModule',
 		'applicationModule',
+		'providerModule',
+		'providerCardModule',
+		'billModule',
+		'billCardModule',
+		'billPositionModule',
 	])
 
 	.controller('MainCtrl', function($scope) {
@@ -180,39 +192,67 @@ var app = angular
 	            }
 	        })
 
+	        // Providers
 	        .state('providers', {
 	            url: '/providers',
 	            views: {
 	            	'content': providersTemplate
 	            }
 	        })
+	        .state('provider_add', {
+	            url: '/provider/add',
+	            views: {
+	            	'content': providerCardTemplate
+	            }
+	        })
+	        .state('provider_modify', {
+	            url: '/provider/modify',
+	            views: {
+	            	'content': providerCardTemplate
+	            }
+	        })
+
+	        // Bills
+	        .state('bills', {
+	            url: '/bills',
+	            views: {
+	            	'content': billsTemplate
+	            }
+	        })
+	        .state('bill_add', {
+	            url: '/bills/add',
+	            views: {
+	            	'content': billCardTemplate
+	            }
+	        })
+	        .state('bill_modify', {
+	            url: '/bill/modify',
+	            views: {
+	            	'content': billCardTemplate
+	            }
+	        })
+
 	        .state('mediators', {
 	            url: '/mediators',
 	            views: {
 	            	'content': mediatorsTemplate
 	            }
 	        })
-	        // .state('summaries', {
-	        //     url: '/summaries',
-	        //     views: {
-	        //     	'content': summariesTemplate
-	        //     }
-	        // })
+
+	        // Bills Positions
+	        .state('bill_positions', {
+	            url: '/bill_positions',
+	            views: {
+	            	'content': billPositionsTemplate
+	            }
+	        })
+
 	        .state('directories', {
 	            url: '/directories',
 	            views: {
 	            	'content': directoriesTemplate
 	            }
 	        })
-	        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
-	        // .state('about', {
-	        //     url: '/about',
-	        //     views: {
-	        //     	'content':  {
-	        //     		template:"This is the coolest app!" 
-	        //     	}
-	        //     }
-	        // });     
 })
 
 // app.directive('sglclick', ['$parse', function($parse) {

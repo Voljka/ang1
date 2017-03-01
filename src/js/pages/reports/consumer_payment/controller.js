@@ -87,24 +87,24 @@ function Ctrl($scope, $state, positionList, deliveryList, paymentList, letterLis
 
 			switch (true) {
 				case (counter == 1 && payments.length == 2):
-					preResult += 'Initial: ';
+					preResult += dict.initial + ': ';
 					break;
 
 				case (counter == 2 && payments.length == 2):
-					preResult += '\nClose: ';
+					preResult += '\n'+ dict.close +': ';
 			}
 
 			switch (true) {
 				case (p.alreadyPayed):
-					preResult += 'already payed';
+					preResult += dict.already_paid;
 					break;
 
 				case (p.notStarted):
-					preResult += 'Not started';
+					preResult += dict.not_started;
 					break;
 
 				case (! p.notStarted):
-					preResult += p.days + ' day(s)';
+					preResult += p.days + ' ' + dict.day_s;
 					if (minPeriod > Number(p.days)) {
 						minPeriod = Number(p.days);
 						dangerClass = p.danger;
