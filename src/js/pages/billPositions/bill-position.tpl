@@ -148,8 +148,6 @@
 				<button class="btn btn-info" ng-if="current && !editingMode" ng-click="removePosition()">{{ dict.remove }}</button>
 			</div>
 			<div class="col-md-6">
-<!-- 				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goProviders()">{{ dict.providers }}</button>
-				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goMediators()">{{ dict.mediators }}</button> -->
 				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goPayments()">{{ dict.payments }}</button>
 				<button class="btn btn-default" ng-if="current && !current.new && !editingMode" ng-click="goDeliveries()">{{ dict.deliveries }}</button>
 				<button class="btn btn-default" ng-if="current && !current.new && !editingMode && dependOnLetter" ng-click="goLetters()">{{ dict.letters }}</button>

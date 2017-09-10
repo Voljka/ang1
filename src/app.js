@@ -32,6 +32,8 @@ var billCardTemplate = require('./js/pages/bills/card');
 
 var billPositionsTemplate = require('./js/pages/billPositions');
 
+var billPaymentsTemplate = require('./js/pages/billPayments');
+
 var mediatorsTemplate = require('./js/pages/mediators');
 var summariesTemplate = require('./js/pages/summaries');
 var directoriesTemplate = require('./js/pages/directories');
@@ -58,6 +60,7 @@ var app = angular
 		'billModule',
 		'billCardModule',
 		'billPositionModule',
+		'billPaymentModule',
 	])
 
 	.controller('MainCtrl', function($scope) {
@@ -244,6 +247,14 @@ var app = angular
 	            url: '/bill_positions',
 	            views: {
 	            	'content': billPositionsTemplate
+	            }
+	        })
+
+	        // Bills Payments
+	        .state('bill_payments', {
+	            url: '/bill_payments',
+	            views: {
+	            	'content': billPaymentsTemplate
 	            }
 	        })
 

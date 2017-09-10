@@ -143,6 +143,7 @@ export const dict = {
 	"msg_product_added": "New <i>Product</i> successfully added!",
 	"msg_empty_product_name": "New <i>Product Name</i> should not to be empty!",
 	"msg_buying_more_than_ordered_goods": "You are trying to buy more goods than ordered by Consumer!",
-	"msg_bill_data_saved": "Bill data successfully saved!"
+	"msg_bill_data_saved": "Bill data successfully saved!",
+	"msg_specify_mediator_for_bill": "If you use mediator for a bill you should specify it at bills options!"
 
 };

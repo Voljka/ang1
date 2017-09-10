@@ -4,11 +4,12 @@ var _ = require('lodash');
 import { DELIVERY_READY_LETTER, PAYMENT_EVENT_NOT_SPECIFIED } from '../../constants/paymentevents';
 import { DELIVERY_EVENT_NOT_SPECIFIED, APPLICATION_SENT } from '../../constants/deliveryevents';
 import { UKRAINE } from '../../constants/countries';
+import { THROUGH_MEDIATOR, WE_PROVIDER, MEDIATOR_PROVIDER } from '../../constants/operationtypes';
 
 // import { dict } from '../../i18n/en/dictionary';
 import { dict } from '../../i18n/ru/dictionary';
 
-function Ctrl($scope, $state, billPositions, bill, notDelivered, deliveryEventList, paymentEventList, Flash, BillPositionService, BillService) {
+function Ctrl($scope, $state, billPositions, bill, notDelivered, deliveryEventList, paymentEventList, Flash, BillPositionService, BillService, BillPaymentService) {
 
 	$scope.dict = dict;
 
@@ -620,9 +621,20 @@ function Ctrl($scope, $state, billPositions, bill, notDelivered, deliveryEventLi
 		return valid;
 	}
 
-	// $scope.goPayments = function() {
-	// 	$state.go('payments');
-	// }
+	$scope.goPayments = function() {
+		if (bill.provide_schema._id == THROUGH_MEDIATOR) {
+			if(! bill.mediator) {
+				var message = '<strong>'+ dict.msg_specify_mediator_for_bill +'</strong>';
+		        var id = Flash.create('danger', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
+			} else {
+				BillPaymentService.setType(MEDIATOR_PROVIDER);
+				$state.go('bill_payments');
+			}
+		} else {
+			BillPaymentService.setType(WE_PROVIDER);
+			$state.go('bill_payments');
+		} 
+	}
 
 	// $scope.goDeliveries = function() {
 	// 	$state.go('deliveries');

@@ -5,6 +5,7 @@ var billService = require('../../services/BillService');
 var billPositionService = require('../../services/BillPositionService');
 var paymentEventService = require('../../services/PaymentEventService');
 var deliveryEventService = require('../../services/DeliveryEventService');
+var billPaymentService = require('../../services/BillPaymentService');
 require('angular-flash-alert');  
 
 import { numberSplitted } from '../../libs/number';
@@ -23,6 +24,7 @@ angular.module('billPositionModule', ['ngFlash'])
   .factory('BillPositionService', ['$http', billPositionService])
   .factory('BillService', ['$http', billService])
   .factory('PaymentEventService', ['$http', paymentEventService])
+  .factory('BillPaymentService', ['$http', billPaymentService])
   .factory('DeliveryEventService', ['$http', deliveryEventService])
 
   .filter('toUnsafe', function(){
@@ -52,7 +54,7 @@ angular.module('billPositionModule', ['ngFlash'])
   //     }
   //   }
   // })
-  .controller('BillPositionCtrl', ['$scope', '$state', 'billPositions', 'currentBill', 'notDeliveredPositions', 'deliveryEventList', 'paymentEventList', 'Flash', 'BillPositionService', 'BillService', controller]);
+  .controller('BillPositionCtrl', ['$scope', '$state', 'billPositions', 'currentBill', 'notDeliveredPositions', 'deliveryEventList', 'paymentEventList', 'Flash', 'BillPositionService', 'BillService', 'BillPaymentService', controller]);
 
 module.exports = {
   template: require('./bill-position.tpl'), 
